@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">TOA</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Configuración</string>
+
+    <string name="title_activity_login">Iniciar Sesión</string>
+    <string name="title_activity_comunity_template">comunity_template</string>
+    <string name="title_activity_register">Registrarse</string>
+    <string name="title_activity_splash_">Splash_Activity</string>
+
+    <string name="login">Inciar Sesión</string>
+    <string name="continuestr_welcome">Desliza para continuar</string>
+    <string name="tittle_lost_password">Olvidaste la contraseña?</string>
+    <string name="do_login_btn">Iniciar sesión</string>
+    <string name="password_txt">Contraseña:</string>
+    <string name="email_txt">E-mail:</string>
+    <string name="register_header_sports">Escoge tus deportes…</string>
+    <string name="facebook_app_id">1415601225409930</string>
+    <string name="continuestr">Continuar</string>
+    <string name="action_done">Hecho</string>
+    <string name="reg_apellidos_etxt">Apellidos</string>
+    <string name="reg_email_etxt">E-mail</string>
+    <string name="reg_contrasena_etxt">Contraseña</string>
+    <string name="reg_usuario_etxt">Usuario</string>
+    <string name="reg_nombre_etxt">Nombre</string>
+    <string name="reg_btn">Regístrate</string>
+    <string name="title_activity_first_visit">FirstVisit</string>
+    <string name="title_activity_first_time">FirstTime</string>
+    <string name="title_activity_loading_splash">LoadingSplash</string>
+</resources>

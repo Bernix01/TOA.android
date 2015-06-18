@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="my_awesome_color">#009688</color>
+    <color name="my_awesome_darker_color">#00796B</color>
+    <color name="submitbg_color">#06c</color>
+    <color name="querybg_color">#ff0082f4</color>
+    <color name="primary">#129a91</color>
+    <color name="primary_dark">#0e6c63</color>
+    <color name="primary_light">#B2DFDB</color>
+    <color name="accent">#aaa9ab</color>
+</resources>

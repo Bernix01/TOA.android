@@ -1,0 +1,37 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        applicationId "toa.toa"
+        minSdkVersion 14
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.malinskiy:superrecyclerview:1.1.0'
+    compile 'com.github.dmytrodanylyk.circular-progress-button:library:1.1.3'
+    compile('com.mikepenz:materialdrawer:3.0.6@aar') {
+        transitive = true
+    }
+    compile 'com.squareup.picasso:picasso:2.5.0'
+    compile 'com.android.support:recyclerview-v7:22.2.0'
+    compile 'com.github.paolorotolo:appintro:1.1.0'
+    compile 'com.romainpiel.shimmer:library:1.4.0@aar'
+    compile 'com.loopj.android:android-async-http:1.4.6'
+    compile 'com.rengwuxian.materialedittext:library:2.1.4'
+    compile 'com.github.navasmdc:MaterialDesign:1.5@aar'
+}
