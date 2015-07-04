@@ -28,4 +28,7 @@
     <string name="title_activity_first_visit">FirstVisit</string>
     <string name="title_activity_first_time">FirstTime</string>
     <string name="title_activity_loading_splash">LoadingSplash</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

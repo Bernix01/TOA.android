@@ -1,7 +1,5 @@
 package toa.toa.Objects;
 
-import android.widget.ImageView;
-
 /**
  * Creado por : lawliet
  * Cecha: 17/06/2015.
@@ -10,15 +8,11 @@ import android.widget.ImageView;
  */
 public class MrComunity {
     private String comunityName;
-    private ImageView comunityImg;
-    private ImageView comunityBack;
+    private String comunityImg;
+    private String comunityBack;
 
-    public ImageView getComunityImg() {
-        return comunityImg;
-    }
-
-    public void setComunityImg(ImageView comunityImg) {
-        this.comunityImg = comunityImg;
+    public MrComunity(String comunityName) {
+        this.comunityName = comunityName;
     }
 
     public String getComunityName() {
@@ -29,13 +23,19 @@ public class MrComunity {
         this.comunityName = comunityName;
     }
 
-    public ImageView getComunityBack() {
+    public String getComunityImg() {
+        return comunityImg;
+    }
+
+    public void setComunityImg(String comunityImg) {
+        this.comunityImg = comunityImg;
+    }
+
+    public String getComunityBack() {
         return comunityBack;
     }
 
-    public void setComunityBack(ImageView comunityBack) {
+    public void setComunityBack(String comunityBack) {
         this.comunityBack = comunityBack;
     }
-
-
 }

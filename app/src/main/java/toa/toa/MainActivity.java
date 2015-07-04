@@ -1,16 +1,14 @@
 package toa.toa;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,10 +18,7 @@ import android.widget.Toast;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
-import com.mikepenz.materialdrawer.accountswitcher.AccountHeaderBuilder;
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
@@ -32,26 +27,20 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import toa.toa.Objects.MrUser;
+import toa.toa.fragments.ComunityFragment;
+import toa.toa.fragments.NoticiasFragment;
+import toa.toa.fragments.NutricionFragment;
 import toa.toa.utils.RestApi;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ActionBar.TabListener {
     private static int __n_id;
-    private final SearchView.OnQueryTextListener mOnQueryTextListener =
-            new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    newText = TextUtils.isEmpty(newText) ? "" : "Query so far: " + newText;
-                    //mSearchText.setText(newText);
-                    return true;
-                }
+    private Fragment[] fragmentos = new Fragment[]{
+            new ComunityFragment(),
+            new NutricionFragment(),
+            new NoticiasFragment()
 
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    Toast.makeText(MainActivity.this,
-                            "Searching for: " + query + "...", Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-            };
+
+    };
     private MrUser __user = new MrUser();
     private AccountHeader headerResult = null;
     private Drawer result = null;
@@ -61,9 +50,7 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_main, menu);
 
-        SearchView searchView = (SearchView) MenuItemCompat
-                .getActionView(menu.findItem(R.id.action_search));
-        searchView.setOnQueryTextListener(mOnQueryTextListener);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -123,10 +110,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         final Activity ac = this;
         setContentView(R.layout.activity_main);
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setBackgroundColor(Color.BLACK);
-        toolbar.getBackground().setAlpha(90);
+
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = manager.beginTransaction();
+        for (Fragment fragment : fragmentos) {
+            fragmentTransaction.add(R.id.mainActivityLayout, fragment).hide(fragment);
+        }
+
+        fragmentTransaction.show(fragmentos[0]).commit();
+
+
+        setTabs();
         SharedPreferences userDetails = getApplicationContext().getSharedPreferences("u_data", MODE_PRIVATE);
         setId(userDetails.getInt("n_id", -1));
         if (getId() == -1) {
@@ -136,8 +130,14 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(false);
+        ActionBar actionBarToaPrincipal = getActionBar();
+        if (actionBarToaPrincipal != null) {
+            actionBarToaPrincipal.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+            actionBarToaPrincipal.addTab(actionBarToaPrincipal.newTab().setIcon(R.drawable.logo).setTabListener(this));
+            actionBarToaPrincipal.addTab(actionBarToaPrincipal.newTab().setIcon(R.drawable.logo).setTabListener(this));
+            actionBarToaPrincipal.addTab(actionBarToaPrincipal.newTab().setIcon(R.drawable.logo).setTabListener(this));
+        }
+
         RestApi.get("/node/" + getId(), new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
                     final IProfile profile3 = new ProfileDrawerItem().withEmail(MrUser.get_email()).withName(MrUser.get_name());
 
                     // Create the AccountHeader
-                    headerResult = new AccountHeaderBuilder()
+                   /* headerResult = new AccountHeaderBuilder()
                             .withActivity(ac)
                             .withHeaderBackground(new ColorDrawable(getResources().getColor(R.color.primary_dark))).addProfiles(
                                     profile3
@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
 
                         //set the active profile
                         headerResult.setActiveProfile(profile3);
-                    }
+                    }*/
                 } catch (JSONException e) {
                     Toast.makeText(getApplicationContext(), "Please connect to a network", Toast.LENGTH_LONG).show();
                     finish();
@@ -189,6 +189,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void setTabs() {
+
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -198,5 +202,24 @@ public class MainActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+
+    @Override
+    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+        for (Fragment fragment : fragmentos) {
+            fragmentTransaction.hide(fragment);
+        }
+        fragmentTransaction.show(fragmentos[tab.getPosition()]);
+    }
+
+    @Override
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+
+    }
+
+    @Override
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+
     }
 }
