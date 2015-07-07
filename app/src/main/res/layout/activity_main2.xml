@@ -1,26 +1,36 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="match_parent"
+    android:layout_height="fill_parent"
     android:background="#fffefd"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="toa.toa.Main2Activity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_awesome_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="86dp"
+        android:background="?attr/colorPrimary"
+        android:minHeight="125dp" />
 
     <LinearLayout
-        android:id="@+id/comunidadesDeportivas"
+        android:id="@+id/comunidadesDeportivasLayout"
         android:layout_width="fill_parent"
         android:layout_height="126dp"
-        android:layout_marginBottom="12dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/my_awesome_toolbar"
         android:background="#33cd99"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/imageView5"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginLeft="15dp"
+            android:scaleType="centerCrop"
             android:src="@drawable/triatlon" />
 
         <TextView
@@ -28,23 +38,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/comunity_sports" />
+            android:text="@string/comunity_sports"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/nutricion"
+        android:id="@+id/nutricionLayout"
         android:layout_width="match_parent"
         android:layout_height="126dp"
-        android:layout_marginBottom="12dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/comunidadesDeportivasLayout"
         android:background="#3298c9"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/imageView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
             android:src="@drawable/nutricion" />
 
         <TextView
@@ -52,22 +67,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/nutricion" />
+            android:text="@string/nutricion"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/noticias"
+        android:id="@+id/noticiasLayout"
         android:layout_width="match_parent"
         android:layout_height="126dp"
-        android:layout_marginBottom="12dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/nutricionLayout"
         android:background="#337177"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/imageView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
             android:src="@drawable/noticias" />
 
         <TextView
@@ -75,22 +95,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/news" />
+            android:text="@string/news"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/tiendasOnLine"
+        android:id="@+id/tiendaLayout"
         android:layout_width="match_parent"
         android:layout_height="126dp"
-        android:layout_marginBottom="12dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/noticiasLayout"
         android:background="#58bba4"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/imageView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
             android:src="@drawable/tienda" />
 
         <TextView
@@ -98,6 +123,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="@string/store" />
+            android:text="@string/store"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
     </LinearLayout>
-</LinearLayout>
+
+</RelativeLayout>
