@@ -13,7 +13,8 @@
     <RelativeLayout
         android:id="@+id/content_comunity"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="#0100fc">
 
         <ImageView
             android:id="@+id/comunity_image"
@@ -32,6 +33,7 @@
             android:layout_toEndOf="@+id/comunity_image"
             android:layout_toRightOf="@+id/comunity_image"
             android:text="ProbandoDeportes"
+            android:textColor="#fffefd"
             android:textSize="20sp"
             android:textStyle="bold" />
     </RelativeLayout>

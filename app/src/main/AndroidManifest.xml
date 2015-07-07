@@ -57,7 +57,10 @@
         </activity>
         <activity
             android:name=".LoadingSplash"
-            android:label="@string/title_activity_loading_splash">
+            android:label="@string/title_activity_loading_splash"></activity>
+        <activity
+            android:name=".Main2Activity"
+            android:label="@string/title_activity_main2">
         </activity>
     </application>
 

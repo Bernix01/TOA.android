@@ -40,6 +40,9 @@ public class ComunityAdapter extends RecyclerView.Adapter<ComunityAdapter.ViewHo
         MrComunity com = comunities.get(position);
 
         holder.comunityname.setText(com.getComunityName());
+       /* holder.comunityBack.set(com.getComunityBack());
+        holder.comunityImg.setText(com.getComunityImg());*/
+
         //TODO Investigar como capturar la imagen
         //TODO  *hacer que trabaje con datos del WS pedir ayuda a Google
         /*holder.comunityname.setR(com.getComunityName());
@@ -61,8 +64,8 @@ public class ComunityAdapter extends RecyclerView.Adapter<ComunityAdapter.ViewHo
         public ViewHolder(View itemView) {
             super(itemView);
             comunityname = (TextView) itemView.findViewById(R.id.comunityName);
-
-
+            comunityBack = (RelativeLayout) itemView.findViewById(R.id.content_comunity);
+            comunityImg = (ImageView) itemView.findViewById(R.id.comunity_image);
         }
     }
 

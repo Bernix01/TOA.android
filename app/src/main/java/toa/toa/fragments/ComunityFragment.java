@@ -2,15 +2,14 @@ package toa.toa.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.malinskiy.superrecyclerview.SuperRecyclerView;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -30,7 +29,7 @@ import toa.toa.utils.RestApi;
 public class ComunityFragment extends Fragment {
     ArrayList<MrComunity> mrComunityArrayList = new ArrayList<MrComunity>();
 
-    private RecyclerView recyclerComunities;
+    private SuperRecyclerView recyclerComunities;
 
     public ComunityFragment() {
 
@@ -40,10 +39,10 @@ public class ComunityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.comunity_layout, container, false);
-        recyclerComunities = (RecyclerView) root.findViewById(R.id.my_recycler_comunity_view);
-        recyclerComunities.setHasFixedSize(true);
+        recyclerComunities = (SuperRecyclerView) root.findViewById(R.id.my_recycler_comunity_view);
+        //recyclerComunities.setHasFixedSize(true);
         recyclerComunities.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerComunities.setItemAnimator(new DefaultItemAnimator());
+        // recyclerComunities.setItemAnimator(new DefaultItemAnimator());
         getData();
         return root;
 

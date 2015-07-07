@@ -34,13 +34,13 @@ import toa.toa.utils.RestApi;
 
 public class MainActivity extends AppCompatActivity implements ActionBar.TabListener {
     private static int __n_id;
-    private Fragment[] fragmentos = new Fragment[]{
+    private Fragment[] fragmentos = new Fragment[]
+            {
             new ComunityFragment(),
             new NutricionFragment(),
             new NoticiasFragment()
+            };
 
-
-    };
     private MrUser __user = new MrUser();
     private AccountHeader headerResult = null;
     private Drawer result = null;
@@ -111,16 +111,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         final Activity ac = this;
         setContentView(R.layout.activity_main);
 
-        FragmentManager manager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = manager.beginTransaction();
-        for (Fragment fragment : fragmentos) {
-            fragmentTransaction.add(R.id.mainActivityLayout, fragment).hide(fragment);
-        }
 
-        fragmentTransaction.show(fragmentos[0]).commit();
-
-
-        setTabs();
         SharedPreferences userDetails = getApplicationContext().getSharedPreferences("u_data", MODE_PRIVATE);
         setId(userDetails.getInt("n_id", -1));
         if (getId() == -1) {
@@ -162,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
                             .build();
                     result = new DrawerBuilder()
                             .withActivity(ac)
-                            .withToolbar(toolbar)
+                            .withToolbar(toll)
                             .withAccountHeader(headerResult)
                             .withFullscreen(true).addDrawerItems(
                                     new PrimaryDrawerItem().withName("Inicio").withIcon(R.mipmap.ic_launcher).withIdentifier(1)
@@ -186,12 +177,22 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
                 super.onFailure(statusCode, headers, throwable, errorResponse);
             }
         });
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = manager.beginTransaction();
+        for (Fragment fragment : fragmentos) {
+            fragmentTransaction.add(R.id.mainActivityLayout, fragment).hide(fragment);
+        }
+
+        fragmentTransaction.show(fragmentos[0]).commit();
+
+
+        //setTabs();
 
     }
 
-    private void setTabs() {
+   /* private void setTabs() {
 
-    }
+    }*/
 
 
     @Override
