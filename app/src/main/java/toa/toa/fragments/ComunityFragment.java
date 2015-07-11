@@ -29,7 +29,7 @@ import toa.toa.utils.RestApi;
  */
 public class ComunityFragment extends Fragment {
     ArrayList<MrComunity> mrComunityArrayList = new ArrayList<MrComunity>();
-
+    private int id;
     private SuperRecyclerView recyclerComunities;
 
     public ComunityFragment() {
