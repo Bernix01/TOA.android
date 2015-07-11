@@ -1,7 +1,6 @@
 package toa.toa.fragments;
 
 import android.app.Fragment;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
@@ -29,7 +28,7 @@ import toa.toa.utils.RestApi;
  */
 public class ComunityFragment extends Fragment {
     ArrayList<MrComunity> mrComunityArrayList = new ArrayList<MrComunity>();
-
+    private int id;
     private SuperRecyclerView recyclerComunities;
 
     public ComunityFragment() {
@@ -43,8 +42,10 @@ public class ComunityFragment extends Fragment {
         recyclerComunities = (SuperRecyclerView) root.findViewById(R.id.my_recycler_comunity_view);
         //recyclerComunities.setHasFixedSize(true);
         recyclerComunities.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         // recyclerComunities.setItemAnimator(new DefaultItemAnimator());
-        getData();
+        int id = getArguments().getInt("key");
+        getData(id);
         return root;
 
     }
@@ -58,8 +59,9 @@ public class ComunityFragment extends Fragment {
         JSONObject cmd = new JSONObject();
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
+
         try {
-            subcmd.put("statement", "MATCH (a:user)-[r:LIKES]-(n:Sport) WHERE id(a)="+nid+" return n.name, n.icnurl, n.bgurl");
+            subcmd.put("statement", "MATCH (a:user)-[r:Likes]-(n:Sport) WHERE id(a)=" + nid + " return n.name, n.icnurl, n.bgurl");
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {

@@ -1,6 +1,7 @@
 package toa.toa;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -33,6 +35,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import toa.toa.Objects.MrUser;
+import toa.toa.fragments.ComunityFragment;
 import toa.toa.utils.RestApi;
 
 public class MainActivity extends AppCompatActivity {
@@ -127,6 +130,20 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout noticias = (LinearLayout) findViewById(R.id.noticiasLayout);
         LinearLayout tienda = (LinearLayout) findViewById(R.id.tiendaLayout);
 
+        comunidades.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ComunityFragment fragment = new ComunityFragment();
+                Bundle parametro = new Bundle();
+                parametro.putInt("key", MrUser.get_id());
+                fragment.setArguments(parametro);
+                final FragmentTransaction ft = getFragmentManager()
+                        .beginTransaction();
+                ft.replace(R.id.mainActivityLayout, fragment, "tag");
+                ft.addToBackStack("tag");
+                ft.commit();
+            }
+        });
 
 
 
