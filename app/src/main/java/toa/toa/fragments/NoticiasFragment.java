@@ -12,7 +12,7 @@ import toa.toa.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NoticiasFragment extends Fragment {
+public class NoticiasFragment extends android.support.v4.app.Fragment {
 
 
     public NoticiasFragment() {

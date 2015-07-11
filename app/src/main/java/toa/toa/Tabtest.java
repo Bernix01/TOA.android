@@ -7,7 +7,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -15,9 +16,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.mikepenz.materialdrawer.Drawer;
@@ -33,9 +34,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import toa.toa.Objects.MrUser;
+import toa.toa.adapters.CollectionPagerAdapter;
 import toa.toa.utils.RestApi;
 
-public class MainActivity extends AppCompatActivity {
+public class Tabtest extends ActionBarActivity {
     private static int __n_id;
     private final SearchView.OnQueryTextListener mOnQueryTextListener =
             new SearchView.OnQueryTextListener() {
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-                    Toast.makeText(MainActivity.this,
+                    Toast.makeText(Tabtest.this,
                             "Searching for: " + query + "...", Toast.LENGTH_SHORT).show();
                     return true;
                 }
@@ -61,13 +63,11 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_main, menu);
-
         SearchView searchView = (SearchView) MenuItemCompat
                 .getActionView(menu.findItem(R.id.action_search));
         searchView.setOnQueryTextListener(mOnQueryTextListener);
         return super.onCreateOptionsMenu(menu);
     }
-
 
     public int tryGetInt(JSONObject j, String name) {
         int r = -1;
@@ -122,31 +122,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LinearLayout comunidades = (LinearLayout) findViewById(R.id.comunidadesDeportivasLayout);
-        LinearLayout nutricion = (LinearLayout) findViewById(R.id.nutricionLayout);
-        LinearLayout noticias = (LinearLayout) findViewById(R.id.noticiasLayout);
-        LinearLayout tienda = (LinearLayout) findViewById(R.id.tiendaLayout);
         final Activity ac = this;
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_main);
 
-      /*  comunidades.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                ComunityFragment fragment = new ComunityFragment();
-                Bundle parametro = new Bundle();
-                parametro.putInt("key", MrUser.get_id());
-                fragment.setArguments(parametro);
-                final FragmentTransaction ft = getFragmentManager()
-                        .beginTransaction();
-                ft.replace(R.id.mainActivityLayout, fragment, "tag");
-                ft.addToBackStack("tag");
-                ft.commit();
-            }
-        });*/
-
-
+        ViewPager pager = (ViewPager) findViewById(R.id.pager);
+        pager.setAdapter(new CollectionPagerAdapter(getSupportFragmentManager()));
+        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        tabs.setViewPager(pager);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
         toolbar.setBackgroundColor(Color.BLACK);
@@ -159,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(firstVisit);
             finish();
         }
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(false);
         RestApi.get("/node/" + getId(), new RequestParams(), new JsonHttpResponseHandler() {
@@ -213,7 +194,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     @Override
     public void onBackPressed() {
         //handle the back press :D close the drawer first and if the drawer is closed close the activity
@@ -223,4 +203,5 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
 }

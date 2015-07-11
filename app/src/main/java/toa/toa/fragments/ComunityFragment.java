@@ -1,6 +1,6 @@
 package toa.toa.fragments;
 
-import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
@@ -26,7 +26,7 @@ import toa.toa.utils.RestApi;
 /**
  * Created by Junior on 18/06/2015.
  */
-public class ComunityFragment extends Fragment {
+public class ComunityFragment extends android.support.v4.app.Fragment {
     ArrayList<MrComunity> mrComunityArrayList = new ArrayList<MrComunity>();
     private int id;
     private SuperRecyclerView recyclerComunities;
@@ -42,10 +42,10 @@ public class ComunityFragment extends Fragment {
         recyclerComunities = (SuperRecyclerView) root.findViewById(R.id.my_recycler_comunity_view);
         //recyclerComunities.setHasFixedSize(true);
         recyclerComunities.setLayoutManager(new LinearLayoutManager(getActivity()));
-
+        final Context contexto = getActivity().getApplicationContext();
         // recyclerComunities.setItemAnimator(new DefaultItemAnimator());
-        int id = getArguments().getInt("key");
-        getData(id);
+        // int id = getArguments().getInt("key");
+        getData(contexto);
         return root;
 
     }
@@ -55,13 +55,13 @@ public class ComunityFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-    private void getData(int nid) {
+    private void getData(final Context contexto) {
         JSONObject cmd = new JSONObject();
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
 
         try {
-            subcmd.put("statement", "MATCH (a:user)-[r:Likes]-(n:Sport) WHERE id(a)=" + nid + " return n.name, n.icnurl, n.bgurl");
+            subcmd.put("statement", "MATCH (a:user)-[r:Likes]-(n:Sport) return n.name, n.icnurl, n.bgurl");
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {
@@ -76,9 +76,10 @@ public class ComunityFragment extends Fragment {
                     Log.e("respuesta", response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row").toString());
                     int datos = data.length();
                     for (int i = 0; i < datos; i++)
-                        mrComunityArrayList.add(new MrComunity(data.getJSONObject(i).getJSONArray("row").getString(0)));
+                        mrComunityArrayList.add(new MrComunity(data.getJSONObject(i).getJSONArray("row").getString(0), data.getJSONObject(i).getJSONArray("row").getString(1)));
 
-                    recyclerComunities.setAdapter(new ComunityAdapter(mrComunityArrayList, R.layout.comunity_row));
+
+                    recyclerComunities.setAdapter(new ComunityAdapter(mrComunityArrayList, R.layout.comunity_row, contexto));
                 } catch (JSONException e) {
                     Log.e("exception", e.getMessage());
                 }

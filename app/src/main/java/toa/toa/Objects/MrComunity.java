@@ -11,8 +11,9 @@ public class MrComunity {
     private String comunityImg;
     private String comunityBack;
 
-    public MrComunity(String comunityName) {
+    public MrComunity(String comunityName, String comunityImg) {
         this.comunityName = comunityName;
+        this.comunityImg = comunityImg;
     }
 
     public String getComunityName() {

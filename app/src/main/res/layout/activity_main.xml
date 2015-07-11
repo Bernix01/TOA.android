@@ -11,18 +11,32 @@
         android:background="?attr/colorPrimary"
         android:minHeight="125dp" />
 
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+    <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linearLayout3"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/my_awesome_toolbar" />
 
-        <fragment
-            android:id="@+id/comunityFragmentMAIN"
-            android:name="toa.toa.fragments.ComunityFragment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true">
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal">
 
-        </fragment>
-    </ScrollView>
+        <com.astuetz.PagerSlidingTabStrip
+            android:id="@+id/tabs"
+            android:layout_width="fill_parent"
+            android:layout_height="60dip"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/linearLayout3"
+            android:foregroundGravity="center_vertical|center_horizontal" />
+    </LinearLayout>
+
 </RelativeLayout>
