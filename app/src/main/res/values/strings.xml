@@ -28,4 +28,5 @@
     <string name="title_activity_first_visit">FirstVisit</string>
     <string name="title_activity_first_time">FirstTime</string>
     <string name="title_activity_loading_splash">LoadingSplash</string>
+    <string name="my_sports">Mis deportes</string>
 </resources>
