@@ -29,4 +29,5 @@
     <string name="title_activity_first_time">FirstTime</string>
     <string name="title_activity_loading_splash">LoadingSplash</string>
     <string name="my_sports">Mis deportes</string>
+    <string name="title_activity_edit_profile">Editar Perfil</string>
 </resources>
