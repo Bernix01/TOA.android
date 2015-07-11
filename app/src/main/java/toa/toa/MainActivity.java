@@ -1,24 +1,30 @@
 package toa.toa;
 
-import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
+import com.mikepenz.materialdrawer.accountswitcher.AccountHeaderBuilder;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
@@ -27,20 +33,26 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import toa.toa.Objects.MrUser;
-import toa.toa.fragments.ComunityFragment;
-import toa.toa.fragments.NoticiasFragment;
-import toa.toa.fragments.NutricionFragment;
 import toa.toa.utils.RestApi;
 
-public class MainActivity extends AppCompatActivity implements ActionBar.TabListener {
+public class MainActivity extends AppCompatActivity {
     private static int __n_id;
-    private Fragment[] fragmentos = new Fragment[]
-            {
-            new ComunityFragment(),
-            new NutricionFragment(),
-            new NoticiasFragment()
-            };
+    private final SearchView.OnQueryTextListener mOnQueryTextListener =
+            new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    newText = TextUtils.isEmpty(newText) ? "" : "Query so far: " + newText;
+                    //mSearchText.setText(newText);
+                    return true;
+                }
 
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    Toast.makeText(MainActivity.this,
+                            "Searching for: " + query + "...", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+            };
     private MrUser __user = new MrUser();
     private AccountHeader headerResult = null;
     private Drawer result = null;
@@ -50,7 +62,9 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_main, menu);
 
-
+        SearchView searchView = (SearchView) MenuItemCompat
+                .getActionView(menu.findItem(R.id.action_search));
+        searchView.setOnQueryTextListener(mOnQueryTextListener);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -108,10 +122,20 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LinearLayout comunidades = (LinearLayout) findViewById(R.id.comunidadesDeportivasLayout);
+        LinearLayout nutricion = (LinearLayout) findViewById(R.id.nutricionLayout);
+        LinearLayout noticias = (LinearLayout) findViewById(R.id.noticiasLayout);
+        LinearLayout tienda = (LinearLayout) findViewById(R.id.tiendaLayout);
+
+
+
+
         final Activity ac = this;
-        setContentView(R.layout.activity_main);
-
-
+        setContentView(R.layout.activity_main2);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setBackgroundColor(Color.BLACK);
+        toolbar.getBackground().setAlpha(90);
         SharedPreferences userDetails = getApplicationContext().getSharedPreferences("u_data", MODE_PRIVATE);
         setId(userDetails.getInt("n_id", -1));
         if (getId() == -1) {
@@ -121,14 +145,8 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
             finish();
         }
 
-        ActionBar actionBarToaPrincipal = getActionBar();
-        if (actionBarToaPrincipal != null) {
-            actionBarToaPrincipal.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-            actionBarToaPrincipal.addTab(actionBarToaPrincipal.newTab().setIcon(R.drawable.logo).setTabListener(this));
-            actionBarToaPrincipal.addTab(actionBarToaPrincipal.newTab().setIcon(R.drawable.logo).setTabListener(this));
-            actionBarToaPrincipal.addTab(actionBarToaPrincipal.newTab().setIcon(R.drawable.logo).setTabListener(this));
-        }
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(false);
         RestApi.get("/node/" + getId(), new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -144,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
                     final IProfile profile3 = new ProfileDrawerItem().withEmail(MrUser.get_email()).withName(MrUser.get_name());
 
                     // Create the AccountHeader
-                   /* headerResult = new AccountHeaderBuilder()
+                    headerResult = new AccountHeaderBuilder()
                             .withActivity(ac)
                             .withHeaderBackground(new ColorDrawable(getResources().getColor(R.color.primary_dark))).addProfiles(
                                     profile3
@@ -153,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
                             .build();
                     result = new DrawerBuilder()
                             .withActivity(ac)
-                            .withToolbar(toll)
+                            .withToolbar(toolbar)
                             .withAccountHeader(headerResult)
                             .withFullscreen(true).addDrawerItems(
                                     new PrimaryDrawerItem().withName("Inicio").withIcon(R.mipmap.ic_launcher).withIdentifier(1)
@@ -164,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
                         //set the active profile
                         headerResult.setActiveProfile(profile3);
-                    }*/
+                    }
                 } catch (JSONException e) {
                     Toast.makeText(getApplicationContext(), "Please connect to a network", Toast.LENGTH_LONG).show();
                     finish();
@@ -177,22 +195,8 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
                 super.onFailure(statusCode, headers, throwable, errorResponse);
             }
         });
-        FragmentManager manager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = manager.beginTransaction();
-        for (Fragment fragment : fragmentos) {
-            fragmentTransaction.add(R.id.mainActivityLayout, fragment).hide(fragment);
-        }
-
-        fragmentTransaction.show(fragmentos[0]).commit();
-
-
-        //setTabs();
 
     }
-
-   /* private void setTabs() {
-
-    }*/
 
 
     @Override
@@ -203,24 +207,5 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         } else {
             super.onBackPressed();
         }
-    }
-
-
-    @Override
-    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        for (Fragment fragment : fragmentos) {
-            fragmentTransaction.hide(fragment);
-        }
-        fragmentTransaction.show(fragmentos[tab.getPosition()]);
-    }
-
-    @Override
-    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-
-    }
-
-    @Override
-    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-
     }
 }
