@@ -1,6 +1,7 @@
 package toa.toa.fragments;
 
 import android.app.Fragment;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
@@ -53,12 +54,12 @@ public class ComunityFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-    private void getData() {
+    private void getData(int nid) {
         JSONObject cmd = new JSONObject();
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
         try {
-            subcmd.put("statement", "MATCH (n:Sport) return n.name, n.icnurl, n.bgurl");
+            subcmd.put("statement", "MATCH (a:user)-[r:LIKES]-(n:Sport) WHERE id(a)="+nid+" return n.name, n.icnurl, n.bgurl");
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {
