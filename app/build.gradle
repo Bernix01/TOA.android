@@ -36,4 +36,6 @@ dependencies {
     compile 'com.loopj.android:android-async-http:1.4.6'
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.github.navasmdc:MaterialDesign:1.5@aar'
+    compile 'jp.wasabeef:picasso-transformations:1.0.3@aar'
+    compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.2.3@aar'
 }

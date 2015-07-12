@@ -3,19 +3,18 @@ package toa.toa;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
+import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -28,46 +27,24 @@ import com.mikepenz.materialdrawer.accountswitcher.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.squareup.picasso.Picasso;
 
 import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import toa.toa.Objects.MrUser;
 import toa.toa.adapters.CollectionPagerAdapter;
 import toa.toa.utils.RestApi;
 
 public class Tabtest extends ActionBarActivity {
     private static int __n_id;
-    private final SearchView.OnQueryTextListener mOnQueryTextListener =
-            new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    newText = TextUtils.isEmpty(newText) ? "" : "Query so far: " + newText;
-                    //mSearchText.setText(newText);
-                    return true;
-                }
-
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    Toast.makeText(Tabtest.this,
-                            "Searching for: " + query + "...", Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-            };
     private MrUser __user = new MrUser();
     private AccountHeader headerResult = null;
     private Drawer result = null;
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_main, menu);
-        SearchView searchView = (SearchView) MenuItemCompat
-                .getActionView(menu.findItem(R.id.action_search));
-        searchView.setOnQueryTextListener(mOnQueryTextListener);
-        return super.onCreateOptionsMenu(menu);
-    }
+
 
     public int tryGetInt(JSONObject j, String name) {
         int r = -1;
@@ -124,15 +101,17 @@ public class Tabtest extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         final Activity ac = this;
         setContentView(R.layout.activity_main);
+        final TextView name_txtv = (TextView) findViewById(R.id.main_ui_name_txtv);
+        final ImageView pimage_imgv = (ImageView) findViewById(R.id.main_ui_pimage_imv);
 
-        ViewPager pager = (ViewPager) findViewById(R.id.pager);
-        pager.setAdapter(new CollectionPagerAdapter(getSupportFragmentManager()));
-        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-        tabs.setViewPager(pager);
+        if (Build.VERSION.SDK_INT > 19) {
+            RelativeLayout view = (RelativeLayout) findViewById(R.id.mainActivityLayout);
+            view.setPadding(0, getStatusBarHeight(), 0, getNavigationBarHeight());
+        }
         final Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
+        toolbar.getBackground().setAlpha(0);
         setSupportActionBar(toolbar);
-        toolbar.setBackgroundColor(Color.BLACK);
-        toolbar.getBackground().setAlpha(90);
+        getSupportActionBar().setTitle("");
         SharedPreferences userDetails = getApplicationContext().getSharedPreferences("u_data", MODE_PRIVATE);
         setId(userDetails.getInt("n_id", -1));
         if (getId() == -1) {
@@ -155,6 +134,17 @@ public class Tabtest extends ActionBarActivity {
                     MrUser.set_uname(tryGetString(data, "u_name"));
                     MrUser.set_bio(tryGetString(data, "bio"));
                     MrUser.set_gender(tryGetInt(data, "gender"));
+                    MrUser.set_pimage(tryGetString(data, "pimageurl"));
+                    ViewPager pager = (ViewPager) findViewById(R.id.pager);
+                    pager.setAdapter(new CollectionPagerAdapter(getSupportFragmentManager(), MrUser.get_id()));
+                    PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+                    tabs.setViewPager(pager);
+                    name_txtv.setText(MrUser.get_uname());
+                    if (!MrUser.get_pimage().isEmpty()) {
+                        Picasso.with(getApplicationContext()).load(MrUser.get_pimage()).transform(new CropCircleTransformation()).into(pimage_imgv);
+                    } else {
+                        Picasso.with(getApplicationContext()).load(R.drawable.defaultpimage).transform(new CropCircleTransformation()).into(pimage_imgv);
+                    }
                     final IProfile profile3 = new ProfileDrawerItem().withEmail(MrUser.get_email()).withName(MrUser.get_name());
 
                     // Create the AccountHeader
@@ -194,6 +184,23 @@ public class Tabtest extends ActionBarActivity {
 
     }
 
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
+    public int getNavigationBarHeight() {
+        Resources resources = getApplicationContext().getResources();
+        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            return resources.getDimensionPixelSize(resourceId);
+        }
+        return 0;
+    }
     @Override
     public void onBackPressed() {
         //handle the back press :D close the drawer first and if the drawer is closed close the activity

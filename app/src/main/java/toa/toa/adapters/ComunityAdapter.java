@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -41,7 +40,7 @@ public class ComunityAdapter extends RecyclerView.Adapter<ComunityAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         MrComunity com = comunities.get(position);
 
         holder.comunityname.setText(com.getComunityName());
@@ -53,7 +52,8 @@ public class ComunityAdapter extends RecyclerView.Adapter<ComunityAdapter.ViewHo
         /*holder.comunityname.setR(com.getComunityName());
         holder.comunityname.setText(com.getComunityName());*/
         Picasso.with(contexto).load(com.getComunityImg()).into(holder.comunityImg);
-//        Picasso.with(contexto).load(com.getComunityBack()).into((Target) holder.comunityBack);
+        if (!com.getComunityBack().isEmpty())
+            Picasso.with(contexto).load(com.getComunityBack()).fit().centerCrop().into(holder.comunityBack);
     }
 
     @Override
@@ -65,12 +65,12 @@ public class ComunityAdapter extends RecyclerView.Adapter<ComunityAdapter.ViewHo
 
         public TextView comunityname;
         public ImageView comunityImg;
-        public RelativeLayout comunityBack;
+        public ImageView comunityBack;
 
         public ViewHolder(View itemView) {
             super(itemView);
             comunityname = (TextView) itemView.findViewById(R.id.comunityName);
-            comunityBack = (RelativeLayout) itemView.findViewById(R.id.content_comunity);
+            comunityBack = (ImageView) itemView.findViewById(R.id.comunity_bck_imv);
             comunityImg = (ImageView) itemView.findViewById(R.id.comunity_image);
         }
     }

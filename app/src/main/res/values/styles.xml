@@ -17,6 +17,8 @@
         <item name="android:windowTranslucentStatus" tools:targetApi="21">true</item>
         <item name="android:windowTranslucentNavigation" tools:targetApi="21">true</item>
     </style>
+
+
     <style name="MySearchViewStyle" parent="Widget.AppCompat.SearchView">
     <!-- Background for the search query section (e.g. EditText) -->
     <item name="queryBackground">@color/querybg_color</item>

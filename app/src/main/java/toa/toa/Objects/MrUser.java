@@ -10,8 +10,17 @@ public class MrUser {
     private static String _email;
     private static String _bio;
     private static int _gender;
+    private static String _pimage;
 
     public MrUser() {
+    }
+
+    public static String get_pimage() {
+        return _pimage;
+    }
+
+    public static void set_pimage(String _pimage) {
+        MrUser._pimage = _pimage;
     }
 
     public static String get_uname() {

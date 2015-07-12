@@ -3,17 +3,13 @@ package toa.toa;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -56,17 +52,6 @@ public class MainActivity extends AppCompatActivity {
     private MrUser __user = new MrUser();
     private AccountHeader headerResult = null;
     private Drawer result = null;
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_main, menu);
-
-        SearchView searchView = (SearchView) MenuItemCompat
-                .getActionView(menu.findItem(R.id.action_search));
-        searchView.setOnQueryTextListener(mOnQueryTextListener);
-        return super.onCreateOptionsMenu(menu);
-    }
 
 
     public int tryGetInt(JSONObject j, String name) {
@@ -149,8 +134,6 @@ public class MainActivity extends AppCompatActivity {
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setBackgroundColor(Color.BLACK);
-        toolbar.getBackground().setAlpha(90);
         SharedPreferences userDetails = getApplicationContext().getSharedPreferences("u_data", MODE_PRIVATE);
         setId(userDetails.getInt("n_id", -1));
         if (getId() == -1) {
