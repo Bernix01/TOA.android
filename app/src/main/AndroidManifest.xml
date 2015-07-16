@@ -66,8 +66,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="toa.toa.ProfileActivity" />
         </activity>
-           
 
+
+        <activity
+            android:name=".ProfileActivity"
+            android:label="@string/title_activity_profile"
+            android:parentActivityName=".Tabtest">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="toa.toa.Tabtest" />
+        </activity>
     </application>
 
 </manifest>

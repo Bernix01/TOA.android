@@ -3,12 +3,9 @@ package toa.toa;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
@@ -16,13 +13,6 @@ import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
-import com.mikepenz.materialdrawer.accountswitcher.AccountHeaderBuilder;
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 import org.apache.http.Header;
 import org.json.JSONException;
@@ -33,25 +23,7 @@ import toa.toa.utils.RestApi;
 
 public class MainActivity extends AppCompatActivity {
     private static int __n_id;
-    private final SearchView.OnQueryTextListener mOnQueryTextListener =
-            new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    newText = TextUtils.isEmpty(newText) ? "" : "Query so far: " + newText;
-                    //mSearchText.setText(newText);
-                    return true;
-                }
-
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    Toast.makeText(MainActivity.this,
-                            "Searching for: " + query + "...", Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-            };
     private MrUser __user = new MrUser();
-    private AccountHeader headerResult = null;
-    private Drawer result = null;
 
 
     public int tryGetInt(JSONObject j, String name) {
@@ -98,9 +70,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         //add the values which need to be saved from the drawer to the bundle
-        outState = result.saveInstanceState(outState);
-        //add the values which need to be saved from the accountHeader to the bundle
-        outState = headerResult.saveInstanceState(outState);
         super.onSaveInstanceState(outState);
     }
 
@@ -157,30 +126,6 @@ public class MainActivity extends AppCompatActivity {
                     MrUser.set_uname(tryGetString(data, "u_name"));
                     MrUser.set_bio(tryGetString(data, "bio"));
                     MrUser.set_gender(tryGetInt(data, "gender"));
-                    final IProfile profile3 = new ProfileDrawerItem().withEmail(MrUser.get_email()).withName(MrUser.get_name());
-
-                    // Create the AccountHeader
-                    headerResult = new AccountHeaderBuilder()
-                            .withActivity(ac)
-                            .withHeaderBackground(new ColorDrawable(getResources().getColor(R.color.primary_dark))).addProfiles(
-                                    profile3
-                            )
-                            .withSavedInstance(savedInstanceState)
-                            .build();
-                    result = new DrawerBuilder()
-                            .withActivity(ac)
-                            .withToolbar(toolbar)
-                            .withAccountHeader(headerResult)
-                            .withFullscreen(true).addDrawerItems(
-                                    new PrimaryDrawerItem().withName("Inicio").withIcon(R.mipmap.ic_launcher).withIdentifier(1)
-                            ).withSavedInstance(savedInstanceState).build();
-                    if (savedInstanceState == null) {
-                        // set the selection to the item with the identifier 10
-                        result.setSelectionByIdentifier(1, false);
-
-                        //set the active profile
-                        headerResult.setActiveProfile(profile3);
-                    }
                 } catch (JSONException e) {
                     Toast.makeText(getApplicationContext(), "Please connect to a network", Toast.LENGTH_LONG).show();
                     finish();
@@ -199,11 +144,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        //handle the back press :D close the drawer first and if the drawer is closed close the activity
-        if (result != null && result.isDrawerOpen()) {
-            result.closeDrawer();
-        } else {
             super.onBackPressed();
-        }
     }
 }

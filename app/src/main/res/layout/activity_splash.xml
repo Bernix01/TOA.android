@@ -19,8 +19,9 @@
         android:id="@+id/register_btn"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/imageView2"
         android:autoText="false"
         android:background="#c2e5e5e5"
         android:gravity="center"
@@ -36,7 +37,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="71dp"
-        android:background="@color/colorPrimary"
+        android:background="?attr/colorPrimary"
         android:text="@string/do_login_btn" />
 
 </RelativeLayout>
