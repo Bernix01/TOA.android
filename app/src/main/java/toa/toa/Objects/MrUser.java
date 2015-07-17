@@ -1,17 +1,49 @@
 package toa.toa.Objects;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Guillermo on 6/9/2015.
  */
-public class MrUser {
+public class MrUser implements Parcelable {
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public MrUser createFromParcel(Parcel in) {
+            return new MrUser(in);
+        }
+
+        public MrUser[] newArray(int size) {
+            return new MrUser[size];
+        }
+    };
     private static int _id;
     private static String _name;
     private static String _uname;
     private static String _email;
     private static String _bio;
     private static int _gender;
+    private static String _pimage;
 
     public MrUser() {
+    }
+
+    public MrUser(Parcel in) {
+        _bio = in.readString();
+        _email = in.readString();
+        _gender = in.readInt();
+        _id = in.readInt();
+        _name = in.readString();
+        _uname = in.readString();
+        _pimage = in.readString();
+
+    }
+
+    public static String get_pimage() {
+        return _pimage;
+    }
+
+    public static void set_pimage(String _pimage) {
+        MrUser._pimage = _pimage;
     }
 
     public static String get_uname() {
@@ -60,5 +92,21 @@ public class MrUser {
 
     public static void set_gender(int _gender) {
         MrUser._gender = _gender;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(_bio);
+        dest.writeString(_email);
+        dest.writeInt(_gender);
+        dest.writeInt(_id);
+        dest.writeString(_name);
+        dest.writeString(_uname);
+        dest.writeString(_pimage);
     }
 }

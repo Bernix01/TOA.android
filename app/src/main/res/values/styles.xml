@@ -5,9 +5,9 @@
         <item name="colorPrimary">@color/my_awesome_color</item>
         <!-- colorPrimaryDark is used for the status bar -->
         <item name="colorPrimaryDark">@color/my_awesome_darker_color</item>
-        <item name="windowActionBar">false</item>
-            <!-- colorAccent is used as the default value for colorControlActivated,
-             which is used to tint widgets -->
+        <!--  <item name="windowActionBar">false</item>
+               colorAccent is used as the default value for colorControlActivated,
+               which is used to tint widgets -->
         <item name="colorAccent">@color/accent</item>
             <!-- You can also set colorControlNormal, colorControlActivated
             colorControlHighlight, and colorSwitchThumbNormal. -->
@@ -17,6 +17,8 @@
         <item name="android:windowTranslucentStatus" tools:targetApi="21">true</item>
         <item name="android:windowTranslucentNavigation" tools:targetApi="21">true</item>
     </style>
+
+
     <style name="MySearchViewStyle" parent="Widget.AppCompat.SearchView">
     <!-- Background for the search query section (e.g. EditText) -->
     <item name="queryBackground">@color/querybg_color</item>

@@ -3,27 +3,37 @@ package toa.toa;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.MenuItem;
-import android.widget.LinearLayout;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.squareup.picasso.Picasso;
 
 import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import toa.toa.Objects.MrUser;
+import toa.toa.adapters.CollectionPagerAdapter;
 import toa.toa.utils.RestApi;
 
-public class MainActivity extends AppCompatActivity {
+public class Tabtest extends ActionBarActivity {
     private static int __n_id;
     private MrUser __user = new MrUser();
+
 
 
     public int tryGetInt(JSONObject j, String name) {
@@ -54,55 +64,28 @@ public class MainActivity extends AppCompatActivity {
         __n_id = id;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        //handle the click on the back arrow click
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        //add the values which need to be saved from the drawer to the bundle
         super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LinearLayout comunidades = (LinearLayout) findViewById(R.id.comunidadesDeportivasLayout);
-        LinearLayout nutricion = (LinearLayout) findViewById(R.id.nutricionLayout);
-        LinearLayout noticias = (LinearLayout) findViewById(R.id.noticiasLayout);
-        LinearLayout tienda = (LinearLayout) findViewById(R.id.tiendaLayout);
         final Activity ac = this;
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_main);
+        final TextView name_txtv = (TextView) findViewById(R.id.main_ui_name_txtv);
+        final ImageView pimage_imgv = (ImageView) findViewById(R.id.main_ui_pimage_imv);
 
-      /*  comunidades.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                ComunityFragment fragment = new ComunityFragment();
-                Bundle parametro = new Bundle();
-                parametro.putInt("key", MrUser.get_id());
-                fragment.setArguments(parametro);
-                final FragmentTransaction ft = getFragmentManager()
-                        .beginTransaction();
-                ft.replace(R.id.mainActivityLayout, fragment, "tag");
-                ft.addToBackStack("tag");
-                ft.commit();
-            }
-        });*/
-
-
+        if (Build.VERSION.SDK_INT > 19) {
+            RelativeLayout view = (RelativeLayout) findViewById(R.id.mainActivityLayout);
+            view.setPadding(0, getStatusBarHeight(), 0, getNavigationBarHeight());
+        }
         final Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
+        toolbar.getBackground().setAlpha(0);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         SharedPreferences userDetails = getApplicationContext().getSharedPreferences("u_data", MODE_PRIVATE);
         setId(userDetails.getInt("n_id", -1));
         if (getId() == -1) {
@@ -111,9 +94,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(firstVisit);
             finish();
         }
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(false);
         RestApi.get("/node/" + getId(), new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -126,6 +106,25 @@ public class MainActivity extends AppCompatActivity {
                     MrUser.set_uname(tryGetString(data, "u_name"));
                     MrUser.set_bio(tryGetString(data, "bio"));
                     MrUser.set_gender(tryGetInt(data, "gender"));
+                    MrUser.set_pimage(tryGetString(data, "pimageurl"));
+                    ViewPager pager = (ViewPager) findViewById(R.id.pager);
+                    pager.setAdapter(new CollectionPagerAdapter(getSupportFragmentManager(), MrUser.get_id()));
+                    PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+                    tabs.setViewPager(pager);
+                    name_txtv.setText(MrUser.get_uname());
+                    name_txtv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+                            i.putExtra("user", __user);
+                            startActivity(i);
+                        }
+                    });
+                    if (!MrUser.get_pimage().isEmpty()) {
+                        Picasso.with(getApplicationContext()).load(MrUser.get_pimage()).transform(new CropCircleTransformation()).into(pimage_imgv);
+                    } else {
+                        Picasso.with(getApplicationContext()).load(R.drawable.defaultpimage).transform(new CropCircleTransformation()).into(pimage_imgv);
+                    }
                 } catch (JSONException e) {
                     Toast.makeText(getApplicationContext(), "Please connect to a network", Toast.LENGTH_LONG).show();
                     finish();
@@ -141,9 +140,22 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    @Override
-    public void onBackPressed() {
-            super.onBackPressed();
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
+
+    public int getNavigationBarHeight() {
+        Resources resources = getApplicationContext().getResources();
+        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            return resources.getDimensionPixelSize(resourceId);
+        }
+        return 0;
+    }
+
 }
