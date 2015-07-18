@@ -21,49 +21,32 @@ public class SirHandler {
 
     private static MrUser _currentUser;
     private Context mcontext;
-    /*
+
+    /**
      * Crea un nuevo SirHandler, vacío.
      *
      * @param mcontext se necesita para obtener data de las sharedprefs
      */
-
     public SirHandler(Context mcontext) {
         this.mcontext = mcontext;
     }
 
 
     private void fetchUserData() {
-
         SharedPreferences userDetails = mcontext.getSharedPreferences("u_data", Context.MODE_PRIVATE);
         final int _id = userDetails.getInt("n_id", -1);
-        final MrUser user = new MrUser();
-        RestApi.get("/node/" + _id, new RequestParams(), new JsonHttpResponseHandler() {
+        getUserById(_id, new SirClass() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                JSONObject data;
-                new JSONObject();
-                try {
-                    data = response.getJSONObject("data");
-                    MrUser.set_email(tryGetString(data, "email"));
-                    MrUser.set_id(tryGetInt(response.getJSONObject("metadata"), "id"));
-                    MrUser.set_name(tryGetString(data, "name"));
-                    MrUser.set_uname(tryGetString(data, "u_name"));
-                    MrUser.set_bio(tryGetString(data, "bio"));
-                    MrUser.set_gender(tryGetInt(data, "gender"));
-                    MrUser.set_pimage(tryGetString(data, "pimageurl"));
-                } catch (JSONException e) {
-                    Toast.makeText(mcontext, "Please connect to a network", Toast.LENGTH_LONG).show();
-                    //TODO handle error
-                }
-
+            public void goIt(MrUser user) {
+                _currentUser = user;
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                //TODO handle network error
+            public void failure(String error) {
+                Log.e("error", error);
+
             }
         });
-        _currentUser = user;
 
     }
 
@@ -78,9 +61,28 @@ public class SirHandler {
 
 
     private void updateRemoteData() {
-        Log.d("Final user", _currentUser.toString());
         JSONObject user = new JSONObject();
-        //RestApi.put("/node/"+MrUser.get_id()+"/properties",_currentUser,new JsonHttpResponseHandler(){});
+        try {
+            user.put("email", MrUser.get_email());
+            user.put("name", MrUser.get_name());
+            user.put("u_name", MrUser.get_uname());
+            user.put("bio", MrUser.get_bio());
+            user.put("gender", MrUser.get_gender());
+            user.put("pimageurl", MrUser.get_pimage());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RestApi.put("/node/" + MrUser.get_id() + "/properties", user, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Toast.makeText(mcontext, "Profile updated successfully", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Toast.makeText(mcontext, "Could not update profile :(", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
 
@@ -105,8 +107,39 @@ public class SirHandler {
     }
 
 
-   /* public void getUserById(int id, ){
+    public void getUserById(int id, final SirClass userRetriever) {
+
+        final MrUser user = new MrUser();
+        RestApi.get("/node/" + id, new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                JSONObject data;
+                new JSONObject();
+                try {
+                    data = response.getJSONObject("data");
+                    MrUser.set_email(tryGetString(data, "email"));
+                    MrUser.set_id(tryGetInt(response.getJSONObject("metadata"), "id"));
+                    MrUser.set_name(tryGetString(data, "name"));
+                    MrUser.set_uname(tryGetString(data, "u_name"));
+                    MrUser.set_bio(tryGetString(data, "bio"));
+                    MrUser.set_gender(tryGetInt(data, "gender"));
+                    MrUser.set_pimage(tryGetString(data, "pimageurl"));
+                    userRetriever.goIt(user);
+                } catch (JSONException e) {
+                    Toast.makeText(mcontext, "Please connect to a network", Toast.LENGTH_LONG).show();
+                    userRetriever.failure("meh");
+                    //TODO handle error
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                //TODO handle network error
+            }
+        });
+    }
 
 
-    }*/
+
 }
