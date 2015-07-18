@@ -43,13 +43,12 @@ public class ComunityFragment extends android.support.v4.app.Fragment {
         id = bundle.getInt("id", -1);
         View root = inflater.inflate(R.layout.comunity_layout, container, false);
         recyclerComunities = (SuperRecyclerView) root.findViewById(R.id.my_recycler_comunity_view);
-        //recyclerComunities.setHasFixedSize(true);
         recyclerComunities.setLayoutManager(new LinearLayoutManager(getActivity()));
         final Context contexto = getActivity().getApplicationContext();
-        // recyclerComunities.setItemAnimator(new DefaultItemAnimator());
-        // int id = getArguments().getInt("key");
         getData(contexto, id);
+
         return root;
+
 
     }
 

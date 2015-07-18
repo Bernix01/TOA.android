@@ -63,7 +63,7 @@ public class LoginActivity extends Activity {
                                 SharedPreferences.Editor editor = getSharedPreferences("u_data", MODE_PRIVATE).edit();
                                 editor.putInt("n_id", _id);
                                 editor.apply();
-                                Intent i = new Intent(getApplicationContext(), Tabtest.class);
+                                Intent i = new Intent(getApplicationContext(), MainActivity.class);
                                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(i);
