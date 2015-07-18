@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import toa.toa.R;
 
@@ -15,7 +16,8 @@ import toa.toa.R;
 public class SecondSlide extends Fragment {
 
     private int resID = R.drawable.intro2;
-
+    private int resImgCenter = R.drawable.introicono2;
+    private String msg = getResources().getString(R.string.msg_second_slider);
     public SecondSlide() {
         // Required empty public constructor
     }
@@ -27,10 +29,12 @@ public class SecondSlide extends Fragment {
      * @param ResID image.
      * @return A new instance of fragment FirstSlide.
      */
-    public static SecondSlide newInstance(int ResID) {
+    public static SecondSlide newInstance(int ResID, int resImgCenter, String msg) {
         SecondSlide fragment = new SecondSlide();
         Bundle args = new Bundle();
         args.putInt("resid", ResID);
+        args.putInt("resImgCenter", resImgCenter);
+        args.putString("mensaje", msg);
         Log.d("argid", "" + ResID);
         fragment.setArguments(args);
         return fragment;
@@ -41,6 +45,8 @@ public class SecondSlide extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             resID = getArguments().getInt("resid");
+            resImgCenter = getArguments().getInt("resImgCenter");
+            msg = getArguments().getString("mensaje").toString();
             Log.d("imgID", "" + resID);
         }
     }
@@ -51,7 +57,11 @@ public class SecondSlide extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_first_slide, container, false);
         ImageView imv = (ImageView) root.findViewById(R.id.imv_intro);
+        ImageView imgCenter = (ImageView) root.findViewById(R.id.ivCenter);
+        TextView menssage = (TextView) root.findViewById(R.id.tvMsg);
         imv.setImageResource(resID);
+        imgCenter.setImageResource(resImgCenter);
+        menssage.setText(msg);
         Log.d("setted", "" + resID);
         return root;
     }
