@@ -4,7 +4,7 @@
     android:id="@+id/conatiner_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/bkg_registro"
+    android:background="@drawable/bkg_registro"
     tools:context="toa.toa.RegisterActivity">
 
     <android.support.v7.widget.Toolbar
@@ -29,7 +29,7 @@
             android:layout_below="@+id/my_awesome_toolbar"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:background="#f7f7f7"
+            android:background="#fefefe"
             android:elevation="2dp"
             android:padding="10dp">
 
@@ -41,6 +41,7 @@
                 android:hint="@string/reg_nombre_etxt"
                 android:inputType="textPersonName"
                 android:textSize="14sp"
+                app:met_baseColor="#202020"
                 app:met_floatingLabel="normal"
                 app:met_floatingLabelText="@string/reg_nombre_etxt" />
 
@@ -53,6 +54,7 @@
                 android:ems="10"
                 android:hint="@string/reg_usuario_etxt"
                 android:textSize="14sp"
+                app:met_baseColor="#202020"
                 app:met_floatingLabel="normal"
                 app:met_floatingLabelText="@string/reg_usuario_etxt"
                 app:met_minCharacters="5" />
@@ -67,6 +69,7 @@
                 android:hint="@string/reg_contrasena_etxt"
                 android:inputType="textPassword"
                 android:textSize="14sp"
+                app:met_baseColor="#202020"
                 app:met_floatingLabel="normal"
                 app:met_floatingLabelText="@string/reg_contrasena_etxt"
                 app:met_minCharacters="6" />
@@ -109,7 +112,9 @@
         android:layout_marginTop="20dp"
         android:textColor="#FFFFFF"
         android:textSize="14sp"
+        app:cpb_colorIndicator="?attr/colorPrimary"
         app:cpb_cornerRadius="0dp"
+        app:cpb_selectorIdle="@drawable/button_go"
         app:cpb_textComplete="Completado"
         app:cpb_textError="Error"
         app:cpb_textIdle="@string/title_activity_register" />
