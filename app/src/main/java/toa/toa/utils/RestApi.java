@@ -51,6 +51,21 @@ public class RestApi {
         client.delete(null, getAbsoluteUrl("/node/" + id), responseHandler);
     }
 
+    public static void put(String url, JSONObject data, AsyncHttpResponseHandler responseHandler) {
+        client.addHeader("Authorization", "Basic " + _authheader);
+        StringEntity se = null;
+        try {
+            se = new StringEntity(data.toString(), "UTF-8");
+            Log.e("json", se.toString());
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            Log.e("error stringEntity", e.getMessage());
+            return;
+        }
+        se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+        client.put(null, getAbsoluteUrl(url), se, "aplication/json", responseHandler);
+    }
+
     public static void post(String url, String data, AsyncHttpResponseHandler responseHandler) {
 
         client.addHeader("Authorization", "Basic " + _authheader);

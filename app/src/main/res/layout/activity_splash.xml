@@ -2,24 +2,24 @@
     android:id="@+id/top_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/bkg_inicio"
+    android:background="@drawable/bkg_inicio"
     android:fitsSystemWindows="true">
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="40dp"
         android:background="@android:color/transparent"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@drawable/logo" />
 
     <toa.toa.ClearTextView
         android:id="@+id/register_btn"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:autoText="false"
         android:background="#c2e5e5e5"
@@ -27,16 +27,20 @@
         android:text="@string/reg_btn"
         android:textAlignment="gravity"
         android:textColor="#ff5f5f5f"
-        android:textSize="25sp" />
+        android:textSize="35sp"
+        android:textStyle="bold" />
 
-    <com.gc.materialdesign.views.ButtonRectangle
+    <TextView
         android:id="@+id/login_btn"
-        android:layout_width="125dp"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="false"
+        android:layout_below="@+id/register_btn"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="71dp"
-        android:background="@color/colorPrimary"
-        android:text="@string/do_login_btn" />
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:text="@string/do_login_btn"
+        android:textSize="23sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>

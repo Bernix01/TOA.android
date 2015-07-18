@@ -1,0 +1,77 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="toa.toa.ProfileActivity">
+
+    <ImageView
+        android:id="@+id/profile_bg_imgv"
+        android:layout_width="fill_parent"
+        android:layout_height="400dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="#48b147" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_awesome_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/profile_bg_imgv"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/my_sports"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/profile_sports_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView"
+            android:layout_marginTop="5dp" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/profile_person_imgv"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_below="@+id/my_awesome_toolbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp" />
+
+    <TextView
+        android:id="@+id/profile_name_txtv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profile_person_imgv"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Nombre"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/profle_bio_txtv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profile_name_txtv"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:text="bio"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+</RelativeLayout>

@@ -61,6 +61,24 @@
         <activity
             android:name=".activities.AtletismoActivity"
             android:label="@string/title_activity_atletismo"></activity>
+        <activity
+            android:name=".EditProfileActivity"
+            android:label="@string/title_activity_edit_profile"
+            android:parentActivityName=".ProfileActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="toa.toa.ProfileActivity" />
+        </activity>
+
+
+        <activity
+            android:name=".ProfileActivity"
+            android:label="@string/title_activity_profile"
+            android:parentActivityName=".Tabtest">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="toa.toa.Tabtest" />
+        </activity>
     </application>
 
 </manifest>

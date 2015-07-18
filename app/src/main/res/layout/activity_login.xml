@@ -9,83 +9,80 @@
         android:id="@+id/imageView"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_below="@+id/userInfoTextView"
+        android:layout_above="@+id/linearLayout4"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
         android:src="@drawable/logo" />
 
     <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
+        android:id="@+id/linearLayout4"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="15dp"
-        android:background="#ffffff"
-        android:baselineAligned="true"
-        android:elevation="2dp"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
 
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/user_etxt"
+        <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/reg_last_name"
-            android:layout_marginTop="10dp"
-            android:ems="10"
-            android:hint="@string/reg_usuario_etxt"
-            android:textColorHint="@color/cpb_white"
-            android:textSize="16sp"
-            app:met_floatingLabel="normal"
-            app:met_floatingLabelText="@string/reg_usuario_etxt"
-            app:met_minCharacters="5" />
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="15dp"
+            android:background="#00000fff"
+            android:baselineAligned="true"
+            android:elevation="2dp"
+            android:orientation="vertical"
+            android:padding="10dp">
 
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/pw_etxt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/reg_last_name"
-            android:layout_marginTop="10dp"
-            android:ems="10"
-            android:hint="@string/password_txt"
-            android:textColorHint="@color/cpb_white"
-            android:textSize="16sp"
-            app:met_floatingLabel="normal"
-            app:met_floatingLabelText="@string/reg_usuario_etxt"
-            app:met_minCharacters="5" />
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/user_etxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:ems="10"
+                android:hint="@string/reg_usuario_etxt"
+                android:nextFocusForward="@+id/pw_etxt"
+                android:singleLine="true"
+                android:textSize="16sp"
+                app:met_baseColor="#fff"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelText="@string/reg_usuario_etxt" />
+
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/pw_etxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:hint="@string/password_txt"
+                android:singleLine="true"
+                android:textSize="16sp"
+                app:met_baseColor="#fff"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelText="@string/password_txt" />
+        </LinearLayout>
+
+        <com.dd.CircularProgressButton
+            android:id="@+id/bttn_sigIn"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/do_login_btn"
+            android:textColor="#ffffffff"
+            android:textSize="20sp"
+            app:cpb_colorIndicator="?attr/colorPrimary"
+            app:cpb_cornerRadius="0dp"
+            app:cpb_selectorIdle="@drawable/button_go"
+            app:cpb_textComplete="Yeah!"
+            app:cpb_textError=":-/"
+            app:cpb_textIdle="@string/title_activity_login" />
     </LinearLayout>
 
-    <com.dd.CircularProgressButton
-        android:id="@+id/bttn_sigIn"
-        android:layout_width="fill_parent"
-        android:layout_height="45dp"
-        android:layout_below="@+id/linearLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/button_go"
-        android:onClick="onLogin"
-        android:text="@string/do_login_btn"
-        android:textColor="#ffffffff"
-        android:textSize="20dp"
-        app:cpb_cornerRadius="0dp"
-        app:cpb_textComplete="Yeah!"
-        app:cpb_textError=":-/"
-        app:cpb_textIdle="@string/title_activity_login" />
-
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/userInfoTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:background="#ffd8d8d8"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:visibility="invisible" />
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
@@ -96,16 +93,14 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <com.rengwuxian.materialedittext.MaterialEditText
+        <TextView
             android:id="@+id/go_forgotten"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_weight="0.5"
             android:text="@string/tittle_lost_password"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#00717171"
-            android:textSize="12dp"
-            android:textStyle="normal" />
+            android:textSize="12dp" />
     </LinearLayout>
 
 </RelativeLayout>
