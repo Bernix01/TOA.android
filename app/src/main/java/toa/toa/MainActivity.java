@@ -3,9 +3,12 @@ package toa.toa;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
@@ -18,7 +21,9 @@ import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import toa.toa.Objects.MrUser;
+import toa.toa.adapters.CollectionPagerAdapter;
 import toa.toa.utils.RestApi;
 
 public class MainActivity extends AppCompatActivity {
@@ -76,31 +81,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LinearLayout comunidades = (LinearLayout) findViewById(R.id.comunidadesDeportivasLayout);
-        LinearLayout nutricion = (LinearLayout) findViewById(R.id.nutricionLayout);
-        LinearLayout noticias = (LinearLayout) findViewById(R.id.noticiasLayout);
-        LinearLayout tienda = (LinearLayout) findViewById(R.id.tiendaLayout);
         final Activity ac = this;
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_main);
+        final TextView name_txtv = (TextView) findViewById(R.id.main_ui_name_txtv);
+        final ImageView pimage_imgv = (ImageView) findViewById(R.id.main_ui_pimage_imv);
 
-      /*  comunidades.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                ComunityFragment fragment = new ComunityFragment();
-                Bundle parametro = new Bundle();
-                parametro.putInt("key", MrUser.get_id());
-                fragment.setArguments(parametro);
-                final FragmentTransaction ft = getFragmentManager()
-                        .beginTransaction();
-                ft.replace(R.id.mainActivityLayout, fragment, "tag");
-                ft.addToBackStack("tag");
-                ft.commit();
-            }
-        });*/
-
-
+        if (Build.VERSION.SDK_INT > 19) {
+            RelativeLayout view = (RelativeLayout) findViewById(R.id.mainActivityLayout);
+            view.setPadding(0, getStatusBarHeight(), 0, getNavigationBarHeight());
+        }
         final Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
         SharedPreferences userDetails = getApplicationContext().getSharedPreferences("u_data", MODE_PRIVATE);
