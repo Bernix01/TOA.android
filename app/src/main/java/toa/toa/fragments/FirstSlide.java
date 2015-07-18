@@ -17,7 +17,7 @@ public class FirstSlide extends Fragment {
 
     private int resID = R.drawable.intro1;
     private int resImgCenter = R.drawable.introicono1;
-    private String msg = getResources().getString(R.string.msg_first_slider);
+    private String msg = "HOla";
     public FirstSlide() {
         // Required empty public constructor
     }
@@ -29,25 +29,12 @@ public class FirstSlide extends Fragment {
      * @return A new instance of fragment FirstSlide.
      */
     public static FirstSlide newInstance(int ResID, int resImgCenter, String msg) {
-        FirstSlide fragment = new FirstSlide();
-        Bundle args = new Bundle();
-        args.putInt("resid", ResID);
-        args.putInt("resImgCenter", resImgCenter);
-        args.putString("mensaje", msg);
-        Log.d("argid", "" + ResID);
-        fragment.setArguments(args);
-        return fragment;
+        return new FirstSlide();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            resID = getArguments().getInt("resid");
-            resImgCenter = getArguments().getInt("resImgCenter");
-            msg = getArguments().getString("mensaje");
-            Log.d("imgID", "" + resID);
-        }
     }
 
     @Override
@@ -60,7 +47,7 @@ public class FirstSlide extends Fragment {
         TextView menssage = (TextView) root.findViewById(R.id.tvMsg);
         imv.setImageResource(resID);
         imgCenter.setImageResource(resImgCenter);
-        menssage.setText(msg);
+        menssage.setText(getResources().getString(R.string.msg_first_slider));
         Log.d("setted", "" + resID);
         return root;
     }
