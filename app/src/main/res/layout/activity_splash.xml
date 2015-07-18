@@ -10,9 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="25dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="40dp"
         android:background="@android:color/transparent"
         android:src="@drawable/logo" />
 
@@ -29,17 +27,20 @@
         android:text="@string/reg_btn"
         android:textAlignment="gravity"
         android:textColor="#ff5f5f5f"
-        android:textSize="25sp" />
+        android:textSize="35sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/login_btn"
-        android:layout_width="125dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentBottom="false"
+        android:layout_below="@+id/register_btn"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="71dp"
+        android:layout_marginTop="50dp"
         android:gravity="center"
         android:text="@string/do_login_btn"
-        android:textSize="16dp" />
+        android:textSize="23sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>
