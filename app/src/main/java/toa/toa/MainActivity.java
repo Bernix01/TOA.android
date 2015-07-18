@@ -3,28 +3,30 @@ package toa.toa;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
+import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
+import com.astuetz.PagerSlidingTabStrip;
+import com.squareup.picasso.Picasso;
 
-import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import toa.toa.Objects.MrUser;
 import toa.toa.adapters.CollectionPagerAdapter;
-import toa.toa.utils.RestApi;
+import toa.toa.utils.SirClass;
+import toa.toa.utils.SirHandler;
 
 public class MainActivity extends AppCompatActivity {
     private static int __n_id;
