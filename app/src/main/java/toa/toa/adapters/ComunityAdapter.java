@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -25,35 +26,31 @@ public class ComunityAdapter extends RecyclerView.Adapter<ComunityAdapter.ViewHo
     private ArrayList<MrComunity> comunities;
     private int itemLayout;
     private Context contexto;
+    private RelativeLayout layoutContainer;
 
     public ComunityAdapter(ArrayList<MrComunity> comunities, int layoutID, Context contexto) {
         this.comunities = comunities;
         this.itemLayout = layoutID;
         this.contexto = contexto;
+        this.layoutContainer = layoutContainer;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //par apoder inflar el objeto
         View v = LayoutInflater.from(parent.getContext()).inflate(itemLayout, parent, false);
+        layoutContainer = (RelativeLayout) parent.findViewById(R.id.my_recycler_comunity_view);
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         MrComunity com = comunities.get(position);
-
         holder.comunityname.setText(com.getComunityName());
-       /* holder.comunityBack.set(com.getComunityBack());
-        holder.comunityImg.setText(com.getComunityImg());*/
-
-        //TODO Investigar como capturar la imagen
-        //TODO  *hacer que trabaje con datos del WS pedir ayuda a Google
-        /*holder.comunityname.setR(com.getComunityName());
-        holder.comunityname.setText(com.getComunityName());*/
         Picasso.with(contexto).load(com.getComunityImg()).into(holder.comunityImg);
         if (!com.getComunityBack().isEmpty())
             Picasso.with(contexto).load(com.getComunityBack()).fit().centerCrop().into(holder.comunityBack);
+
     }
 
     @Override
