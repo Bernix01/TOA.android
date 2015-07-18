@@ -17,7 +17,7 @@ import toa.toa.Objects.MrUser;
 /**
  * Created by programador on 7/17/15.
  */
-public abstract class SirHandler {
+public class SirHandler {
 
     private static MrUser _currentUser;
     private Context mcontext;
@@ -80,7 +80,6 @@ public abstract class SirHandler {
     private void updateRemoteData() {
         Log.d("Final user", _currentUser.toString());
         JSONObject user = new JSONObject();
-
         //RestApi.put("/node/"+MrUser.get_id()+"/properties",_currentUser,new JsonHttpResponseHandler(){});
     }
 
@@ -104,6 +103,8 @@ public abstract class SirHandler {
         }
         return r;
     }
+
+
    /* public void getUserById(int id, ){
 
 
