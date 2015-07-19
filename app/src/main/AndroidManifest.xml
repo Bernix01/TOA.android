@@ -66,7 +66,6 @@
         <activity
             android:name=".LoadingSplash"
             android:label="@string/title_activity_loading_splash" />
-
         <activity
             android:name=".EditProfileActivity"
             android:label="@string/title_activity_edit_profile"
@@ -80,10 +79,10 @@
         <activity
             android:name=".ProfileActivity"
             android:label="@string/title_activity_profile"
-            android:parentActivityName=".Tabtest">
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="toa.toa.Tabtest" />
+                android:value="toa.toa.MainActivity" />
         </activity>
     </application>
 

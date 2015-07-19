@@ -17,7 +17,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gc.materialdesign.views.ButtonFloat;
-import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -64,6 +63,7 @@ public class FirstTime extends AppCompatActivity {
                 a.putExtra("SPorts", adapt.getList());
                 a.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(a);
+                finish();
             }
         });
     }
@@ -128,11 +128,7 @@ public class FirstTime extends AppCompatActivity {
             final MrSport sport = list.get(position);
             holder.opt.setCircleColor(getResources().getColor(R.color.primary));
             holder.opt.setUnCheckColor(getResources().getColor(R.color.primary_dark));
-            ViewGroup.LayoutParams lp = holder.img.getLayoutParams();
-            lp.height = holder.img.getWidth();
-            holder.img.setLayoutParams(lp);
-            holder.title.setText(sport.getName());
-            Picasso.with(getApplicationContext()).load(sport.getImg()).memoryPolicy(MemoryPolicy.NO_CACHE).into(holder.img);
+            Picasso.with(getApplicationContext()).load(sport.getImg()).fit().centerCrop().into(holder.img);
             holder.cnt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -161,7 +157,6 @@ public class FirstTime extends AppCompatActivity {
                 opt = (CheckBox) itemView.findViewById(R.id.option);
                 img = (ImageView) itemView.findViewById(R.id.img_item_preference);
                 cnt = (RelativeLayout) itemView.findViewById(R.id.opt_container);
-                title = (TextView) itemView.findViewById(R.id.title);
             }
         }
     }

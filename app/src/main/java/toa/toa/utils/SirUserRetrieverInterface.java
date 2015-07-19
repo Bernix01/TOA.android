@@ -5,7 +5,7 @@ import toa.toa.Objects.MrUser;
 /**
  * Created by Guillermo on 7/18/2015.
  */
-public interface SirInterface {
+public interface SirUserRetrieverInterface {
 
     void goIt(MrUser user);
 
