@@ -68,7 +68,6 @@ public class ComunityAdapter extends RecyclerView.Adapter<ComunityAdapter.ViewHo
                         contexto.startActivity(sportAtletismo);
                         break;
                 }
-
             }
         });
 
