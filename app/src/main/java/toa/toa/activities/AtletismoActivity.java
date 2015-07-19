@@ -3,13 +3,11 @@ package toa.toa.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.RelativeLayout;
 
 import toa.toa.FirstVisit;
 import toa.toa.R;
@@ -21,10 +19,7 @@ public class AtletismoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_atletismo);
-        if (Build.VERSION.SDK_INT > 19) {
-            RelativeLayout view = (RelativeLayout) findViewById(R.id.mainActivityLayout);
-            view.setPadding(0, getStatusBarHeight(), 0, getNavigationBarHeight());
-        }
+
         final Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         toolbar.getBackground().setAlpha(0);
         setSupportActionBar(toolbar);

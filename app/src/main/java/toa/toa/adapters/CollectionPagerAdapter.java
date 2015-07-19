@@ -37,7 +37,11 @@ public class CollectionPagerAdapter extends FragmentStatePagerAdapter implements
                 fr.setArguments(bundle);
                 return fr;
             case 1:
-                return new NutricionFragment();
+                NutricionFragment frn = new NutricionFragment();
+                Bundle bundlen = new Bundle();
+                bundlen.putInt("id", id);
+                frn.setArguments(bundlen);
+                return frn;
             case 2:
                 return new NoticiasFragment();
         }

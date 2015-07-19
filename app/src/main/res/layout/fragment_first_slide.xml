@@ -9,7 +9,8 @@
         android:id="@+id/imv_intro"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#281f13" />
+        android:background="#281f13"
+        android:scaleType="centerCrop" />
 
     <LinearLayout
         android:layout_width="322dp"
@@ -21,7 +22,8 @@
         <ImageView
             android:id="@+id/ivCenter"
             android:layout_width="150dp"
-            android:layout_height="150dp" />
+            android:layout_height="150dp"
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/tvMsg"

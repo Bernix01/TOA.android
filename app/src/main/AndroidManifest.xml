@@ -27,6 +27,14 @@
                 android:value="toa.toa.Splash_Activity" />
         </activity>
         <activity
+            android:name=".activities.AtletismoActivity"
+            android:label="@string/title_activity_atletismo_sport"
+            android:parentActivityName=".activities.AtletismoActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="toa.toa.Splash_Activity" />
+        </activity>
+        <activity
             android:name=".Splash_Activity"
             android:label="@string/title_activity_splash_" >
         </activity>
@@ -58,9 +66,7 @@
         <activity
             android:name=".LoadingSplash"
             android:label="@string/title_activity_loading_splash" />
-        <activity
-            android:name=".activities.AtletismoActivity"
-            android:label="@string/title_activity_atletismo"></activity>
+
         <activity
             android:name=".EditProfileActivity"
             android:label="@string/title_activity_edit_profile"

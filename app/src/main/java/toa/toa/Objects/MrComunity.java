@@ -7,6 +7,7 @@ package toa.toa.Objects;
  * Hora: 18:33.
  */
 public class MrComunity {
+
     private String comunityName;
     private String comunityImg;
     private String comunityBack;
