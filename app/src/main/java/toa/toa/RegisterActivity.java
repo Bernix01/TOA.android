@@ -172,8 +172,8 @@ public class RegisterActivity extends ActionBarActivity {
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject responseBody) {
                             if (statusCode == 204) {
-                                SharedPreferences.Editor editor = getSharedPreferences("userData", MODE_PRIVATE).edit();
-                                editor.putInt("nid", _id);
+                                SharedPreferences.Editor editor = getSharedPreferences("u_data", MODE_PRIVATE).edit();
+                                editor.putInt("n_id", _id);
                                 editor.apply();
                                 SirHandler handler = new SirHandler(getApplicationContext());
                                 handler.fetchUserData();

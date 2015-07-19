@@ -44,12 +44,14 @@ public class SirHandler {
     }
 
     public void fetchUserData() {
+        Log.i("fetch", "fetch started");
         SharedPreferences userDetails = mcontext.getSharedPreferences("u_data", Context.MODE_PRIVATE);
         final int _id = userDetails.getInt("n_id", -1);
+        Log.i("fetch", "fetching user with id: " + _id);
         getUserById(_id, new SirClass() {
             @Override
             public void goIt(MrUser user) {
-                Toast.makeText(mcontext, "Current updated successfully", Toast.LENGTH_LONG).show();
+                Log.i("fetch", "Current updated successfully");
                 _currentUser = user;
                 registerCurrentUser(_currentUser);
             }
@@ -150,16 +152,17 @@ public class SirHandler {
         editor.putString("email", MrUser.get_email());
         editor.putString("pimage", MrUser.get_pimage());
         editor.apply();
-        Toast.makeText(mcontext, "Shared updated successfully", Toast.LENGTH_LONG).show();
+        Log.i("fetch", "Shared updated successfully");
     }
 
 
     public void getUserById(int id, final SirClass userRetriever) {
-
+        Log.i("getUserById", "start");
         final MrUser user = new MrUser();
         RestApi.get("/node/" + id, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.i("getUserById", "got something");
                 JSONObject data;
                 new JSONObject();
                 try {
@@ -171,9 +174,13 @@ public class SirHandler {
                     MrUser.set_bio(tryGetString(data, "bio"));
                     MrUser.set_gender(tryGetInt(data, "gender"));
                     MrUser.set_pimage(tryGetString(data, "pimageurl"));
+
+                    Log.i("getUserById", "sending");
                     userRetriever.goIt(user);
+                    Log.i("getUserById", "done");
                 } catch (JSONException e) {
                     Toast.makeText(mcontext, "Please connect to a network", Toast.LENGTH_LONG).show();
+                    Log.i("getUserById", "failed");
                     userRetriever.failure("meh");
                     //TODO handle error
                 }
@@ -187,7 +194,8 @@ public class SirHandler {
         });
     }
 
-    public void getCurrentUserSports() {
+    public void gettUserSports(MrUser user) {
+
 
     }
 
