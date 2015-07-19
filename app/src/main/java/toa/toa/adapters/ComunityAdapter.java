@@ -6,11 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -50,21 +48,29 @@ public class ComunityAdapter extends RecyclerView.Adapter<ComunityAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        MrComunity com = comunities.get(position);
+        final MrComunity com = comunities.get(position);
         holder.comunityname.setText(com.getComunityName());
         Picasso.with(contexto).load(com.getComunityImg()).into(holder.comunityImg);
         if (!com.getComunityBack().isEmpty())
             Picasso.with(contexto).load(com.getComunityBack()).fit().centerCrop().into(holder.comunityBack);
 
+        holder.cnt.setOnClickListener(new View.OnClickListener() {
+                                          @Override
+                                          public void onClick(View v) {
+                                              //aquí va todo
+                                              switch (com.getComunityName()) {
+                                                  case "CROSSFIT":
+                                                      Intent sportAtletismo = new Intent(contexto.getApplicationContext(), AtletismoActivity.class);
+                                                      sportAtletismo.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                      contexto.startActivity(sportAtletismo);
+                                                      break;
+                                              }
+                                          }
+                                      }
+        );
         String comunitySelected = com.getComunityName().trim();
         comunitySelected = comunitySelected.toUpperCase();
-        switch (comunitySelected) {
-            case "CROSSFIT":
-                Intent sportAtletismo = new Intent(contexto.getApplicationContext(), AtletismoActivity.class);
-                sportAtletismo.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                contexto.startActivity(sportAtletismo);
-                break;
-        }
+
 
 
 
@@ -75,34 +81,21 @@ public class ComunityAdapter extends RecyclerView.Adapter<ComunityAdapter.ViewHo
         return comunities.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements AdapterView.OnClickListener {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView comunityname;
         public ImageView comunityImg;
         public ImageView comunityBack;
+        public RelativeLayout cnt;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            itemView.setOnClickListener(this);
             comunityname = (TextView) itemView.findViewById(R.id.comunityName);
             comunityBack = (ImageView) itemView.findViewById(R.id.comunity_bck_imv);
             comunityImg = (ImageView) itemView.findViewById(R.id.comunity_image);
+            cnt = (RelativeLayout) itemView.findViewById(R.id.cnt);
         }
 
-        @Override
-        public void onClick(View view) {
-            MrComunity com =???
-            Toast.makeText(view.getContext(), "este evento funciona MS ", Toast.LENGTH_SHORT).show();
-            String comunitySelected = com.getComunityName().trim();
-            comunitySelected = comunitySelected.toUpperCase();
-            switch (comunitySelected) {
-                case "CROSSFIT":
-                    Intent sportAtletismo = new Intent(contexto.getApplicationContext(), AtletismoActivity.class);
-                    sportAtletismo.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    contexto.startActivity(sportAtletismo);
-                    break;
-            }
-        }
     }
 
 }
