@@ -5,7 +5,7 @@ import toa.toa.Objects.MrUser;
 /**
  * Created by Guillermo on 7/18/2015.
  */
-public class SirClass implements SirInterface {
+public class SirUserRetrieverUserRetrieverClass implements SirUserRetrieverInterface {
     @Override
     public void goIt(MrUser user) {
 

@@ -48,7 +48,7 @@ public class SirHandler {
         SharedPreferences userDetails = mcontext.getSharedPreferences("u_data", Context.MODE_PRIVATE);
         final int _id = userDetails.getInt("n_id", -1);
         Log.i("fetch", "fetching user with id: " + _id);
-        getUserById(_id, new SirClass() {
+        getUserById(_id, new SirUserRetrieverUserRetrieverClass() {
             @Override
             public void goIt(MrUser user) {
                 Log.i("fetch", "Current updated successfully");
@@ -156,7 +156,7 @@ public class SirHandler {
     }
 
 
-    public void getUserById(int id, final SirClass userRetriever) {
+    public void getUserById(int id, final SirUserRetrieverUserRetrieverClass userRetriever) {
         Log.i("getUserById", "start");
         final MrUser user = new MrUser();
         RestApi.get("/node/" + id, new RequestParams(), new JsonHttpResponseHandler() {
@@ -194,8 +194,41 @@ public class SirHandler {
         });
     }
 
-    public void gettUserSports(MrUser user) {
+    public void getUserSports(MrUser user, SirSportsListRetriever sportsListRetriever) {
 
+        RestApi.get("/node/" + MrUser.get_id(), new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.i("getUserById", "got something");
+                JSONObject data;
+                new JSONObject();
+                try {
+                    data = response.getJSONObject("data");
+                    MrUser.set_email(tryGetString(data, "email"));
+                    MrUser.set_id(tryGetInt(response.getJSONObject("metadata"), "id"));
+                    MrUser.set_name(tryGetString(data, "name"));
+                    MrUser.set_uname(tryGetString(data, "u_name"));
+                    MrUser.set_bio(tryGetString(data, "bio"));
+                    MrUser.set_gender(tryGetInt(data, "gender"));
+                    MrUser.set_pimage(tryGetString(data, "pimageurl"));
+
+                    Log.i("getUserById", "sending");
+                    //  userRetriever.goIt(user);
+                    Log.i("getUserById", "done");
+                } catch (JSONException e) {
+                    Toast.makeText(mcontext, "Please connect to a network", Toast.LENGTH_LONG).show();
+                    Log.i("getUserById", "failed");
+                    //   userRetriever.failure("meh");
+                    //TODO handle error
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                //TODO handle network error
+            }
+        });
 
     }
 
