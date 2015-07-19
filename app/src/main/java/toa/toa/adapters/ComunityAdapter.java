@@ -50,21 +50,27 @@ public class ComunityAdapter extends RecyclerView.Adapter<ComunityAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        MrComunity com = comunities.get(position);
+        final MrComunity com = comunities.get(position);
         holder.comunityname.setText(com.getComunityName());
         Picasso.with(contexto).load(com.getComunityImg()).into(holder.comunityImg);
         if (!com.getComunityBack().isEmpty())
             Picasso.with(contexto).load(com.getComunityBack()).fit().centerCrop().into(holder.comunityBack);
 
-        String comunitySelected = com.getComunityName().trim();
-        comunitySelected = comunitySelected.toUpperCase();
-        switch (comunitySelected) {
-            case "CROSSFIT":
-                Intent sportAtletismo = new Intent(contexto.getApplicationContext(), AtletismoActivity.class);
-                sportAtletismo.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                contexto.startActivity(sportAtletismo);
-                break;
-        }
+        holder.comunityname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String comunitySelected = com.getComunityName().trim();
+                comunitySelected = comunitySelected.toUpperCase();
+                switch (comunitySelected) {
+                    case "CROSSFIT":
+                        Intent sportAtletismo = new Intent(contexto.getApplicationContext(), AtletismoActivity.class);
+                        sportAtletismo.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        contexto.startActivity(sportAtletismo);
+                        break;
+                }
+
+            }
+        });
 
 
 
@@ -91,17 +97,9 @@ public class ComunityAdapter extends RecyclerView.Adapter<ComunityAdapter.ViewHo
 
         @Override
         public void onClick(View view) {
-            MrComunity com =???
+            //  MrComunity com =???
             Toast.makeText(view.getContext(), "este evento funciona MS ", Toast.LENGTH_SHORT).show();
-            String comunitySelected = com.getComunityName().trim();
-            comunitySelected = comunitySelected.toUpperCase();
-            switch (comunitySelected) {
-                case "CROSSFIT":
-                    Intent sportAtletismo = new Intent(contexto.getApplicationContext(), AtletismoActivity.class);
-                    sportAtletismo.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    contexto.startActivity(sportAtletismo);
-                    break;
-            }
+
         }
     }
 
