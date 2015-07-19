@@ -9,6 +9,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,7 +20,7 @@ import toa.toa.Objects.MrUser;
  */
 public class SirHandler {
 
-    private static MrUser _currentUser;
+    private static MrUser _currentUser = new MrUser();
     private Context mcontext;
 
     /**
@@ -29,29 +30,39 @@ public class SirHandler {
      */
     public SirHandler(Context mcontext) {
         this.mcontext = mcontext;
+        setCurrent();
     }
 
+    private void setCurrent() {
+        SharedPreferences userDetails = mcontext.getSharedPreferences("u_data", Context.MODE_PRIVATE);
+        MrUser.set_id(userDetails.getInt("n_id", -1));
+        MrUser.set_bio(userDetails.getString("bio", ""));
+        MrUser.set_email(userDetails.getString("email", ""));
+        MrUser.set_name(userDetails.getString("name", ""));
+        MrUser.set_uname(userDetails.getString("uname", ""));
+        MrUser.set_pimage(userDetails.getString("pimage", ""));
+    }
 
-    private void fetchUserData() {
+    public void fetchUserData() {
         SharedPreferences userDetails = mcontext.getSharedPreferences("u_data", Context.MODE_PRIVATE);
         final int _id = userDetails.getInt("n_id", -1);
         getUserById(_id, new SirClass() {
             @Override
             public void goIt(MrUser user) {
+                Toast.makeText(mcontext, "Current updated successfully", Toast.LENGTH_LONG).show();
                 _currentUser = user;
+                registerCurrentUser(_currentUser);
             }
 
             @Override
             public void failure(String error) {
                 Log.e("error", error);
-
             }
         });
 
     }
 
     public MrUser getCurrentUser() {
-
         return _currentUser;
     }
 
@@ -59,6 +70,7 @@ public class SirHandler {
         _currentUser = newUser;
         updateRemoteData();
     }
+
 
 
     private void updateRemoteData() {
@@ -107,6 +119,40 @@ public class SirHandler {
         return r;
     }
 
+    public int tryGetInt(JSONArray j, int pos) {
+        int r = -1;
+        try {
+            r = j.getInt(pos);
+        } catch (JSONException e) {
+            Log.e("error", e.getMessage());
+        }
+        return r;
+    }
+
+    public String tryGetString(JSONArray j, int pos) {
+        String r = "";
+        try {
+            r = j.getString(pos);
+        } catch (JSONException e) {
+            Log.e("error", e.getMessage());
+        }
+        return r;
+    }
+
+    public void registerCurrentUser(MrUser user) {
+        SharedPreferences userDetails = mcontext.getSharedPreferences("u_data", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = userDetails.edit();
+        editor.putInt("n_id", MrUser.get_id());
+        editor.putString("name", MrUser.get_name());
+        editor.putString("uname", MrUser.get_uname());
+        editor.putString("bio", MrUser.get_bio());
+        editor.putInt("gender", MrUser.get_gender());
+        editor.putString("email", MrUser.get_email());
+        editor.putString("pimage", MrUser.get_pimage());
+        editor.apply();
+        Toast.makeText(mcontext, "Shared updated successfully", Toast.LENGTH_LONG).show();
+    }
+
 
     public void getUserById(int id, final SirClass userRetriever) {
 
@@ -141,6 +187,8 @@ public class SirHandler {
         });
     }
 
+    public void getCurrentUserSports() {
 
+    }
 
 }

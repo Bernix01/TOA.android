@@ -2,7 +2,6 @@ package toa.toa;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatCallback;
@@ -21,7 +20,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import toa.toa.Objects.MrUser;
 import toa.toa.utils.RestApi;
+import toa.toa.utils.SirHandler;
 
 /**
  * Creado por : elelawliet
@@ -36,33 +37,40 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        // Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
-        // setSupportActionBar(toolbar);
         final MaterialEditText user = (MaterialEditText) findViewById(R.id.user_etxt);
         final MaterialEditText password = (MaterialEditText) findViewById(R.id.pw_etxt);
-        CircularProgressButton sigIn = (CircularProgressButton) findViewById(R.id.bttn_sigIn);
-
+        final CircularProgressButton sigIn = (CircularProgressButton) findViewById(R.id.bttn_sigIn);
+        sigIn.setIndeterminateProgressMode(true);
         sigIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final String _user = Base64.encodeToString((user.getText().toString() + password.getText().toString()).getBytes(), Base64.DEFAULT);
                 if (!isReady(user.getText().toString(), password.getText().toString()))
                     return;
+                sigIn.setProgress(50);
                 JSONObject cmd = new JSONObject();
                 JSONArray statements = new JSONArray();
                 try {
                     JSONObject subcmd = new JSONObject();
-                    subcmd.put("statement", "MATCH (n:user) WHERE n.pw=\"" + _user + "\" RETURN id(n)");
+                    subcmd.put("statement", "MATCH (n:user) WHERE n.pw=\"" + _user + "\" RETURN id(n), n.u_name, n.name, n.bio, n.gender, n.email, n.pimageurl");
                     statements.put(subcmd);
                     cmd.put("statements", statements);
                     RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                             try {
-                                int _id = response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row").getInt(0);
-                                SharedPreferences.Editor editor = getSharedPreferences("u_data", MODE_PRIVATE).edit();
-                                editor.putInt("n_id", _id);
-                                editor.apply();
+                                sigIn.setProgress(100);
+                                SirHandler handler = new SirHandler(getApplicationContext());
+                                JSONArray udata = response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row");
+                                MrUser _cuser = new MrUser();
+                                MrUser.set_id(handler.tryGetInt(udata, 0));
+                                MrUser.set_uname(handler.tryGetString(udata, 1));
+                                MrUser.set_name(handler.tryGetString(udata, 2));
+                                MrUser.set_bio(handler.tryGetString(udata, 3));
+                                MrUser.set_gender(handler.tryGetInt(udata, 4));
+                                MrUser.set_email(handler.tryGetString(udata, 5));
+                                MrUser.set_pimage(handler.tryGetString(udata, 6));
+                                handler.registerCurrentUser(_cuser);
                                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
