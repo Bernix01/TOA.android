@@ -63,9 +63,9 @@ public class NutritionAdapter extends RecyclerView.Adapter<NutritionAdapter.View
 
         public ViewHolder(View itemView) {
             super(itemView);
-            nutritionname = (TextView) itemView.findViewById(R.id.comunityName);
-            nutritionBack = (ImageView) itemView.findViewById(R.id.comunity_bck_imv);
-            nutritionImg = (ImageView) itemView.findViewById(R.id.comunity_image);
+            nutritionname = (TextView) itemView.findViewById(R.id.nutritionSportName);
+            nutritionBack = (ImageView) itemView.findViewById(R.id.nutrition_bck_imv);
+            nutritionImg = (ImageView) itemView.findViewById(R.id.nutrition_image);
         }
     }
 }

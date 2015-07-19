@@ -16,6 +16,30 @@
         android:background="#00ffffff"
         android:minHeight="?android:attr/actionBarSize" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignBottom="@+id/my_awesome_toolbar"
+        android:gravity="right">
+
+        <ImageView
+            android:id="@+id/main_ui_pimage_imv"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@+id/main_ui_name_txtv" />
+
+        <TextView
+            android:id="@+id/main_ui_name_txtv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="3dp"
+            android:text="Wilmer Vera"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
     <ImageView
         android:id="@+id/imageView9"
         android:layout_width="100dp"
@@ -47,15 +71,15 @@
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/pager"
+        android:id="@+id/pagerAtletismo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/tabs" />
+        android:layout_below="@+id/tabsAtletismo" />
 
     <com.astuetz.PagerSlidingTabStrip
-        android:id="@+id/tabs"
+        android:id="@+id/tabsAtletismo"
         android:layout_width="fill_parent"
         android:layout_height="60dip"
         android:layout_alignParentEnd="true"

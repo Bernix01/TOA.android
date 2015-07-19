@@ -18,7 +18,7 @@ import toa.toa.fragments.NutricionFragment;
 public class CollectionPagerAtletismoAdapter extends FragmentStatePagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
 
     private final int[] iconsTOA = {R.drawable.triatlontab, R.drawable.nutriciontab, R.drawable.noticiastab};
-    private String[] titles = {"Deportes", "Nutrición", "Noticias"};
+    private String[] titles = {"Comunidades", "bllablabla", "balblalbalba"};
     private int id;
 
     public CollectionPagerAtletismoAdapter(FragmentManager fm, int id) {

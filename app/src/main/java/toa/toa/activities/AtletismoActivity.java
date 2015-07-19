@@ -4,23 +4,41 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.astuetz.PagerSlidingTabStrip;
+import com.squareup.picasso.Picasso;
+
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import toa.toa.FirstVisit;
+import toa.toa.Objects.MrUser;
+import toa.toa.ProfileActivity;
 import toa.toa.R;
+import toa.toa.adapters.CollectionPagerAtletismoAdapter;
+import toa.toa.utils.SirClass;
+import toa.toa.utils.SirHandler;
 
 public class AtletismoActivity extends AppCompatActivity {
     private static int __n_id;
+    private MrUser __user = new MrUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_atletismo);
+        final TextView name_txtv = (TextView) findViewById(R.id.main_ui_name_txtv);
+        final ImageView pimage_imgv = (ImageView) findViewById(R.id.main_ui_pimage_imv);
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
+
         toolbar.getBackground().setAlpha(0);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
@@ -34,6 +52,36 @@ public class AtletismoActivity extends AppCompatActivity {
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(false);
+        SirHandler handler = new SirHandler(getApplicationContext());
+        handler.getUserById(__n_id, new SirClass() {
+            @Override
+            public void goIt(MrUser user) {
+                __user = user;
+                ViewPager pager = (ViewPager) findViewById(R.id.pagerAtletismo);
+                pager.setAdapter(new CollectionPagerAtletismoAdapter(getSupportFragmentManager(), MrUser.get_id()));
+                PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabsAtletismo);
+                tabs.setViewPager(pager);
+                name_txtv.setText(MrUser.get_uname());
+                name_txtv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+                        i.putExtra("user", __user);
+                        startActivity(i);
+                    }
+                });
+                if (!MrUser.get_pimage().isEmpty()) {
+                    Picasso.with(getApplicationContext()).load(MrUser.get_pimage()).transform(new CropCircleTransformation()).into(pimage_imgv);
+                } else {
+                    Picasso.with(getApplicationContext()).load(R.drawable.defaultpimage).transform(new CropCircleTransformation()).into(pimage_imgv);
+                }
+            }
+
+            @Override
+            public void failure(String error) {
+                Log.e("error", error);
+            }
+        });
     }
 
     private int getId() {
