@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //handle the click on the back arrow click
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
@@ -67,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        //add the values which need to be saved from the drawer to the bundle
         super.onSaveInstanceState(outState);
     }
 
@@ -113,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
                         i.putExtra("user", __user);
+                        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(i);
                     }
                 });
@@ -121,32 +120,6 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     Picasso.with(getApplicationContext()).load(R.drawable.defaultpimage).transform(new CropCircleTransformation()).into(pimage_imgv);
                 }
-
-       /* RestApi.get("/node/" + getId(), new RequestParams(), new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                JSONObject data = new JSONObject();
-                try {
-                    data = response.getJSONObject("data");
-                    MrUser.set_email(tryGetString(data, "email"));
-                    MrUser.set_id(tryGetInt(response.getJSONObject("metadata"), "id"));
-                    MrUser.set_name(tryGetString(data, "name"));
-                    MrUser.set_uname(tryGetString(data, "u_name"));
-                    MrUser.set_bio(tryGetString(data, "bio"));
-                    MrUser.set_gender(tryGetInt(data, "gender"));
-                } catch (JSONException e) {
-                    Toast.makeText(getApplicationContext(), "Please connect to a network", Toast.LENGTH_LONG).show();
-                    finish();
-                }
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-            }
-        });*/
-
     }
 
     public int getStatusBarHeight() {

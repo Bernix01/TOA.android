@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -14,9 +15,15 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 import jp.wasabeef.picasso.transformations.BlurTransformation;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+import toa.toa.Objects.MrComunity;
 import toa.toa.Objects.MrUser;
+import toa.toa.adapters.ProfileSportsAdapter;
+import toa.toa.utils.SirHandler;
+import toa.toa.utils.SirSportsListRetriever;
 
 public class ProfileActivity extends AppCompatActivity {
     ImageView bg;
@@ -43,7 +50,8 @@ public class ProfileActivity extends AppCompatActivity {
         TextView bio = (TextView) findViewById(R.id.profle_bio_txtv);
         ImageView pic = (ImageView) findViewById(R.id.profile_person_imgv);
         bg = (ImageView) findViewById(R.id.profile_bg_imgv);
-        RecyclerView sports = (RecyclerView) findViewById(R.id.profile_sports_recycler);
+        final RecyclerView sportsrecycler = (RecyclerView) findViewById(R.id.profile_sports_recycler);
+        sportsrecycler.setHasFixedSize(true);
         if (!MrUser.get_pimage().isEmpty()) {
             Picasso.with(getApplicationContext()).load(MrUser.get_pimage()).transform(new CropCircleTransformation()).into(pic);
         } else {
@@ -53,6 +61,20 @@ public class ProfileActivity extends AppCompatActivity {
         bio.setText(MrUser.get_bio());
 
         Picasso.with(getApplicationContext()).load("http://www.resortvillarosa.it/img/top/sport1.jpg").fit().centerCrop().transform(new BlurTransformation(getApplicationContext(), 15)).into(bg);
+        SirHandler handler = new SirHandler(getApplicationContext());
+        handler.getUserSports(_user, new SirSportsListRetriever() {
+            @Override
+            public void goIt(ArrayList<MrComunity> sports) {
+                ProfileSportsAdapter adapter = new ProfileSportsAdapter(sports, getApplicationContext());
+                sportsrecycler.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void failure(String error) {
+                Log.e("profile_sports_error", error);
+            }
+        });
     }
 
     public int getStatusBarHeight() {
