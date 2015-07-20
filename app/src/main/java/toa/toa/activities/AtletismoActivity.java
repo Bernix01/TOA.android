@@ -1,3 +1,7 @@
+/*
+ * Copyright TOA Inc. 2015.
+ */
+
 package toa.toa.activities;
 
 import android.content.Intent;
@@ -23,8 +27,8 @@ import toa.toa.Objects.MrUser;
 import toa.toa.ProfileActivity;
 import toa.toa.R;
 import toa.toa.adapters.CollectionPagerAtletismoAdapter;
-import toa.toa.utils.SirHandler;
-import toa.toa.utils.SirUserRetrieverUserRetrieverClass;
+import toa.toa.utils.TOA.SirHandler;
+import toa.toa.utils.TOA.SirUserRetrieverClass;
 
 public class AtletismoActivity extends AppCompatActivity {
     private static int __n_id;
@@ -53,7 +57,7 @@ public class AtletismoActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(false);
         SirHandler handler = new SirHandler(getApplicationContext());
-        handler.getUserById(__n_id, new SirUserRetrieverUserRetrieverClass() {
+        handler.getUserById(__n_id, new SirUserRetrieverClass() {
             @Override
             public void goIt(MrUser user) {
                 __user = user;

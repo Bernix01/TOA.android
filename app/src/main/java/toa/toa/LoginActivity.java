@@ -1,3 +1,7 @@
+/*
+ * Copyright TOA Inc. 2015.
+ */
+
 package toa.toa;
 
 import android.app.Activity;
@@ -22,7 +26,7 @@ import org.json.JSONObject;
 
 import toa.toa.Objects.MrUser;
 import toa.toa.utils.RestApi;
-import toa.toa.utils.SirHandler;
+import toa.toa.utils.TOA.SirHandler;
 
 /**
  * Creado por : elelawliet

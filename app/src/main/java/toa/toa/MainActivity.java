@@ -28,7 +28,7 @@ import org.json.JSONObject;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import toa.toa.Objects.MrUser;
 import toa.toa.adapters.CollectionPagerAdapter;
-import toa.toa.utils.SirHandler;
+import toa.toa.utils.TOA.SirHandler;
 
 public class MainActivity extends AppCompatActivity {
     private MrUser __user = new MrUser();

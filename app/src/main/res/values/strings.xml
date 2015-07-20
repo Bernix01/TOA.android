@@ -57,5 +57,6 @@
         <item>Masculino</item>
         <item>Femenino</item>
     </string-array>
+    <string name="title_activity_friends">FriendsActivity</string>
 
 </resources>

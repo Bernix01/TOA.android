@@ -27,9 +27,9 @@ import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import toa.toa.Objects.MrComunity;
 import toa.toa.Objects.MrUser;
 import toa.toa.adapters.ProfileSportsAdapter;
-import toa.toa.utils.SimpleCallbackClass;
-import toa.toa.utils.SirHandler;
-import toa.toa.utils.SirSportsListRetriever;
+import toa.toa.utils.TOA.SimpleCallbackClass;
+import toa.toa.utils.TOA.SirHandler;
+import toa.toa.utils.TOA.SirSportsListRetriever;
 
 public class ProfileActivity extends AppCompatActivity {
     ImageView bg;

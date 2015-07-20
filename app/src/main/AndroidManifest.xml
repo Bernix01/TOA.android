@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright TOA Inc. 2015.
+  -->
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="toa.toa">
 
@@ -74,8 +78,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="toa.toa.ProfileActivity" />
         </activity>
-
-
         <activity
             android:name=".ProfileActivity"
             android:label="@string/title_activity_profile"
@@ -83,6 +85,14 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="toa.toa.MainActivity" />
+        </activity>
+        <activity
+            android:name=".FriendsActivity"
+            android:label="@string/title_activity_friends"
+            android:parentActivityName=".ProfileActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="toa.toa.ProfileActivity" />
         </activity>
     </application>
 

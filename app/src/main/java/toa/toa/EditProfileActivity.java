@@ -24,7 +24,7 @@ import com.squareup.picasso.Picasso;
 
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import toa.toa.Objects.MrUser;
-import toa.toa.utils.SirHandler;
+import toa.toa.utils.TOA.SirHandler;
 
 public class EditProfileActivity extends AppCompatActivity {
 

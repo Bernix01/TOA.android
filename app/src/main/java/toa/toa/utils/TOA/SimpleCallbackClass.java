@@ -2,7 +2,7 @@
  * Copyright TOA Inc. 2015.
  */
 
-package toa.toa.utils;
+package toa.toa.utils.TOA;
 
 /**
  * Created by programador on 7/20/15.

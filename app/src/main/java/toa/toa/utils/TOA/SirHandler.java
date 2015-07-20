@@ -2,7 +2,7 @@
  * Copyright TOA Inc. 2015.
  */
 
-package toa.toa.utils;
+package toa.toa.utils.TOA;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import toa.toa.Objects.MrComunity;
 import toa.toa.Objects.MrUser;
+import toa.toa.utils.RestApi;
 
 /**
  * Created by programador on 7/17/15.
@@ -55,7 +56,7 @@ public class SirHandler {
         SharedPreferences userDetails = mcontext.getSharedPreferences("u_data", Context.MODE_PRIVATE);
         final int _id = userDetails.getInt("n_id", -1);
         Log.i("fetch", "fetching user with id: " + _id);
-        getUserById(_id, new SirUserRetrieverUserRetrieverClass() {
+        getUserById(_id, new SirUserRetrieverClass() {
             @Override
             public void goIt(MrUser user) {
                 Log.i("fetch", "Current updated successfully");
@@ -159,7 +160,7 @@ public class SirHandler {
         Log.i("fetch", "Shared updated successfully");
     }
 
-    public void getUserById(int id, final SirUserRetrieverUserRetrieverClass userRetriever) {
+    public void getUserById(int id, final SirUserRetrieverClass userRetriever) {
         Log.i("getUserById", "start");
         final MrUser user = new MrUser();
         RestApi.get("/node/" + id, new RequestParams(), new JsonHttpResponseHandler() {
@@ -243,6 +244,56 @@ public class SirHandler {
         editor.clear();
         editor.apply();
         callback.goIt();
+    }
+
+    public void getUserFriends(MrUser user, final SirFriendsRetriever retriever) {
+
+        JSONObject cmd = new JSONObject();
+        JSONArray cmds = new JSONArray();
+        JSONObject subcmd = new JSONObject();
+        try {
+            subcmd.put("statement", "MATCH (a:user)-[r:Follows]-(n:user) WHERE id(a)=" + MrUser.get_id() + " return n");
+            cmds.put(subcmd);
+            cmd.put("statements", cmds);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                ArrayList<MrUser> friends = new ArrayList<MrUser>();
+                Log.e("response", response.toString());
+                try {
+                    JSONArray data = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
+                    Log.e("respuesta", response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row").toString());
+                    int datos = data.length();
+                    for (int i = 0; i < datos; i++) {
+                        JSONObject udata = data.getJSONObject(i).getJSONArray("row").getJSONObject(0);
+                        MrUser temp = new MrUser();
+                        MrUser.set_email(tryGetString(udata, "email"));
+                        MrUser.set_id(tryGetInt(response.getJSONObject("metadata"), "id"));
+                        MrUser.set_name(tryGetString(udata, "name"));
+                        MrUser.set_uname(tryGetString(udata, "u_name"));
+                        MrUser.set_bio(tryGetString(udata, "bio"));
+                        MrUser.set_gender(tryGetInt(udata, "gender"));
+                        MrUser.set_pimage(tryGetString(udata, "pimageurl"));
+                        friends.add(temp);
+                    }
+                    retriever.goIt(friends);
+
+                } catch (JSONException e) {
+                    Log.e("exception", e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.e("error", "code: " + statusCode + " " + throwable.toString());
+                retriever.failure(throwable.toString());
+            }
+        });
     }
 
 
