@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import toa.toa.R;
 
@@ -15,6 +16,7 @@ import toa.toa.R;
 public class ThirdSlide extends Fragment {
 
     private int resID = R.drawable.intro3;
+    private int resImgCenter = R.drawable.introicono3;
 
     public ThirdSlide() {
         // Required empty public constructor
@@ -27,22 +29,13 @@ public class ThirdSlide extends Fragment {
      * @param ResID image.
      * @return A new instance of fragment FirstSlide.
      */
-    public static ThirdSlide newInstance(int ResID) {
-        ThirdSlide fragment = new ThirdSlide();
-        Bundle args = new Bundle();
-        args.putInt("resid", ResID);
-        Log.d("argid", "" + ResID);
-        fragment.setArguments(args);
-        return fragment;
+    public static ThirdSlide newInstance(int ResID, int resImgCenter, String msg) {
+        return new ThirdSlide();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            resID = getArguments().getInt("resid");
-            Log.d("imgID", "" + resID);
-        }
     }
 
     @Override
@@ -51,7 +44,11 @@ public class ThirdSlide extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_first_slide, container, false);
         ImageView imv = (ImageView) root.findViewById(R.id.imv_intro);
+        ImageView imgCenter = (ImageView) root.findViewById(R.id.ivCenter);
+        TextView menssage = (TextView) root.findViewById(R.id.tvMsg);
         imv.setImageResource(resID);
+        imgCenter.setImageResource(resImgCenter);
+        menssage.setText(getResources().getString(R.string.msg_third_slider));
         Log.d("setted", "" + resID);
         return root;
     }

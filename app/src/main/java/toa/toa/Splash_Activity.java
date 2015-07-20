@@ -8,8 +8,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.RelativeLayout;
-
-import com.gc.materialdesign.views.ButtonRectangle;
+import android.widget.TextView;
 
 public class Splash_Activity extends Activity {
 
@@ -20,11 +19,13 @@ public class Splash_Activity extends Activity {
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         ClearTextView register_btn = (ClearTextView) findViewById(R.id.register_btn);
-        ButtonRectangle login_btn = (ButtonRectangle) findViewById(R.id.login_btn);
+        TextView login_btn = (TextView) findViewById(R.id.login_btn);
         register_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),RegisterActivity.class));
+                Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(i);
             }
         });
         if(Build.VERSION.SDK_INT > 19 ){
@@ -35,7 +36,9 @@ public class Splash_Activity extends Activity {
         login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(i);
             }
         });
 

@@ -28,6 +28,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 
 import toa.toa.utils.RestApi;
+import toa.toa.utils.SirHandler;
 
 
 public class RegisterActivity extends ActionBarActivity {
@@ -171,10 +172,11 @@ public class RegisterActivity extends ActionBarActivity {
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject responseBody) {
                             if (statusCode == 204) {
-                                SharedPreferences.Editor editor = getSharedPreferences("userData", MODE_PRIVATE).edit();
-                                editor.putString("name", name.toString());
-                                editor.putInt("nid", _id);
+                                SharedPreferences.Editor editor = getSharedPreferences("u_data", MODE_PRIVATE).edit();
+                                editor.putInt("n_id", _id);
                                 editor.apply();
+                                SirHandler handler = new SirHandler(getApplicationContext());
+                                handler.fetchUserData();
                                 btn.setProgress(100);
                                 Intent i = new Intent(getApplicationContext(), FirstTime.class);
                                 i.putExtra("nid", _id);

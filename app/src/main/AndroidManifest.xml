@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".Tabtest"
+            android:name=".MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,6 +22,14 @@
             android:name=".RegisterActivity"
             android:label="@string/title_activity_register"
             android:parentActivityName=".Splash_Activity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="toa.toa.Splash_Activity" />
+        </activity>
+        <activity
+            android:name=".activities.AtletismoActivity"
+            android:label="@string/title_activity_atletismo_sport"
+            android:parentActivityName=".activities.AtletismoActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="toa.toa.Splash_Activity" />
@@ -57,7 +65,7 @@
         </activity>
         <activity
             android:name=".LoadingSplash"
-            android:label="@string/title_activity_loading_splash"></activity>
+            android:label="@string/title_activity_loading_splash" />
         <activity
             android:name=".EditProfileActivity"
             android:label="@string/title_activity_edit_profile"
@@ -71,10 +79,10 @@
         <activity
             android:name=".ProfileActivity"
             android:label="@string/title_activity_profile"
-            android:parentActivityName=".Tabtest">
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="toa.toa.Tabtest" />
+                android:value="toa.toa.MainActivity" />
         </activity>
     </application>
 

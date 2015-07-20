@@ -8,12 +8,13 @@
     <string name="title_activity_comunity_template">comunity_template</string>
     <string name="title_activity_register">Registrarse</string>
     <string name="title_activity_splash_">Splash_Activity</string>
+    <string name="title_activity_atletismo_sport">Atletismo_Activity</string>
 
     <string name="login">Inciar Sesión</string>
     <string name="continuestr_welcome">Desliza para continuar</string>
     <string name="tittle_lost_password">Olvidaste la contraseña?</string>
-    <string name="do_login_btn">Iniciar sesión</string>
-    <string name="password_txt">Contraseña:</string>
+    <string name="do_login_btn">INICIAR SESION</string>
+    <string name="password_txt">Contraseña</string>
     <string name="email_txt">E-mail:</string>
     <string name="register_header_sports">Escoge tus deportes…</string>
     <string name="facebook_app_id">1415601225409930</string>
@@ -24,7 +25,7 @@
     <string name="reg_contrasena_etxt">Contraseña</string>
     <string name="reg_usuario_etxt">Usuario</string>
     <string name="reg_nombre_etxt">Nombre</string>
-    <string name="reg_btn">Regístrate</string>
+    <string name="reg_btn">REGISTRATE</string>
     <string name="title_activity_first_visit">FirstVisit</string>
     <string name="title_activity_first_time">FirstTime</string>
     <string name="title_activity_loading_splash">LoadingSplash</string>
@@ -35,10 +36,16 @@
     <string name="news">Noticias</string>
     <string name="store">Tienda</string>
 
+    <string name="msg_first_slider">Conoce y forma parte de las comunidades deportivas de tu ciudad.</string>
+    <string name="msg_second_slider">Completa tu entrenamiento con los mejores consejos nutricionales y de salud.</string>
+    <string name="msg_third_slider">Enterate de las ultimas noticias deportivas.</string>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_activity_profile">Perfil</string>
+    <string name="title_activity_atletismo">AtletismoActivity</string>
 
 
 </resources>
