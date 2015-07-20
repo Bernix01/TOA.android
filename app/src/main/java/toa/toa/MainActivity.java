@@ -50,8 +50,6 @@ public class MainActivity extends AppCompatActivity {
         return r;
     }
 
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //handle the click on the back arrow click

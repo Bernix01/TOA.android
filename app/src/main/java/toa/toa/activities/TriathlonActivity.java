@@ -2,7 +2,6 @@ package toa.toa.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -22,21 +21,20 @@ import toa.toa.FirstVisit;
 import toa.toa.Objects.MrUser;
 import toa.toa.ProfileActivity;
 import toa.toa.R;
-import toa.toa.adapters.CollectionPagerAtletismoAdapter;
+import toa.toa.adapters.CollectionPagerTriathlonAdapter;
 import toa.toa.utils.SirHandler;
 import toa.toa.utils.SirUserRetrieverUserRetrieverClass;
 
-public class AtletismoActivity extends AppCompatActivity {
+public class TriathlonActivity extends AppCompatActivity {
     private static int __n_id;
     private MrUser __user = new MrUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_atletismo);
+        setContentView(R.layout.activity_triathlon);
         final TextView name_txtv = (TextView) findViewById(R.id.main_ui_name_txtv);
         final ImageView pimage_imgv = (ImageView) findViewById(R.id.main_ui_pimage_imv);
-
         final Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
 
         toolbar.getBackground().setAlpha(0);
@@ -57,9 +55,9 @@ public class AtletismoActivity extends AppCompatActivity {
             @Override
             public void goIt(MrUser user) {
                 __user = user;
-                ViewPager pager = (ViewPager) findViewById(R.id.pagerAtletismo);
-                pager.setAdapter(new CollectionPagerAtletismoAdapter(getSupportFragmentManager(), MrUser.get_id()));
-                PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabsAtletismo);
+                ViewPager pager = (ViewPager) findViewById(R.id.pagerTriathlon);
+                pager.setAdapter(new CollectionPagerTriathlonAdapter(getSupportFragmentManager(), MrUser.get_id()));
+                PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabsTriathlon);
                 tabs.setViewPager(pager);
                 name_txtv.setText(MrUser.get_uname());
                 name_txtv.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +80,8 @@ public class AtletismoActivity extends AppCompatActivity {
                 Log.e("error", error);
             }
         });
+
+
     }
 
     private int getId() {
@@ -92,28 +92,10 @@ public class AtletismoActivity extends AppCompatActivity {
         __n_id = id;
     }
 
-    public int getStatusBarHeight() {
-        int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
-    }
-
-    public int getNavigationBarHeight() {
-        Resources resources = getApplicationContext().getResources();
-        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            return resources.getDimensionPixelSize(resourceId);
-        }
-        return 0;
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_atletismo, menu);
+        getMenuInflater().inflate(R.menu.menu_running, menu);
         return true;
     }
 

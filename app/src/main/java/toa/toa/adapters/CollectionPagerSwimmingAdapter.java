@@ -15,13 +15,13 @@ import toa.toa.fragments.NutricionFragment;
 /**
  * Created by Junior on 11/07/2015.
  */
-public class CollectionPagerAtletismoAdapter extends FragmentStatePagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
+public class CollectionPagerSwimmingAdapter extends FragmentStatePagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
 
     private final int[] iconsTOA = {R.drawable.triatlontab, R.drawable.nutriciontab, R.drawable.noticiastab};
     private String[] titles = {"Comunidades", "bllablabla", "balblalbalba"};
     private int id;
 
-    public CollectionPagerAtletismoAdapter(FragmentManager fm, int id) {
+    public CollectionPagerSwimmingAdapter(FragmentManager fm, int id) {
         super(fm);
         Log.e("id", id + "");
         this.id = id;

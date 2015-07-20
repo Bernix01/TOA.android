@@ -16,7 +16,12 @@ import java.util.ArrayList;
 
 import toa.toa.Objects.MrComunity;
 import toa.toa.R;
-import toa.toa.activities.AtletismoActivity;
+import toa.toa.activities.CrossFitActivity;
+import toa.toa.activities.CyclingActivity;
+import toa.toa.activities.FootballActivity;
+import toa.toa.activities.RunningActivity;
+import toa.toa.activities.SwimmingActivity;
+import toa.toa.activities.TriathlonActivity;
 
 /**
  * Creado por : lawliet
@@ -61,9 +66,38 @@ public class ComunityAdapter extends RecyclerView.Adapter<ComunityAdapter.ViewHo
                 comunitySelected = comunitySelected.toUpperCase();
                 switch (comunitySelected) {
                     case "CROSSFIT":
-                        Intent sportAtletismo = new Intent(contexto.getApplicationContext(), AtletismoActivity.class);
-                        sportAtletismo.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        contexto.startActivity(sportAtletismo);
+                        Intent sportCrossfit = new Intent(contexto.getApplicationContext(), CrossFitActivity.class);
+                        sportCrossfit.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                        contexto.startActivity(sportCrossfit);
+                        break;
+                    case "RUNNING":
+                        Intent sportRunning = new Intent(contexto.getApplicationContext(), RunningActivity.class);
+                        sportRunning.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        contexto.startActivity(sportRunning);
+                        break;
+
+                    case "FÚTBOL":
+                        Intent sportFootbol = new Intent(contexto.getApplicationContext(), FootballActivity.class);
+                        sportFootbol.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        contexto.startActivity(sportFootbol);
+                        break;
+                    case "NATACIÓN":
+                        Intent sportSwimming = new Intent(contexto.getApplicationContext(), SwimmingActivity.class);
+                        sportSwimming.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        contexto.startActivity(sportSwimming);
+                        break;
+
+                    case "CICLISMO":
+                        Intent sportCycling = new Intent(contexto.getApplicationContext(), CyclingActivity.class);
+                        sportCycling.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                        contexto.startActivity(sportCycling);
+                        break;
+                    case "TRIATLÓN":
+                        Intent sportTriathlon = new Intent(contexto.getApplicationContext(), TriathlonActivity.class);
+                        sportTriathlon.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        contexto.startActivity(sportTriathlon);
                         break;
                 }
             }

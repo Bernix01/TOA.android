@@ -26,14 +26,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="toa.toa.Splash_Activity" />
         </activity>
-        <activity
-            android:name=".activities.AtletismoActivity"
-            android:label="@string/title_activity_atletismo_sport"
-            android:parentActivityName=".activities.AtletismoActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="toa.toa.Splash_Activity" />
-        </activity>
+
         <activity
             android:name=".Splash_Activity"
             android:label="@string/title_activity_splash_" >
@@ -74,8 +67,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="toa.toa.ProfileActivity" />
         </activity>
-
-
         <activity
             android:name=".ProfileActivity"
             android:label="@string/title_activity_profile"
@@ -83,6 +74,30 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="toa.toa.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.RunningActivity"
+            android:label="@string/title_activity_running">
+        </activity>
+        <activity
+            android:name=".activities.CyclingActivity"
+            android:label="@string/title_activity_cycling"></activity>
+        <activity
+            android:name=".activities.FootballActivity"
+            android:label="@string/title_activity_footbal"></activity>
+        <activity
+            android:name=".activities.SwimmingActivity"
+            android:label="@string/title_activity_swimming"></activity>
+        <activity
+            android:name=".activities.TriathlonActivity"
+            android:label="@string/title_activity_triathlon"></activity>
+        <activity
+            android:name=".activities.CrossFitActivity"
+            android:label="@string/title_activity_atletismo_sport"
+            android:parentActivityName=".activities.CrossFitActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="toa.toa.Splash_Activity" />
         </activity>
     </application>
 
