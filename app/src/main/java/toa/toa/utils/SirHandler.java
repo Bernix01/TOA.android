@@ -13,6 +13,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
+import toa.toa.Objects.MrComunity;
 import toa.toa.Objects.MrUser;
 
 /**
@@ -73,8 +76,6 @@ public class SirHandler {
         updateRemoteData();
     }
 
-
-
     private void updateRemoteData() {
         JSONObject user = new JSONObject();
         try {
@@ -99,7 +100,6 @@ public class SirHandler {
             }
         });
     }
-
 
     public int tryGetInt(JSONObject j, String name) {
         int r = -1;
@@ -155,7 +155,6 @@ public class SirHandler {
         Log.i("fetch", "Shared updated successfully");
     }
 
-
     public void getUserById(int id, final SirUserRetrieverUserRetrieverClass userRetriever) {
         Log.i("getUserById", "start");
         final MrUser user = new MrUser();
@@ -194,39 +193,41 @@ public class SirHandler {
         });
     }
 
-    public void getUserSports(MrUser user, SirSportsListRetriever sportsListRetriever) {
+    public void getUserSports(MrUser user, final SirSportsListRetriever sportsListRetriever) {
+        JSONObject cmd = new JSONObject();
+        JSONArray cmds = new JSONArray();
+        JSONObject subcmd = new JSONObject();
+        try {
+            subcmd.put("statement", "MATCH (a:user)-[r:Likes]-(n:Sport) WHERE id(a)=" + MrUser.get_id() + " return n.name, n.icnurl, n.bgurl");
+            cmds.put(subcmd);
+            cmd.put("statements", cmds);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        RestApi.get("/node/" + MrUser.get_id(), new RequestParams(), new JsonHttpResponseHandler() {
+        RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.i("getUserById", "got something");
-                JSONObject data;
-                new JSONObject();
+                ArrayList<MrComunity> sports = new ArrayList<MrComunity>();
+                Log.e("response", response.toString());
                 try {
-                    data = response.getJSONObject("data");
-                    MrUser.set_email(tryGetString(data, "email"));
-                    MrUser.set_id(tryGetInt(response.getJSONObject("metadata"), "id"));
-                    MrUser.set_name(tryGetString(data, "name"));
-                    MrUser.set_uname(tryGetString(data, "u_name"));
-                    MrUser.set_bio(tryGetString(data, "bio"));
-                    MrUser.set_gender(tryGetInt(data, "gender"));
-                    MrUser.set_pimage(tryGetString(data, "pimageurl"));
+                    JSONArray data = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
+                    Log.e("respuesta", response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row").toString());
+                    int datos = data.length();
+                    for (int i = 0; i < datos; i++)
+                        sports.add(new MrComunity(data.getJSONObject(i).getJSONArray("row").getString(0), data.getJSONObject(i).getJSONArray("row").getString(1), data.getJSONObject(i).getJSONArray("row").getString(2)));
+                    sportsListRetriever.goIt(sports);
 
-                    Log.i("getUserById", "sending");
-                    //  userRetriever.goIt(user);
-                    Log.i("getUserById", "done");
                 } catch (JSONException e) {
-                    Toast.makeText(mcontext, "Please connect to a network", Toast.LENGTH_LONG).show();
-                    Log.i("getUserById", "failed");
-                    //   userRetriever.failure("meh");
-                    //TODO handle error
+                    Log.e("exception", e.getMessage());
                 }
-
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                //TODO handle network error
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.e("error", "code: " + statusCode + " " + throwable.toString());
+                sportsListRetriever.failure(throwable.toString());
             }
         });
 
