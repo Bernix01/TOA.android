@@ -111,6 +111,7 @@ public class EditProfileActivity extends AppCompatActivity {
         if (id == R.id.action_editprof_done) {
             do_the_thing();
             handler.updateUserAsync(_cuser);
+            finish();
             return true;
         }
 
@@ -121,6 +122,7 @@ public class EditProfileActivity extends AppCompatActivity {
         MrUser.set_age(Integer.parseInt(age.getText().toString()));
         MrUser.set_bio(bio.getText().toString());
         MrUser.set_name(name.getText().toString());
+        MrUser.set_email(email.getText().toString());
     }
 
     public int getStatusBarHeight() {
