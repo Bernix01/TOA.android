@@ -1,3 +1,7 @@
+/*
+ * Copyright TOA Inc. 2015.
+ */
+
 package toa.toa;
 
 import android.content.Intent;
@@ -70,7 +74,7 @@ public class LoadingSplash extends AppCompatActivity {
             if (bar.getIsChecked()) {
                 JSONObject foo = new JSONObject();
                 try {
-                    foo.put("statement", "MATCH (a:user),(b:Sport) WHERE id(a)=" + id + " AND b.name =\"" + bar.getName() + "\" Create (a)-[r:Likes]->(b)");
+                    foo.put("statement", "MATCH (a:user),(b:Sport {name:\"" + bar.getName() + "\"}) WHERE id(a)=" + id + " Create (a)-[r:Likes]->(b)");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -1,5 +1,10 @@
+/*
+ * Copyright TOA Inc. 2015.
+ */
+
 package toa.toa;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,6 +27,7 @@ import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import toa.toa.Objects.MrComunity;
 import toa.toa.Objects.MrUser;
 import toa.toa.adapters.ProfileSportsAdapter;
+import toa.toa.utils.SimpleCallbackClass;
 import toa.toa.utils.SirHandler;
 import toa.toa.utils.SirSportsListRetriever;
 
@@ -102,16 +108,26 @@ public class ProfileActivity extends AppCompatActivity {
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.prof_action_edit:
+                startActivity(new Intent(getApplicationContext(), EditProfileActivity.class));
+                return true;
+            case R.id.prof_action_logout:
+                SirHandler handler = new SirHandler(getApplicationContext());
+                handler.logout(new SimpleCallbackClass() {
+                    @Override
+                    public void goIt() {
+                        Intent i = new Intent(getApplicationContext(), Splash_Activity.class);
+                        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(i);
+                        finish();
+                    }
+                });
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 }

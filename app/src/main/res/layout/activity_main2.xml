@@ -1,3 +1,7 @@
+<!--
+  ~ Copyright TOA Inc. 2015.
+  -->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
@@ -79,7 +83,7 @@
                     android:src="@drawable/nutricion" />
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/editProf_name_txtv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"

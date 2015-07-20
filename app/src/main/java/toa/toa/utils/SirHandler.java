@@ -1,3 +1,7 @@
+/*
+ * Copyright TOA Inc. 2015.
+ */
+
 package toa.toa.utils;
 
 import android.content.Context;
@@ -232,5 +236,14 @@ public class SirHandler {
         });
 
     }
+
+    public void logout(SimpleCallbackClass callback) {
+        SharedPreferences userDetails = mcontext.getSharedPreferences("u_data", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = userDetails.edit();
+        editor.clear();
+        editor.apply();
+        callback.goIt();
+    }
+
 
 }

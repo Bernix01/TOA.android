@@ -1,3 +1,7 @@
+<!--
+  ~ Copyright TOA Inc. 2015.
+  -->
+
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,5 +10,11 @@
         android:id="@+id/prof_action_edit"
         android:icon="@drawable/ic_mode_edit_white_24dp"
         android:orderInCategory="100"
+        android:title="@string/title_activity_edit_profile"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/prof_action_logout"
+        android:orderInCategory="200"
+        android:title="@string/action_logout"
+        app:showAsAction="never" />
 </menu>

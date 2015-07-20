@@ -1,3 +1,7 @@
+/*
+ * Copyright TOA Inc. 2015.
+ */
+
 package toa.toa;
 
 import android.content.Intent;
@@ -79,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             RelativeLayout view = (RelativeLayout) findViewById(R.id.mainActivityLayout);
             view.setPadding(0, getStatusBarHeight(), 0, getNavigationBarHeight());
         }
-        SharedPreferences userDetails = getApplicationContext().getSharedPreferences("u_data", MODE_PRIVATE);
+        SharedPreferences userDetails = getApplicationContext().getSharedPreferences("appData", MODE_PRIVATE);
         int firstTime = userDetails.getInt("firstTme", 1);
         SirHandler handler = new SirHandler(getApplicationContext());
         __user = handler.getCurrentUser();

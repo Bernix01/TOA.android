@@ -1,3 +1,7 @@
+/*
+ * Copyright TOA Inc. 2015.
+ */
+
 package toa.toa.Objects;
 
 import android.os.Parcel;
@@ -22,6 +26,7 @@ public class MrUser implements Parcelable {
     private static String _email;
     private static String _bio;
     private static int _gender;
+    private static int _age;
     private static String _pimage;
 
     public MrUser() {
@@ -34,8 +39,18 @@ public class MrUser implements Parcelable {
         _id = in.readInt();
         _name = in.readString();
         _uname = in.readString();
-        _pimage = in.readString();
 
+        _pimage = in.readString();
+        _age = in.readInt();
+
+    }
+
+    public static int get_age() {
+        return _age;
+    }
+
+    public static void set_age(int _age) {
+        MrUser._age = _age;
     }
 
     public static String get_pimage() {
@@ -108,5 +123,6 @@ public class MrUser implements Parcelable {
         dest.writeString(_name);
         dest.writeString(_uname);
         dest.writeString(_pimage);
+        dest.writeInt(_age);
     }
 }
