@@ -23,8 +23,8 @@ import toa.toa.Objects.MrUser;
 import toa.toa.ProfileActivity;
 import toa.toa.R;
 import toa.toa.adapters.CollectionPagerAtletismoAdapter;
-import toa.toa.utils.SirClass;
 import toa.toa.utils.SirHandler;
+import toa.toa.utils.SirUserRetrieverUserRetrieverClass;
 
 public class AtletismoActivity extends AppCompatActivity {
     private static int __n_id;
@@ -53,7 +53,7 @@ public class AtletismoActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(false);
         SirHandler handler = new SirHandler(getApplicationContext());
-        handler.getUserById(__n_id, new SirClass() {
+        handler.getUserById(__n_id, new SirUserRetrieverUserRetrieverClass() {
             @Override
             public void goIt(MrUser user) {
                 __user = user;
