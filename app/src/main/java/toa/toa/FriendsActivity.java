@@ -7,7 +7,7 @@ package toa.toa;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -21,7 +21,7 @@ import toa.toa.utils.TOA.SirFriendsRetriever;
 import toa.toa.utils.TOA.SirHandler;
 
 
-public class FriendsActivity extends ActionBarActivity {
+public class FriendsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

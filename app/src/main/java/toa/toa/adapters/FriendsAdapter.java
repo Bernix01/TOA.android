@@ -5,7 +5,11 @@
 package toa.toa.adapters;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.support.v7.widget.GridLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +21,11 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+import toa.toa.Objects.MrComunity;
 import toa.toa.Objects.MrUser;
 import toa.toa.R;
+import toa.toa.utils.TOA.SirHandler;
+import toa.toa.utils.TOA.SirSportsListRetriever;
 
 /**
  * Created by programador on 7/21/15.
@@ -49,6 +56,28 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         } else {
             Picasso.with(contexto).load(R.drawable.defaultpimage).transform(new CropCircleTransformation()).into(holder.pimage);
         }
+        SirHandler handler = new SirHandler(contexto);
+        handler.getUserSports(com, new SirSportsListRetriever() {
+            @Override
+            public void goIt(ArrayList<MrComunity> sports) {
+                for (MrComunity sport : sports)
+                    holder.glSports.addView(addImgv(sport));
+            }
+
+            @Override
+            public void failure(String error) {
+
+            }
+        });
+    }
+
+    private ImageView addImgv(MrComunity comunity) {
+        ImageView imv = new ImageView(contexto);
+        Resources r = contexto.getResources();
+        int wh = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 25, r.getDisplayMetrics()));
+        Log.i("wh", wh + "");
+        Picasso.with(contexto).load(comunity.getComunityImg()).resize(wh, wh).into(imv);
+        return imv;
     }
 
     @Override
@@ -60,11 +89,13 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
 
         public TextView nametxtv;
         public ImageView pimage;
+        public GridLayout glSports;
 
         public ViewHolder(View itemView) {
             super(itemView);
             nametxtv = (TextView) itemView.findViewById(R.id.friend_name_txtv);
             pimage = (ImageView) itemView.findViewById(R.id.friend_pimage_imv);
+            glSports = (GridLayout) itemView.findViewById(R.id.friend_sports_gl);
         }
 
     }
