@@ -200,12 +200,12 @@ public class SirHandler {
         });
     }
 
-    public void getUserSports(MrUser user, final SirSportsListRetriever sportsListRetriever) {
+    public void getUserSports(final MrUser user, final SirSportsListRetriever sportsListRetriever) {
         JSONObject cmd = new JSONObject();
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
         try {
-            subcmd.put("statement", "MATCH (a:user)-[r:Likes]-(n:Sport) WHERE id(a)=" + _currentUser.get_id() + " return n.name, n.icnurl, n.bgurl");
+            subcmd.put("statement", "MATCH (a:user)-[r:Likes]-(n:Sport) WHERE id(a)=" + user.get_id() + " return n.name, n.icnurl, n.bgurl");
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {
@@ -240,6 +240,7 @@ public class SirHandler {
 
     }
 
+
     public void logout(SimpleCallbackClass callback) {
         SharedPreferences userDetails = mcontext.getSharedPreferences("u_data", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = userDetails.edit();
@@ -254,7 +255,51 @@ public class SirHandler {
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
         try {
-            subcmd.put("statement", "MATCH (a:user)-[r:Follows]-(n:user) WHERE id(a)=" + _currentUser.get_id() + " return n, id(n)");
+            subcmd.put("statement", "MATCH (a:user)-[r:Follows]-(n:user) WHERE id(a)=" + user.get_id() + " return n, id(n)");
+            cmds.put(subcmd);
+            cmd.put("statements", cmds);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.e("response", response.toString());
+                try {
+                    ArrayList<MrUser> friends = new ArrayList<MrUser>();
+                    JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
+                    Log.e("respuesta", response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row").toString());
+                    int datos = dataf.length();
+                    for (int i = 0; i < datos; i++) {
+                        JSONObject udata = dataf.getJSONObject(i).getJSONArray("row").getJSONObject(0);
+                        Log.e("udata", udata.getString("u_name"));
+                        friends.add(new MrUser(dataf.getJSONObject(i).getJSONArray("row").getInt(1), tryGetString(udata, "name"), tryGetString(udata, "u_name"), tryGetString(udata, "email"), tryGetString(udata, "bio"), tryGetInt(udata, "gender"), tryGetInt(udata, "age"), tryGetString(udata, "pimageurl")));//aquí parece ser el error
+                    }
+                    Log.e("friends", friends.size() + "");
+                    retriever.goIt(friends);
+
+                } catch (JSONException e) {
+                    Log.e("exception", e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.e("error", "code: " + statusCode + " " + throwable.toString());
+                retriever.failure(throwable.toString());
+            }
+        });
+    }
+
+    public void getSportMembers(MrComunity comunity, final SirFriendsRetriever retriever) {
+
+        JSONObject cmd = new JSONObject();
+        JSONArray cmds = new JSONArray();
+        JSONObject subcmd = new JSONObject();
+        try {
+            subcmd.put("statement", "MATCH (n:user)-[r:Follows]-(a:user) WHERE a.name=\"" + comunity.getComunityName() + "\" return n, id(n)");
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {
