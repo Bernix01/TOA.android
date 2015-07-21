@@ -53,7 +53,7 @@ public class LoginActivity extends Activity {
                     return;
                 sigIn.setProgress(50);
                 JSONObject cmd = new JSONObject();
-                JSONArray statements = new JSONArray();
+                final JSONArray statements = new JSONArray();
                 try {
                     JSONObject subcmd = new JSONObject();
                     subcmd.put("statement", "MATCH (n:user) WHERE n.pw=\"" + _user + "\" RETURN id(n), n.u_name, n.name, n.bio, n.gender, n.email, n.pimageurl");
@@ -63,6 +63,7 @@ public class LoginActivity extends Activity {
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                             try {
+                                Log.i("got it!", statusCode + " " + response + "  " + _user);
                                 sigIn.setProgress(100);
                                 SirHandler handler = new SirHandler(getApplicationContext());
                                 JSONArray udata = response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row");

@@ -151,13 +151,13 @@ public class SirHandler {
     public void registerCurrentUser(MrUser user) {
         SharedPreferences userDetails = mcontext.getSharedPreferences("u_data", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = userDetails.edit();
-        editor.putInt("n_id", _currentUser.get_id());
-        editor.putString("name", _currentUser.get_name());
-        editor.putString("uname", _currentUser.get_uname());
-        editor.putString("bio", _currentUser.get_bio());
-        editor.putInt("gender", _currentUser.get_gender());
-        editor.putString("email", _currentUser.get_email());
-        editor.putString("pimage", _currentUser.get_pimage());
+        editor.putInt("n_id", user.get_id());
+        editor.putString("name", user.get_name());
+        editor.putString("uname", user.get_uname());
+        editor.putString("bio", user.get_bio());
+        editor.putInt("gender", user.get_gender());
+        editor.putString("email", user.get_email());
+        editor.putString("pimage", user.get_pimage());
         editor.apply();
         Log.i("fetch", "Shared updated successfully");
     }
