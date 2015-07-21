@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -32,8 +31,6 @@ public class FriendsActivity extends ActionBarActivity {
         handler.getUserFriends(handler.getCurrentUser(), new SirFriendsRetriever() {
             @Override
             public void goIt(ArrayList<MrUser> friends) {
-
-                Log.i(" gotlast friend's name", friends.get(0).get_uname());
                 recyclerView.setAdapter(new FriendsAdapter(friends, getApplicationContext()));
             }
 

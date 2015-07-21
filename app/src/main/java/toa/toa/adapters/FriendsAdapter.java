@@ -6,7 +6,6 @@ package toa.toa.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,10 +43,9 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final MrUser com = comunities.get(position);
-        Log.i("adapter name", MrUser.get_uname());
-        holder.nametxtv.setText(MrUser.get_uname());
-        if (!MrUser.get_pimage().isEmpty()) {
-            Picasso.with(contexto).load(MrUser.get_pimage()).transform(new CropCircleTransformation()).into(holder.pimage);
+        holder.nametxtv.setText(com.get_uname());
+        if (!com.get_pimage().isEmpty()) {
+            Picasso.with(contexto).load(com.get_pimage()).transform(new CropCircleTransformation()).into(holder.pimage);
         } else {
             Picasso.with(contexto).load(R.drawable.defaultpimage).transform(new CropCircleTransformation()).into(holder.pimage);
         }

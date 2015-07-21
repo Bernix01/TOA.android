@@ -28,7 +28,7 @@ import toa.toa.utils.RestApi;
  */
 public class SirHandler {
 
-    private static MrUser _currentUser = new MrUser();
+    private MrUser _currentUser = new MrUser();
     private Context mcontext;
 
     /**
@@ -43,12 +43,12 @@ public class SirHandler {
 
     private void setCurrent() {
         SharedPreferences userDetails = mcontext.getSharedPreferences("u_data", Context.MODE_PRIVATE);
-        MrUser.set_id(userDetails.getInt("n_id", -1));
-        MrUser.set_bio(userDetails.getString("bio", ""));
-        MrUser.set_email(userDetails.getString("email", ""));
-        MrUser.set_name(userDetails.getString("name", ""));
-        MrUser.set_uname(userDetails.getString("uname", ""));
-        MrUser.set_pimage(userDetails.getString("pimage", ""));
+        _currentUser.set_id(userDetails.getInt("n_id", -1));
+        _currentUser.set_bio(userDetails.getString("bio", ""));
+        _currentUser.set_email(userDetails.getString("email", ""));
+        _currentUser.set_name(userDetails.getString("name", ""));
+        _currentUser.set_uname(userDetails.getString("uname", ""));
+        _currentUser.set_pimage(userDetails.getString("pimage", ""));
     }
 
     public void fetchUserData() {
@@ -84,16 +84,16 @@ public class SirHandler {
     private void updateRemoteData() {
         JSONObject user = new JSONObject();
         try {
-            user.put("email", MrUser.get_email());
-            user.put("name", MrUser.get_name());
-            user.put("u_name", MrUser.get_uname());
-            user.put("bio", MrUser.get_bio());
-            user.put("gender", MrUser.get_gender());
-            user.put("pimageurl", MrUser.get_pimage());
+            user.put("email", _currentUser.get_email());
+            user.put("name", _currentUser.get_name());
+            user.put("u_name", _currentUser.get_uname());
+            user.put("bio", _currentUser.get_bio());
+            user.put("gender", _currentUser.get_gender());
+            user.put("pimageurl", _currentUser.get_pimage());
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        RestApi.put("/node/" + MrUser.get_id() + "/properties", user, new JsonHttpResponseHandler() {
+        RestApi.put("/node/" + _currentUser.get_id() + "/properties", user, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Toast.makeText(mcontext, "Profile updated successfully", Toast.LENGTH_LONG).show();
@@ -120,6 +120,7 @@ public class SirHandler {
         String r = "";
         try {
             r = j.getString(name);
+            Log.i("str", r);
         } catch (JSONException e) {
             Log.e("error", e.getMessage());
         }
@@ -150,13 +151,13 @@ public class SirHandler {
     public void registerCurrentUser(MrUser user) {
         SharedPreferences userDetails = mcontext.getSharedPreferences("u_data", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = userDetails.edit();
-        editor.putInt("n_id", MrUser.get_id());
-        editor.putString("name", MrUser.get_name());
-        editor.putString("uname", MrUser.get_uname());
-        editor.putString("bio", MrUser.get_bio());
-        editor.putInt("gender", MrUser.get_gender());
-        editor.putString("email", MrUser.get_email());
-        editor.putString("pimage", MrUser.get_pimage());
+        editor.putInt("n_id", _currentUser.get_id());
+        editor.putString("name", _currentUser.get_name());
+        editor.putString("uname", _currentUser.get_uname());
+        editor.putString("bio", _currentUser.get_bio());
+        editor.putInt("gender", _currentUser.get_gender());
+        editor.putString("email", _currentUser.get_email());
+        editor.putString("pimage", _currentUser.get_pimage());
         editor.apply();
         Log.i("fetch", "Shared updated successfully");
     }
@@ -172,13 +173,13 @@ public class SirHandler {
                 new JSONObject();
                 try {
                     data = response.getJSONObject("data");
-                    MrUser.set_email(tryGetString(data, "email"));
-                    MrUser.set_id(tryGetInt(response.getJSONObject("metadata"), "id"));
-                    MrUser.set_name(tryGetString(data, "name"));
-                    MrUser.set_uname(tryGetString(data, "u_name"));
-                    MrUser.set_bio(tryGetString(data, "bio"));
-                    MrUser.set_gender(tryGetInt(data, "gender"));
-                    MrUser.set_pimage(tryGetString(data, "pimageurl"));
+                    _currentUser.set_email(tryGetString(data, "email"));
+                    _currentUser.set_id(tryGetInt(response.getJSONObject("metadata"), "id"));
+                    _currentUser.set_name(tryGetString(data, "name"));
+                    _currentUser.set_uname(tryGetString(data, "u_name"));
+                    _currentUser.set_bio(tryGetString(data, "bio"));
+                    _currentUser.set_gender(tryGetInt(data, "gender"));
+                    _currentUser.set_pimage(tryGetString(data, "pimageurl"));
 
                     Log.i("getUserById", "sending");
                     userRetriever.goIt(user);
@@ -204,7 +205,7 @@ public class SirHandler {
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
         try {
-            subcmd.put("statement", "MATCH (a:user)-[r:Likes]-(n:Sport) WHERE id(a)=" + MrUser.get_id() + " return n.name, n.icnurl, n.bgurl");
+            subcmd.put("statement", "MATCH (a:user)-[r:Likes]-(n:Sport) WHERE id(a)=" + _currentUser.get_id() + " return n.name, n.icnurl, n.bgurl");
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {
@@ -253,7 +254,7 @@ public class SirHandler {
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
         try {
-            subcmd.put("statement", "MATCH (a:user)-[r:Follows]-(n:user) WHERE id(a)=" + MrUser.get_id() + " return n, id(n)");
+            subcmd.put("statement", "MATCH (a:user)-[r:Follows]-(n:user) WHERE id(a)=" + _currentUser.get_id() + " return n, id(n)");
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {
@@ -267,26 +268,15 @@ public class SirHandler {
                 Log.e("response", response.toString());
                 try {
                     ArrayList<MrUser> friends = new ArrayList<MrUser>();
-                    JSONArray data = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
+                    JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
                     Log.e("respuesta", response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row").toString());
-                    int datos = data.length();
+                    int datos = dataf.length();
                     for (int i = 0; i < datos; i++) {
-                        JSONObject udata = data.getJSONObject(i).getJSONArray("row").getJSONObject(0);
-                        MrUser temp = new MrUser();
-                        MrUser.set_email(tryGetString(udata, "email"));
-                        MrUser.set_id(data.getJSONObject(i).getJSONArray("row").getInt(1));
-                        MrUser.set_name(tryGetString(udata, "name"));
-                        MrUser.set_uname(tryGetString(udata, "u_name"));
-                        MrUser.set_bio(tryGetString(udata, "bio"));
-                        MrUser.set_gender(tryGetInt(udata, "gender"));
-                        MrUser.set_pimage(tryGetString(udata, "pimageurl"));
-                        Log.i("name", MrUser.get_uname());//esto retorna el valor correcto por lo que temp si está recibiendo la data correcta
-                        friends.add(temp);//aquí parece ser el error
+                        JSONObject udata = dataf.getJSONObject(i).getJSONArray("row").getJSONObject(0);
+                        Log.e("udata", udata.getString("u_name"));
+                        friends.add(new MrUser(dataf.getJSONObject(i).getJSONArray("row").getInt(1), tryGetString(udata, "name"), tryGetString(udata, "u_name"), tryGetString(udata, "email"), tryGetString(udata, "bio"), tryGetInt(udata, "gender"), tryGetInt(udata, "age"), tryGetString(udata, "pimageurl")));//aquí parece ser el error
                     }
-                    for (MrUser u : friends)
-                        Log.e("fname", MrUser.get_uname());//retorna todos como "Guillermo" :v
-
-
+                    Log.e("friends", friends.size() + "");
                     retriever.goIt(friends);
 
                 } catch (JSONException e) {

@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             firstVisit.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(firstVisit);
             finish();
-        } else if (MrUser.get_id() == -1) {
+        } else if (__user.get_id() == -1) {
             Intent Splash = new Intent(getApplicationContext(), Splash_Activity.class);
             Splash.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(Splash);
@@ -106,10 +106,10 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
                 ViewPager pager = (ViewPager) findViewById(R.id.pager);
-                pager.setAdapter(new CollectionPagerAdapter(getSupportFragmentManager(), MrUser.get_id()));
+        pager.setAdapter(new CollectionPagerAdapter(getSupportFragmentManager(), __user.get_id()));
                 PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
                 tabs.setViewPager(pager);
-                name_txtv.setText(MrUser.get_uname());
+        name_txtv.setText(__user.get_uname());
                 name_txtv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -119,8 +119,8 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(i);
                     }
                 });
-                if (!MrUser.get_pimage().isEmpty()) {
-                    Picasso.with(getApplicationContext()).load(MrUser.get_pimage()).transform(new CropCircleTransformation()).into(pimage_imgv);
+        if (!__user.get_pimage().isEmpty()) {
+            Picasso.with(getApplicationContext()).load(__user.get_pimage()).transform(new CropCircleTransformation()).into(pimage_imgv);
                 } else {
                     Picasso.with(getApplicationContext()).load(R.drawable.defaultpimage).transform(new CropCircleTransformation()).into(pimage_imgv);
                 }

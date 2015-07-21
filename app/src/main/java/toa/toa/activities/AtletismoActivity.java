@@ -62,10 +62,10 @@ public class AtletismoActivity extends AppCompatActivity {
             public void goIt(MrUser user) {
                 __user = user;
                 ViewPager pager = (ViewPager) findViewById(R.id.pagerAtletismo);
-                pager.setAdapter(new CollectionPagerAtletismoAdapter(getSupportFragmentManager(), MrUser.get_id()));
+                pager.setAdapter(new CollectionPagerAtletismoAdapter(getSupportFragmentManager(), __user.get_id()));
                 PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabsAtletismo);
                 tabs.setViewPager(pager);
-                name_txtv.setText(MrUser.get_uname());
+                name_txtv.setText(__user.get_uname());
                 name_txtv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -74,8 +74,8 @@ public class AtletismoActivity extends AppCompatActivity {
                         startActivity(i);
                     }
                 });
-                if (!MrUser.get_pimage().isEmpty()) {
-                    Picasso.with(getApplicationContext()).load(MrUser.get_pimage()).transform(new CropCircleTransformation()).into(pimage_imgv);
+                if (!__user.get_pimage().isEmpty()) {
+                    Picasso.with(getApplicationContext()).load(__user.get_pimage()).transform(new CropCircleTransformation()).into(pimage_imgv);
                 } else {
                     Picasso.with(getApplicationContext()).load(R.drawable.defaultpimage).transform(new CropCircleTransformation()).into(pimage_imgv);
                 }

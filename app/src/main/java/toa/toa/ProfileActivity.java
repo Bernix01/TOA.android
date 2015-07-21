@@ -60,13 +60,13 @@ public class ProfileActivity extends AppCompatActivity {
         bg = (ImageView) findViewById(R.id.profile_bg_imgv);
         final RecyclerView sportsrecycler = (RecyclerView) findViewById(R.id.profile_sports_recycler);
         sportsrecycler.setHasFixedSize(true);
-        if (!MrUser.get_pimage().isEmpty()) {
-            Picasso.with(getApplicationContext()).load(MrUser.get_pimage()).transform(new CropCircleTransformation()).into(pic);
+        if (!_user.get_pimage().isEmpty()) {
+            Picasso.with(getApplicationContext()).load(_user.get_pimage()).transform(new CropCircleTransformation()).into(pic);
         } else {
             Picasso.with(getApplicationContext()).load(R.drawable.defaultpimage).transform(new CropCircleTransformation()).into(pic);
         }
-        name.setText(MrUser.get_uname());
-        bio.setText(MrUser.get_bio());
+        name.setText(_user.get_uname());
+        bio.setText(_user.get_bio());
         LinearLayout friendsIcn = (LinearLayout) findViewById(R.id.friendv_cnt);
         friendsIcn.setOnClickListener(new View.OnClickListener() {
             @Override

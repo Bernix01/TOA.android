@@ -20,19 +20,31 @@ public class MrUser implements Parcelable {
             return new MrUser[size];
         }
     };
-    private static int _id;
-    private static String _name;
-    private static String _uname;
-    private static String _email;
-    private static String _bio;
-    private static int _gender;
-    private static int _age;
-    private static String _pimage;
+    private int _id;
+    private String _name;
+    private String _uname;
+    private String _email;
+    private String _bio;
+    private int _gender;
+    private int _age;
+    private String _pimage;
 
-    public MrUser() {
+    public MrUser(int id, String name, String uname, String email, String bio, int gender, int age, String pimage) {
+        this._id = id;
+        this._name = name;
+        this._email = email;
+        this._bio = bio;
+        this._uname = uname;
+        this._gender = gender;
+        this._age = age;
+        this._pimage = pimage;
     }
 
+    public MrUser() {
+
+    }
     public MrUser(Parcel in) {
+
         _bio = in.readString();
         _email = in.readString();
         _gender = in.readInt();
@@ -45,68 +57,68 @@ public class MrUser implements Parcelable {
 
     }
 
-    public static int get_age() {
+    public int get_age() {
         return _age;
     }
 
-    public static void set_age(int _age) {
-        MrUser._age = _age;
+    public void set_age(int _age) {
+        this._age = _age;
     }
 
-    public static String get_pimage() {
+    public String get_pimage() {
         return _pimage;
     }
 
-    public static void set_pimage(String _pimage) {
-        MrUser._pimage = _pimage;
+    public void set_pimage(String _pimage) {
+        this._pimage = _pimage;
     }
 
-    public static String get_uname() {
+    public String get_uname() {
         return _uname;
     }
 
-    public static void set_uname(String _uname) {
-        MrUser._uname = _uname;
+    public void set_uname(String _uname) {
+        this._uname = _uname;
     }
 
-    public static int get_id() {
+    public int get_id() {
         return _id;
     }
 
-    public static void set_id(int _id) {
-        MrUser._id = _id;
+    public void set_id(int _id) {
+        this._id = _id;
     }
 
-    public static String get_name() {
+    public String get_name() {
         return _name;
     }
 
-    public static void set_name(String _name) {
-        MrUser._name = _name;
+    public void set_name(String _name) {
+        this._name = _name;
     }
 
-    public static String get_email() {
+    public String get_email() {
         return _email;
     }
 
-    public static void set_email(String _email) {
-        MrUser._email = _email;
+    public void set_email(String _email) {
+        this._email = _email;
     }
 
-    public static String get_bio() {
+    public String get_bio() {
         return _bio;
     }
 
-    public static void set_bio(String _bio) {
-        MrUser._bio = _bio;
+    public void set_bio(String _bio) {
+        this._bio = _bio;
     }
 
-    public static int get_gender() {
+    public int get_gender() {
         return _gender;
     }
 
-    public static void set_gender(int _gender) {
-        MrUser._gender = _gender;
+    public void set_gender(int _gender) {
+        this._gender = _gender;
     }
 
     @Override

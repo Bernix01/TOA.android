@@ -56,12 +56,12 @@ public class EditProfileActivity extends AppCompatActivity {
         sex = (Spinner) findViewById(R.id.editProf_sex_spinner);
         handler = new SirHandler(getApplicationContext());
         _cuser = handler.getCurrentUser();
-        username.setText(MrUser.get_name());
-        name.setText(MrUser.get_uname());
-        bio.setText(MrUser.get_bio());
-        email.setText(MrUser.get_email());
-        if (!MrUser.get_pimage().isEmpty()) {
-            Picasso.with(getApplicationContext()).load(MrUser.get_pimage()).transform(new CropCircleTransformation()).into(pimage_imgv);
+        username.setText(_cuser.get_name());
+        name.setText(_cuser.get_uname());
+        bio.setText(_cuser.get_bio());
+        email.setText(_cuser.get_email());
+        if (!_cuser.get_pimage().isEmpty()) {
+            Picasso.with(getApplicationContext()).load(_cuser.get_pimage()).transform(new CropCircleTransformation()).into(pimage_imgv);
         } else {
             Picasso.with(getApplicationContext()).load(R.drawable.defaultpimage).transform(new CropCircleTransformation()).into(pimage_imgv);
         }
@@ -77,10 +77,10 @@ public class EditProfileActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        MrUser.set_gender(-1);
+                        _cuser.set_gender(-1);
                         break;
                     default:
-                        MrUser.set_gender(position);
+                        _cuser.set_gender(position);
                         break;
                 }
             }
@@ -119,10 +119,10 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private void do_the_thing() {
-        MrUser.set_age(Integer.parseInt(age.getText().toString()));
-        MrUser.set_bio(bio.getText().toString());
-        MrUser.set_name(name.getText().toString());
-        MrUser.set_email(email.getText().toString());
+        _cuser.set_age(Integer.parseInt(age.getText().toString()));
+        _cuser.set_bio(bio.getText().toString());
+        _cuser.set_name(name.getText().toString());
+        _cuser.set_email(email.getText().toString());
     }
 
     public int getStatusBarHeight() {
