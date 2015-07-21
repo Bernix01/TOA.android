@@ -16,5 +16,4 @@
         app:recyclerPadding="16dp"
         app:scrollbarStyle="insideInset" />
 
-
 </LinearLayout>

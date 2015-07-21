@@ -8,7 +8,7 @@ import android.util.Log;
 import com.astuetz.PagerSlidingTabStrip;
 
 import toa.toa.R;
-import toa.toa.fragments.ComunityFragment;
+import toa.toa.fragments.MembersFragment;
 import toa.toa.fragments.NoticiasFragment;
 import toa.toa.fragments.NutricionFragment;
 
@@ -31,7 +31,7 @@ public class CollectionPagerCrossfitAdapter extends FragmentStatePagerAdapter im
     public android.support.v4.app.Fragment getItem(int i) {
         switch (i) {
             case 0:
-                ComunityFragment fr = new ComunityFragment();
+                MembersFragment fr = new MembersFragment();
                 Bundle bundle = new Bundle();
                 bundle.putInt("id", id);
                 fr.setArguments(bundle);

@@ -32,10 +32,7 @@ public class ComunityFragment extends android.support.v4.app.Fragment {
     private SuperRecyclerView recyclerComunities;
 
     public ComunityFragment() {
-
-
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

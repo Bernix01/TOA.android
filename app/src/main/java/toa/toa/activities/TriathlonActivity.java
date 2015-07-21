@@ -2,6 +2,8 @@ package toa.toa.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -36,7 +39,10 @@ public class TriathlonActivity extends AppCompatActivity {
         final TextView name_txtv = (TextView) findViewById(R.id.main_ui_name_txtv);
         final ImageView pimage_imgv = (ImageView) findViewById(R.id.main_ui_pimage_imv);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
-
+        if (Build.VERSION.SDK_INT > 19) {
+            RelativeLayout view = (RelativeLayout) findViewById(R.id.triathlonactivitylayout);
+            view.setPadding(0, getStatusBarHeight(), 0, getNavigationBarHeight());
+        }
         toolbar.getBackground().setAlpha(0);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
@@ -84,6 +90,23 @@ public class TriathlonActivity extends AppCompatActivity {
 
     }
 
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
+    public int getNavigationBarHeight() {
+        Resources resources = getApplicationContext().getResources();
+        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            return resources.getDimensionPixelSize(resourceId);
+        }
+        return 0;
+    }
     private int getId() {
         return __n_id;
     }
