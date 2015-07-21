@@ -1,5 +1,5 @@
 /*
- * Copyright TOA Inc. 2015.
+ * Copyright TOA Inc. 2015. 
  */
 
 package toa.toa.utils.TOA;
@@ -13,7 +13,7 @@ import toa.toa.Objects.MrUser;
  */
 public interface SirFriendsInterface {
 
-    void goIt(ArrayList<MrUser> sports);
+    void goIt(ArrayList<MrUser> friends);
 
     void failure(String error);
 }

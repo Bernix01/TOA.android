@@ -1,5 +1,5 @@
 /*
- * Copyright TOA Inc. 2015.
+ * Copyright TOA Inc. 2015. 
  */
 
 package toa.toa.utils.TOA;
@@ -13,7 +13,7 @@ import toa.toa.Objects.MrUser;
  */
 public class SirFriendsRetriever implements SirFriendsInterface {
     @Override
-    public void goIt(ArrayList<MrUser> sports) {
+    public void goIt(ArrayList<MrUser> friends) {
 
     }
 

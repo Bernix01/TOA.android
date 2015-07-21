@@ -1,5 +1,5 @@
 /*
- * Copyright TOA Inc. 2015.
+ * Copyright TOA Inc. 2015. 
  */
 
 package toa.toa;
@@ -14,7 +14,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -65,7 +67,13 @@ public class ProfileActivity extends AppCompatActivity {
         }
         name.setText(MrUser.get_uname());
         bio.setText(MrUser.get_bio());
-
+        LinearLayout friendsIcn = (LinearLayout) findViewById(R.id.friendv_cnt);
+        friendsIcn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), FriendsActivity.class));
+            }
+        });
         Picasso.with(getApplicationContext()).load("http://www.resortvillarosa.it/img/top/sport1.jpg").fit().centerCrop().transform(new BlurTransformation(getApplicationContext(), 15)).into(bg);
         SirHandler handler = new SirHandler(getApplicationContext());
         handler.getUserSports(_user, new SirSportsListRetriever() {

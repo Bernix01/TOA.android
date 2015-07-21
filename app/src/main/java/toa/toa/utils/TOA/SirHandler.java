@@ -1,5 +1,5 @@
 /*
- * Copyright TOA Inc. 2015.
+ * Copyright TOA Inc. 2015. 
  */
 
 package toa.toa.utils.TOA;
@@ -140,6 +140,7 @@ public class SirHandler {
         String r = "";
         try {
             r = j.getString(pos);
+            Log.i("str", r);
         } catch (JSONException e) {
             Log.e("error", e.getMessage());
         }
@@ -252,7 +253,7 @@ public class SirHandler {
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
         try {
-            subcmd.put("statement", "MATCH (a:user)-[r:Follows]-(n:user) WHERE id(a)=" + MrUser.get_id() + " return n");
+            subcmd.put("statement", "MATCH (a:user)-[r:Follows]-(n:user) WHERE id(a)=" + MrUser.get_id() + " return n, id(n)");
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {
@@ -263,9 +264,9 @@ public class SirHandler {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                ArrayList<MrUser> friends = new ArrayList<MrUser>();
                 Log.e("response", response.toString());
                 try {
+                    ArrayList<MrUser> friends = new ArrayList<MrUser>();
                     JSONArray data = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
                     Log.e("respuesta", response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row").toString());
                     int datos = data.length();
@@ -273,14 +274,19 @@ public class SirHandler {
                         JSONObject udata = data.getJSONObject(i).getJSONArray("row").getJSONObject(0);
                         MrUser temp = new MrUser();
                         MrUser.set_email(tryGetString(udata, "email"));
-                        MrUser.set_id(tryGetInt(response.getJSONObject("metadata"), "id"));
+                        MrUser.set_id(data.getJSONObject(i).getJSONArray("row").getInt(1));
                         MrUser.set_name(tryGetString(udata, "name"));
                         MrUser.set_uname(tryGetString(udata, "u_name"));
                         MrUser.set_bio(tryGetString(udata, "bio"));
                         MrUser.set_gender(tryGetInt(udata, "gender"));
                         MrUser.set_pimage(tryGetString(udata, "pimageurl"));
-                        friends.add(temp);
+                        Log.i("name", MrUser.get_uname());//esto retorna el valor correcto por lo que temp si está recibiendo la data correcta
+                        friends.add(temp);//aquí parece ser el error
                     }
+                    for (MrUser u : friends)
+                        Log.e("fname", MrUser.get_uname());//retorna todos como "Guillermo" :v
+
+
                     retriever.goIt(friends);
 
                 } catch (JSONException e) {

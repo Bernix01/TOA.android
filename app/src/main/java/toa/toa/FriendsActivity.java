@@ -1,13 +1,23 @@
 /*
- * Copyright TOA Inc. 2015.
+ * Copyright TOA Inc. 2015. 
  */
 
 package toa.toa;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.util.ArrayList;
+
+import toa.toa.Objects.MrUser;
+import toa.toa.adapters.FriendsAdapter;
+import toa.toa.utils.TOA.SirFriendsRetriever;
+import toa.toa.utils.TOA.SirHandler;
 
 
 public class FriendsActivity extends ActionBarActivity {
@@ -16,6 +26,22 @@ public class FriendsActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.friends_recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        SirHandler handler = new SirHandler(getApplicationContext());
+        handler.getUserFriends(handler.getCurrentUser(), new SirFriendsRetriever() {
+            @Override
+            public void goIt(ArrayList<MrUser> friends) {
+
+                Log.i(" gotlast friend's name", friends.get(0).get_uname());
+                recyclerView.setAdapter(new FriendsAdapter(friends, getApplicationContext()));
+            }
+
+            @Override
+            public void failure(String error) {
+                super.failure(error);
+            }
+        });
     }
 
     @Override
