@@ -42,7 +42,7 @@ public class NutricionFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Bundle bundle = this.getArguments();
-        id = bundle.getInt("id", -1);
+//       id = bundle.getInt("id", 1);
         View root = inflater.inflate(R.layout.comunity_layout, container, false);
         recyclerNutrition = (SuperRecyclerView) root.findViewById(R.id.my_recycler_comunity_view);
         recyclerNutrition.setLayoutManager(new LinearLayoutManager(getActivity()));

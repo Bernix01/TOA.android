@@ -17,7 +17,7 @@ import toa.toa.fragments.NutricionFragment;
  */
 public class CollectionPagerCrossfitAdapter extends FragmentStatePagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
 
-    private final int[] iconsTOA = {R.drawable.triatlontab, R.drawable.nutriciontab, R.drawable.noticiastab};
+    private final int[] iconsTOA = {R.drawable.comunidades_white, R.drawable.ubication_white, R.drawable.calendario_white, R.drawable.shop_white};
     private String[] titles = {"Comunidades", "bllablabla", "balblalbalba"};
     private int id;
 

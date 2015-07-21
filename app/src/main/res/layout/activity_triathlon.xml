@@ -55,7 +55,7 @@
             android:id="@+id/imageView9"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/deptri" />
+            android:src="@drawable/tria_sport" />
 
         <TextView
             android:id="@+id/textView8"

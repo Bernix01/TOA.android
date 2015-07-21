@@ -14,7 +14,7 @@
         android:id="@+id/content_comunity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#0a0a0a">
+        android:background="#e1010101">
 
         <ImageView
             android:id="@+id/comunity_bck_imv"

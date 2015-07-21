@@ -32,7 +32,7 @@ public class CyclingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_running);
+        setContentView(R.layout.activity_cycling);
         final TextView name_txtv = (TextView) findViewById(R.id.main_ui_name_txtv);
         final ImageView pimage_imgv = (ImageView) findViewById(R.id.main_ui_pimage_imv);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);

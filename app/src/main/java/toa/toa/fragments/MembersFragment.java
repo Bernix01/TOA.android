@@ -26,12 +26,12 @@ import toa.toa.utils.RestApi;
 /**
  * Created by Junior on 18/06/2015.
  */
-public class ComunityFragment extends android.support.v4.app.Fragment {
+public class MembersFragment extends android.support.v4.app.Fragment {
     ArrayList<MrComunity> mrComunityArrayList = new ArrayList<MrComunity>();
     private int id;
     private SuperRecyclerView recyclerComunities;
 
-    public ComunityFragment() {
+    public MembersFragment() {
 
 
     }
@@ -46,7 +46,10 @@ public class ComunityFragment extends android.support.v4.app.Fragment {
         recyclerComunities.setLayoutManager(new LinearLayoutManager(getActivity()));
         final Context contexto = getActivity().getApplicationContext();
         getData(contexto, id);
+
         return root;
+
+
     }
 
     @Override
