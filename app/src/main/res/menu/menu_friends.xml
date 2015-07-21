@@ -5,11 +5,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="toa.toa.EditProfileActivity">
+    tools:context="toa.toa.FriendsActivity">
     <item
-        android:id="@+id/action_editprof_done"
-        android:icon="@drawable/ic_done_white_48dp"
+        android:id="@+id/action_settings"
         android:orderInCategory="100"
-        android:title="@string/title_activity_edit_profile"
-        app:showAsAction="always" />
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
 </menu>

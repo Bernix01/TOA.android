@@ -1,9 +1,13 @@
-package toa.toa.utils;
+/*
+ * Copyright TOA Inc. 2015.
+ */
+
+package toa.toa.utils.TOA;
 
 
 import java.util.ArrayList;
 
-import toa.toa.Objects.MrSport;
+import toa.toa.Objects.MrComunity;
 
 /**
  * Created by Guillermo on 7/19/2015.
@@ -11,7 +15,7 @@ import toa.toa.Objects.MrSport;
 public class SirSportsListRetriever implements SirSportsListInterface {
 
     @Override
-    public void goIt(ArrayList<MrSport> sports) {
+    public void goIt(ArrayList<MrComunity> sports) {
 
     }
 

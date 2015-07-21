@@ -1,3 +1,7 @@
+<!--
+  ~ Copyright TOA Inc. 2015.
+  -->
+
 <resources>
     <string name="app_name">TOA</string>
 
@@ -46,11 +50,18 @@
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_activity_profile">Perfil</string>
     <string name="title_activity_atletismo">AtletismoActivity</string>
+    <string name="action_logout">Cerrar sesión</string>
     <string name="title_activity_cycling">CyclingActivity</string>
     <string name="title_activity_triathlon">TriathlonActivity</string>
     <string name="title_activity_swimming">SwimmingActivity</string>
     <string name="title_activity_footbal">FootbolActivity</string>
     <string name="title_activity_running">RunningActivity</string>
 
+    <string-array name="sex_array">
+        <item> </item>
+        <item>Masculino</item>
+        <item>Femenino</item>
+    </string-array>
+    <string name="title_activity_friends">FriendsActivity</string>
 
 </resources>

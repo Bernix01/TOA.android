@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import jp.wasabeef.picasso.transformations.BlurTransformation;
 import toa.toa.Objects.MrComunity;
 import toa.toa.R;
 import toa.toa.activities.CrossFitActivity;
@@ -57,7 +58,7 @@ public class ComunityAdapter extends RecyclerView.Adapter<ComunityAdapter.ViewHo
         holder.comunityname.setText(com.getComunityName());
         Picasso.with(contexto).load(com.getComunityImg()).into(holder.comunityImg);
         if (!com.getComunityBack().isEmpty())
-            Picasso.with(contexto).load(com.getComunityBack()).fit().centerCrop().into(holder.comunityBack);
+            Picasso.with(contexto).load(com.getComunityBack()).fit().centerCrop().transform(new BlurTransformation(contexto, 10)).into(holder.comunityBack);
 
         holder.content.setOnClickListener(new View.OnClickListener() {
             @Override

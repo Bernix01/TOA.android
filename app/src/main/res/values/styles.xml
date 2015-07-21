@@ -1,3 +1,7 @@
+<!--
+  ~ Copyright TOA Inc. 2015.
+  -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
@@ -33,6 +37,16 @@
     <item name="suggestionRowLayout">@layout/item_main</item>
         <item name="android:textColor">#282828</item>
 </style>
+
+    <style name="EditProfcnta">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">#ff414141</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:elevation" tools:targetApi="21">1dp</item>
+    </style>
 
 </resources>
 

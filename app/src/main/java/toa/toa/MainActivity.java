@@ -1,3 +1,7 @@
+/*
+ * Copyright TOA Inc. 2015.
+ */
+
 package toa.toa;
 
 import android.content.Intent;
@@ -24,7 +28,7 @@ import org.json.JSONObject;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import toa.toa.Objects.MrUser;
 import toa.toa.adapters.CollectionPagerAdapter;
-import toa.toa.utils.SirHandler;
+import toa.toa.utils.TOA.SirHandler;
 
 public class MainActivity extends AppCompatActivity {
     private MrUser __user = new MrUser();
@@ -52,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //handle the click on the back arrow click
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
@@ -65,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        //add the values which need to be saved from the drawer to the bundle
         super.onSaveInstanceState(outState);
     }
 
@@ -79,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
             RelativeLayout view = (RelativeLayout) findViewById(R.id.mainActivityLayout);
             view.setPadding(0, getStatusBarHeight(), 0, getNavigationBarHeight());
         }
-        SharedPreferences userDetails = getApplicationContext().getSharedPreferences("u_data", MODE_PRIVATE);
+        SharedPreferences userDetails = getApplicationContext().getSharedPreferences("appData", MODE_PRIVATE);
         int firstTime = userDetails.getInt("firstTme", 1);
         SirHandler handler = new SirHandler(getApplicationContext());
         __user = handler.getCurrentUser();
@@ -91,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
             firstVisit.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(firstVisit);
             finish();
-        } else if (MrUser.get_id() == -1) {
+        } else if (__user.get_id() == -1) {
             Intent Splash = new Intent(getApplicationContext(), Splash_Activity.class);
             Splash.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(Splash);
@@ -102,49 +104,24 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
                 ViewPager pager = (ViewPager) findViewById(R.id.pager);
-                pager.setAdapter(new CollectionPagerAdapter(getSupportFragmentManager(), MrUser.get_id()));
+        pager.setAdapter(new CollectionPagerAdapter(getSupportFragmentManager(), __user.get_id()));
                 PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
                 tabs.setViewPager(pager);
-                name_txtv.setText(MrUser.get_uname());
+        name_txtv.setText(__user.get_uname());
                 name_txtv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
                         i.putExtra("user", __user);
+                        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(i);
                     }
                 });
-                if (!MrUser.get_pimage().isEmpty()) {
-                    Picasso.with(getApplicationContext()).load(MrUser.get_pimage()).transform(new CropCircleTransformation()).into(pimage_imgv);
+        if (!__user.get_pimage().isEmpty()) {
+            Picasso.with(getApplicationContext()).load(__user.get_pimage()).transform(new CropCircleTransformation()).into(pimage_imgv);
                 } else {
                     Picasso.with(getApplicationContext()).load(R.drawable.defaultpimage).transform(new CropCircleTransformation()).into(pimage_imgv);
                 }
-
-       /* RestApi.get("/node/" + getId(), new RequestParams(), new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                JSONObject data = new JSONObject();
-                try {
-                    data = response.getJSONObject("data");
-                    MrUser.set_email(tryGetString(data, "email"));
-                    MrUser.set_id(tryGetInt(response.getJSONObject("metadata"), "id"));
-                    MrUser.set_name(tryGetString(data, "name"));
-                    MrUser.set_uname(tryGetString(data, "u_name"));
-                    MrUser.set_bio(tryGetString(data, "bio"));
-                    MrUser.set_gender(tryGetInt(data, "gender"));
-                } catch (JSONException e) {
-                    Toast.makeText(getApplicationContext(), "Please connect to a network", Toast.LENGTH_LONG).show();
-                    finish();
-                }
-
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-            }
-        });*/
-
     }
 
     public int getStatusBarHeight() {

@@ -1,4 +1,8 @@
-package toa.toa.utils;
+/*
+ * Copyright TOA Inc. 2015.
+ */
+
+package toa.toa.utils.TOA;
 
 import toa.toa.Objects.MrUser;
 

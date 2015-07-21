@@ -1,3 +1,7 @@
+/*
+ * Copyright TOA Inc. 2015.
+ */
+
 package toa.toa;
 
 import android.app.Activity;
@@ -22,7 +26,7 @@ import org.json.JSONObject;
 
 import toa.toa.Objects.MrUser;
 import toa.toa.utils.RestApi;
-import toa.toa.utils.SirHandler;
+import toa.toa.utils.TOA.SirHandler;
 
 /**
  * Creado por : elelawliet
@@ -49,7 +53,7 @@ public class LoginActivity extends Activity {
                     return;
                 sigIn.setProgress(50);
                 JSONObject cmd = new JSONObject();
-                JSONArray statements = new JSONArray();
+                final JSONArray statements = new JSONArray();
                 try {
                     JSONObject subcmd = new JSONObject();
                     subcmd.put("statement", "MATCH (n:user) WHERE n.pw=\"" + _user + "\" RETURN id(n), n.u_name, n.name, n.bio, n.gender, n.email, n.pimageurl");
@@ -59,17 +63,18 @@ public class LoginActivity extends Activity {
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                             try {
+                                Log.i("got it!", statusCode + " " + response + "  " + _user);
                                 sigIn.setProgress(100);
                                 SirHandler handler = new SirHandler(getApplicationContext());
                                 JSONArray udata = response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row");
                                 MrUser _cuser = new MrUser();
-                                MrUser.set_id(handler.tryGetInt(udata, 0));
-                                MrUser.set_uname(handler.tryGetString(udata, 1));
-                                MrUser.set_name(handler.tryGetString(udata, 2));
-                                MrUser.set_bio(handler.tryGetString(udata, 3));
-                                MrUser.set_gender(handler.tryGetInt(udata, 4));
-                                MrUser.set_email(handler.tryGetString(udata, 5));
-                                MrUser.set_pimage(handler.tryGetString(udata, 6));
+                                _cuser.set_id(handler.tryGetInt(udata, 0));
+                                _cuser.set_uname(handler.tryGetString(udata, 1));
+                                _cuser.set_name(handler.tryGetString(udata, 2));
+                                _cuser.set_bio(handler.tryGetString(udata, 3));
+                                _cuser.set_gender(handler.tryGetInt(udata, 4));
+                                _cuser.set_email(handler.tryGetString(udata, 5));
+                                _cuser.set_pimage(handler.tryGetString(udata, 6));
                                 handler.registerCurrentUser(_cuser);
                                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

@@ -1,22 +1,37 @@
+/*
+ * Copyright TOA Inc. 2015. 
+ */
+
 package toa.toa;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 import jp.wasabeef.picasso.transformations.BlurTransformation;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+import toa.toa.Objects.MrComunity;
 import toa.toa.Objects.MrUser;
+import toa.toa.adapters.ProfileSportsAdapter;
+import toa.toa.utils.TOA.SimpleCallbackClass;
+import toa.toa.utils.TOA.SirHandler;
+import toa.toa.utils.TOA.SirSportsListRetriever;
 
 public class ProfileActivity extends AppCompatActivity {
     ImageView bg;
@@ -43,16 +58,37 @@ public class ProfileActivity extends AppCompatActivity {
         TextView bio = (TextView) findViewById(R.id.profle_bio_txtv);
         ImageView pic = (ImageView) findViewById(R.id.profile_person_imgv);
         bg = (ImageView) findViewById(R.id.profile_bg_imgv);
-        RecyclerView sports = (RecyclerView) findViewById(R.id.profile_sports_recycler);
-        if (!MrUser.get_pimage().isEmpty()) {
-            Picasso.with(getApplicationContext()).load(MrUser.get_pimage()).transform(new CropCircleTransformation()).into(pic);
+        final RecyclerView sportsrecycler = (RecyclerView) findViewById(R.id.profile_sports_recycler);
+        sportsrecycler.setHasFixedSize(true);
+        if (!_user.get_pimage().isEmpty()) {
+            Picasso.with(getApplicationContext()).load(_user.get_pimage()).transform(new CropCircleTransformation()).into(pic);
         } else {
             Picasso.with(getApplicationContext()).load(R.drawable.defaultpimage).transform(new CropCircleTransformation()).into(pic);
         }
-        name.setText(MrUser.get_uname());
-        bio.setText(MrUser.get_bio());
-
+        name.setText(_user.get_uname());
+        bio.setText(_user.get_bio());
+        LinearLayout friendsIcn = (LinearLayout) findViewById(R.id.friendv_cnt);
+        friendsIcn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), FriendsActivity.class));
+            }
+        });
         Picasso.with(getApplicationContext()).load("http://www.resortvillarosa.it/img/top/sport1.jpg").fit().centerCrop().transform(new BlurTransformation(getApplicationContext(), 15)).into(bg);
+        SirHandler handler = new SirHandler(getApplicationContext());
+        handler.getUserSports(_user, new SirSportsListRetriever() {
+            @Override
+            public void goIt(ArrayList<MrComunity> sports) {
+                ProfileSportsAdapter adapter = new ProfileSportsAdapter(sports, getApplicationContext());
+                sportsrecycler.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void failure(String error) {
+                Log.e("profile_sports_error", error);
+            }
+        });
     }
 
     public int getStatusBarHeight() {
@@ -80,16 +116,26 @@ public class ProfileActivity extends AppCompatActivity {
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.prof_action_edit:
+                startActivity(new Intent(getApplicationContext(), EditProfileActivity.class));
+                return true;
+            case R.id.prof_action_logout:
+                SirHandler handler = new SirHandler(getApplicationContext());
+                handler.logout(new SimpleCallbackClass() {
+                    @Override
+                    public void goIt() {
+                        Intent i = new Intent(getApplicationContext(), Splash_Activity.class);
+                        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(i);
+                        finish();
+                    }
+                });
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 }
