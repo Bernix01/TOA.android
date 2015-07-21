@@ -4,6 +4,8 @@
 
 package toa.toa;
 
+import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,7 +27,12 @@ public class FriendsActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
+
+
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.friends_recyclerview);
+        if (Build.VERSION.SDK_INT > 19) {
+            recyclerView.setPadding(0, getStatusBarHeight(), 0, getNavigationBarHeight());
+        }
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         SirHandler handler = new SirHandler(getApplicationContext());
         handler.getUserFriends(handler.getCurrentUser(), new SirFriendsRetriever() {
@@ -39,6 +46,24 @@ public class FriendsActivity extends ActionBarActivity {
                 super.failure(error);
             }
         });
+    }
+
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
+    public int getNavigationBarHeight() {
+        Resources resources = getApplicationContext().getResources();
+        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            return resources.getDimensionPixelSize(resourceId);
+        }
+        return 0;
     }
 
     @Override
