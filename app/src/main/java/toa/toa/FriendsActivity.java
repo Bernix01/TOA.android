@@ -13,6 +13,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.squareup.picasso.PIcassoTools;
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 import toa.toa.Objects.MrUser;
@@ -33,6 +36,8 @@ public class FriendsActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT > 19) {
             recyclerView.setPadding(0, getStatusBarHeight(), 0, getNavigationBarHeight());
         }
+
+        PIcassoTools.clearCache(Picasso.with(getApplicationContext()));
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         SirHandler handler = new SirHandler(getApplicationContext());
         handler.getUserFriends(handler.getCurrentUser(), new SirFriendsRetriever() {

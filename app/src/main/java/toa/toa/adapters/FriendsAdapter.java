@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -74,9 +75,11 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
     private ImageView addImgv(MrComunity comunity) {
         ImageView imv = new ImageView(contexto);
         Resources r = contexto.getResources();
-        int wh = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 25, r.getDisplayMetrics()));
+        int wh = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, r.getDisplayMetrics()));
         Log.i("wh", wh + "");
-        Picasso.with(contexto).load(comunity.getComunityImg()).resize(wh, wh).into(imv);
+        Picasso.with(contexto).setIndicatorsEnabled(true);
+        Picasso.with(contexto).setLoggingEnabled(true);
+        Picasso.with(contexto).load(comunity.getComunityImg()).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).resize(wh, wh).into(imv);
         return imv;
     }
 

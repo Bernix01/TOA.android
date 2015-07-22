@@ -25,8 +25,8 @@ import toa.toa.Objects.MrUser;
 import toa.toa.ProfileActivity;
 import toa.toa.R;
 import toa.toa.adapters.CollectionPagerSwimmingAdapter;
-import toa.toa.utils.SirHandler;
-import toa.toa.utils.SirUserRetrieverUserRetrieverClass;
+import toa.toa.utils.TOA.SirHandler;
+import toa.toa.utils.TOA.SirUserRetrieverClass;
 
 public class SwimmingActivity extends AppCompatActivity {
     private static int __n_id;
@@ -57,15 +57,15 @@ public class SwimmingActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
         SirHandler handler = new SirHandler(getApplicationContext());
-        handler.getUserById(__n_id, new SirUserRetrieverUserRetrieverClass() {
+        handler.getUserById(__n_id, new SirUserRetrieverClass() {
             @Override
             public void goIt(MrUser user) {
                 __user = user;
                 ViewPager pager = (ViewPager) findViewById(R.id.pagerSwimming);
-                pager.setAdapter(new CollectionPagerSwimmingAdapter(getSupportFragmentManager(), MrUser.get_id()));
+                pager.setAdapter(new CollectionPagerSwimmingAdapter(getSupportFragmentManager(), user.get_id()));
                 PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabsSwimming);
                 tabs.setViewPager(pager);
-                name_txtv.setText(MrUser.get_uname());
+                name_txtv.setText(user.get_uname());
                 name_txtv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -74,8 +74,8 @@ public class SwimmingActivity extends AppCompatActivity {
                         startActivity(i);
                     }
                 });
-                if (!MrUser.get_pimage().isEmpty()) {
-                    Picasso.with(getApplicationContext()).load(MrUser.get_pimage()).transform(new CropCircleTransformation()).into(pimage_imgv);
+                if (!user.get_pimage().isEmpty()) {
+                    Picasso.with(getApplicationContext()).load(user.get_pimage()).transform(new CropCircleTransformation()).into(pimage_imgv);
                 } else {
                     Picasso.with(getApplicationContext()).load(R.drawable.defaultpimage).transform(new CropCircleTransformation()).into(pimage_imgv);
                 }
