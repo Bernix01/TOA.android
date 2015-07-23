@@ -173,13 +173,13 @@ public class SirHandler {
                 new JSONObject();
                 try {
                     data = response.getJSONObject("data");
-                    _currentUser.set_email(tryGetString(data, "email"));
-                    _currentUser.set_id(tryGetInt(response.getJSONObject("metadata"), "id"));
-                    _currentUser.set_name(tryGetString(data, "name"));
-                    _currentUser.set_uname(tryGetString(data, "u_name"));
-                    _currentUser.set_bio(tryGetString(data, "bio"));
-                    _currentUser.set_gender(tryGetInt(data, "gender"));
-                    _currentUser.set_pimage(tryGetString(data, "pimageurl"));
+                    user.set_email(tryGetString(data, "email"));
+                    user.set_id(tryGetInt(response.getJSONObject("metadata"), "id"));
+                    user.set_name(tryGetString(data, "name"));
+                    user.set_uname(tryGetString(data, "u_name"));
+                    user.set_bio(tryGetString(data, "bio"));
+                    user.set_gender(tryGetInt(data, "gender"));
+                    user.set_pimage(tryGetString(data, "pimageurl"));
 
                     Log.i("getUserById", "sending");
                     userRetriever.goIt(user);
@@ -337,5 +337,48 @@ public class SirHandler {
         });
     }
 
+    public void getPlaces(MrComunity com) {
+
+        JSONObject cmd = new JSONObject();
+        JSONArray cmds = new JSONArray();
+        JSONObject subcmd = new JSONObject();
+        try {
+            subcmd.put("statement", "MATCH (n:Place)-[r:COVERS]->(a:Sport) WHERE a.name=\"" + com.getComunityName() + "\" RETURN n");
+            cmds.put(subcmd);
+            cmd.put("statements", cmds);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.e("response", response.toString());
+                try {
+                    ArrayList<MrUser> friends = new ArrayList<MrUser>();
+                    JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
+                    Log.e("respuesta", response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row").toString());
+                    int datos = dataf.length();
+                    for (int i = 0; i < datos; i++) {
+                        JSONObject udata = dataf.getJSONObject(i).getJSONArray("row").getJSONObject(0);
+                        Log.e("udata", udata.getString("u_name"));
+                        friends.add(new MrUser(dataf.getJSONObject(i).getJSONArray("row").getInt(1), tryGetString(udata, "name"), tryGetString(udata, "u_name"), tryGetString(udata, "email"), tryGetString(udata, "bio"), tryGetInt(udata, "gender"), tryGetInt(udata, "age"), tryGetString(udata, "pimageurl")));//aquí parece ser el error
+                    }
+                    Log.e("friends", friends.size() + "");
+                    // retriever.goIt(friends);
+
+                } catch (JSONException e) {
+                    Log.e("exception", e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.e("error", "code: " + statusCode + " " + throwable.toString());
+                //  retriever.failure(throwable.toString());
+            }
+        });
+    }
 
 }
