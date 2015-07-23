@@ -1,3 +1,7 @@
+/*
+ * Copyright TOA Inc. 2015.
+ */
+
 package toa.toa.Objects;
 
 import java.util.Date;
@@ -12,22 +16,35 @@ public class MrEvent {
     private Date dateStart;
     private Date dateEnd;
     private String organizador;
+    private String address;
     private String descr;
-    private float x, y, price = 0;
+    private float x, y, price = 0, distance = 0;
+    private String cat;
 
-    public MrEvent(int id, String name, Date dateStart, Date dateEnd, String organizador, String descr, float x, float y) {
+    public MrEvent(int id, String name, Date dateStart, Date dateEnd, String organizador, String descr, String address, float x, float y) {
         this.id = id;
         this.name = name;
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
         this.organizador = organizador;
         this.descr = descr;
+        this.address = address;
         this.x = x;
         this.y = y;
     }
 
     public MrEvent withPrice(float price) {
         this.price = price;
+        return this;
+    }
+
+    public MrEvent withDistance(float distance) {
+        this.distance = distance;
+        return this;
+    }
+
+    public MrEvent withCategory(String cat) {
+        this.cat = cat;
         return this;
     }
 
