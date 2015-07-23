@@ -61,6 +61,7 @@
             android:layout_height="60dip"
             android:layout_alignTop="@+id/linearLayout3"
             android:foregroundGravity="center_vertical|center_horizontal"
+            android:paddingTop="5dp"
             app:pstsIndicatorColor="?attr/colorAccent"
             app:pstsIndicatorHeight="3dp"
             app:pstsShouldExpand="true" />

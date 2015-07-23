@@ -25,8 +25,8 @@ import toa.toa.Objects.MrUser;
 import toa.toa.ProfileActivity;
 import toa.toa.R;
 import toa.toa.adapters.CollectionPagerFootbolAdapter;
-import toa.toa.utils.SirHandler;
-import toa.toa.utils.SirUserRetrieverUserRetrieverClass;
+import toa.toa.utils.TOA.SirHandler;
+import toa.toa.utils.TOA.SirUserRetrieverClass;
 
 public class FootballActivity extends AppCompatActivity {
     private static int __n_id;
@@ -57,15 +57,16 @@ public class FootballActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
         SirHandler handler = new SirHandler(getApplicationContext());
-        handler.getUserById(__n_id, new SirUserRetrieverUserRetrieverClass() {
+        final MrUser currentUser = handler.getCurrentUser();
+        handler.getUserById(__n_id, new SirUserRetrieverClass() {
             @Override
             public void goIt(MrUser user) {
                 __user = user;
                 ViewPager pager = (ViewPager) findViewById(R.id.pagerFootbol);
-                pager.setAdapter(new CollectionPagerFootbolAdapter(getSupportFragmentManager(), MrUser.get_id()));
+                pager.setAdapter(new CollectionPagerFootbolAdapter(getSupportFragmentManager(), currentUser.get_id()));
                 PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabsFootbol);
                 tabs.setViewPager(pager);
-                name_txtv.setText(MrUser.get_uname());
+                name_txtv.setText(currentUser.get_uname());
                 name_txtv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -74,8 +75,8 @@ public class FootballActivity extends AppCompatActivity {
                         startActivity(i);
                     }
                 });
-                if (!MrUser.get_pimage().isEmpty()) {
-                    Picasso.with(getApplicationContext()).load(MrUser.get_pimage()).transform(new CropCircleTransformation()).into(pimage_imgv);
+                if (!currentUser.get_pimage().isEmpty()) {
+                    Picasso.with(getApplicationContext()).load(currentUser.get_pimage()).transform(new CropCircleTransformation()).into(pimage_imgv);
                 } else {
                     Picasso.with(getApplicationContext()).load(R.drawable.defaultpimage).transform(new CropCircleTransformation()).into(pimage_imgv);
                 }

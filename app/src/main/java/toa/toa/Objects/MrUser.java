@@ -51,7 +51,6 @@ public class MrUser implements Parcelable {
         _id = in.readInt();
         _name = in.readString();
         _uname = in.readString();
-
         _pimage = in.readString();
         _age = in.readInt();
 
