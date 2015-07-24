@@ -63,5 +63,6 @@
         <item>Femenino</item>
     </string-array>
     <string name="title_activity_friends">FriendsActivity</string>
+    <string name="title_activity_consejos_nutricionales">ConsejosNutricionalesActivity</string>
 
 </resources>
