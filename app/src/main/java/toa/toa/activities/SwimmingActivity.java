@@ -57,6 +57,7 @@ public class SwimmingActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
         SirHandler handler = new SirHandler(getApplicationContext());
+
         handler.getUserById(__n_id, new SirUserRetrieverClass() {
             @Override
             public void goIt(MrUser user) {
