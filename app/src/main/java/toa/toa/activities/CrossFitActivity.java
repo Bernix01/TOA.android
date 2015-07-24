@@ -3,6 +3,9 @@ package toa.toa.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -18,6 +21,7 @@ import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import toa.toa.FirstVisit;
@@ -81,6 +85,23 @@ public class CrossFitActivity extends AppCompatActivity {
                 } else {
                     Picasso.with(getApplicationContext()).load(R.drawable.defaultpimage).transform(new CropCircleTransformation()).into(pimage_imgv);
                 }
+                Picasso.with(getApplicationContext()).load(com.getBackImage()).into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        RelativeLayout cnt = (RelativeLayout) findViewById(R.id.profile_bg_imgv);
+                        cnt.setBackground(new BitmapDrawable(getResources(), bitmap));
+                    }
+
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                    }
+                });
             }
 
             @Override

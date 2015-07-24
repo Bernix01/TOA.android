@@ -18,7 +18,7 @@ import toa.toa.fragments.NutricionFragment;
 public class CollectionPagerCrossfitAdapter extends FragmentStatePagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
 
     private final int[] iconsTOA = {R.drawable.comunidades_white, R.drawable.ubication_white, R.drawable.calendario_white, R.drawable.shop_white};
-    private String[] titles = {"Comunidades", "bllablabla", "balblalbalba"};
+    private String[] titles = {"Comunidades", "bllablabla", "balblalbalba", ":V"};
     private int id;
 
     public CollectionPagerCrossfitAdapter(FragmentManager fm, int id) {
@@ -39,6 +39,8 @@ public class CollectionPagerCrossfitAdapter extends FragmentStatePagerAdapter im
             case 1:
                 return new NutricionFragment();
             case 2:
+                return new NoticiasFragment();
+            case 3:
                 return new NoticiasFragment();
         }
         return null;

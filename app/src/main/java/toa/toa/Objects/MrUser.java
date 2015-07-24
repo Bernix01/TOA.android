@@ -11,6 +11,7 @@ import android.os.Parcelable;
  * Created by Guillermo on 6/9/2015.
  */
 public class MrUser implements Parcelable {
+
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
         public MrUser createFromParcel(Parcel in) {
             return new MrUser(in);
@@ -51,7 +52,6 @@ public class MrUser implements Parcelable {
         _id = in.readInt();
         _name = in.readString();
         _uname = in.readString();
-
         _pimage = in.readString();
         _age = in.readInt();
 
@@ -120,6 +120,7 @@ public class MrUser implements Parcelable {
     public void set_gender(int _gender) {
         this._gender = _gender;
     }
+
 
     @Override
     public int describeContents() {

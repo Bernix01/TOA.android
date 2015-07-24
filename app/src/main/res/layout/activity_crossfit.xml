@@ -24,7 +24,8 @@
         android:layout_below="@+id/my_awesome_toolbar"
         android:background="#000c0c"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="60dp">
 
         <RelativeLayout
             android:id="@+id/relativeLayout2"
@@ -85,10 +86,11 @@
         android:layout_width="fill_parent"
         android:layout_height="60dip"
 
+        android:layout_alignBottom="@+id/linearLayout5"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/linearLayout5"
         android:foregroundGravity="center_vertical|center_horizontal"
+        android:paddingBottom="60dp"
         app:pstsIndicatorColor="?attr/colorAccent"
         app:pstsIndicatorHeight="3dp"
         app:pstsShouldExpand="true" />
