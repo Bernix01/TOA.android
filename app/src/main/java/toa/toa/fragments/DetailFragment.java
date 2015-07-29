@@ -16,11 +16,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
-import com.herprogramacion.iwish.modelo.Meta;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import toa.toa.Objects.MrConsejo;
 import toa.toa.R;
 import toa.toa.utils.ConsejosNutricionales.Constantes;
 import toa.toa.web.VolleySingleton;
@@ -87,7 +87,7 @@ public class DetailFragment extends Fragment {
     public void cargarDatos() {
 
         // Añadir parámetro a la URL del web service
-        //String newURL = Constantes.GET_BY_ID + "?idMeta=" + extra;
+        String newURL = Constantes.GET_BY_ID + "?idMeta=" + extra;
 
         // Realizar petición GET_BY_ID
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(
@@ -131,7 +131,7 @@ public class DetailFragment extends Fragment {
                     JSONObject object = response.getJSONObject("meta");
 
                     //Parsear objeto 
-                    Meta meta = gson.fromJson(object.toString(), Meta.class);
+                    MrConsejo meta = gson.fromJson(object.toString(), MrConsejo.class);
 
                     // Asignar color del fondo
                     switch (meta.getCategoria()) {
@@ -155,7 +155,7 @@ public class DetailFragment extends Fragment {
                     // Seteando valores en los views
                     titulo.setText(meta.getTitulo());
                     descripcion.setText(meta.getDescripcion());
-                    prioridad.setText(meta.getPrioridad());
+                    prioridad.setText(meta.getAutor());
                     fechaLim.setText(meta.getFechaLim());
                     categoria.setText(meta.getCategoria());
 

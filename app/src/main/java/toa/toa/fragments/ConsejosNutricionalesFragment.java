@@ -23,6 +23,7 @@ import org.json.JSONObject;
 import java.util.Arrays;
 
 import toa.toa.Objects.MrConsejo;
+import toa.toa.R;
 import toa.toa.adapters.MetaAdapter;
 import toa.toa.utils.ConsejosNutricionales.Constantes;
 import toa.toa.web.VolleySingleton;
@@ -59,7 +60,7 @@ public class ConsejosNutricionalesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_main, container, false);
+        View v = inflater.inflate(R.layout.fragment_consejos_nutricionales, container, false);
 
         lista = (RecyclerView) v.findViewById(R.id.reciclador);
         lista.setHasFixedSize(true);
