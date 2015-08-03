@@ -392,13 +392,13 @@ public class SirHandler {
         });
     }
 
-    public void getSportEvents(final MrComunity com, final SirEventsRetriever retriever) {
+    public void getSportEvents(final String com, final SirEventsRetriever retriever) {
 
         JSONObject cmd = new JSONObject();
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
         try {
-            subcmd.put("statement", "MATCH (n:Event)-[r:isAbout]->(a:Sport) WHERE a.name=\"" + com.getComunityName() + "\" RETURN n");
+            subcmd.put("statement", "MATCH (n:Event)-[r:isAbout]->(a:Sport) WHERE a.name=\"" + com + "\" RETURN n");
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {
@@ -427,9 +427,9 @@ public class SirHandler {
                                 tryGetString(udata, "address"),
                                 tryGetFloat(udata, "x"),
                                 tryGetFloat(udata, "y"));
-                        if (com.getComunityName().equals("Running") || com.getComunityName().equals("Ciclismo") || com.getComunityName().equals("Natación"))
+                        if (com.equals("Running") || com.equals("Ciclismo") || com.equals("Natación"))
                             temp = temp.withDistance(tryGetFloat(udata, "distance"));
-                        if (com.getComunityName().equals("Triatlón"))
+                        if (com.equals("Triatlón"))
                             temp = temp.withCategory(tryGetString(udata, "cat"));
                         float price = tryGetFloat(udata, "price");
                         temp = temp.withPrice((price == 0.0f) ? 0 : price);

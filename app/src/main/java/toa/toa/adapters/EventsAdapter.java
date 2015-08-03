@@ -20,12 +20,10 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import toa.toa.Objects.MrComunity;
 import toa.toa.Objects.MrEvent;
 import toa.toa.R;
 import toa.toa.utils.TOA.SirHandler;
-import toa.toa.utils.TOA.SirSportsListRetriever;
 
 public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder> {
 
@@ -46,26 +44,9 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final MrEvent com = comunities.get(position);
-        holder.nametxtv.setText(com.get_uname());
-        if (!com.get_pimage().isEmpty()) {
-            Picasso.with(contexto).load(com.get_pimage()).transform(new CropCircleTransformation()).into(holder.pimage);
-        } else {
-            Picasso.with(contexto).load(R.drawable.defaultpimage).transform(new CropCircleTransformation()).into(holder.pimage);
-        }
+        final MrEvent event = comunities.get(position);
+        
         SirHandler handler = new SirHandler(contexto);
-        handler.getUserSports(com, new SirSportsListRetriever() {
-            @Override
-            public void goIt(ArrayList<MrComunity> sports) {
-                for (MrComunity sport : sports)
-                    holder.glSports.addView(addImgv(sport));
-            }
-
-            @Override
-            public void failure(String error) {
-
-            }
-        });
     }
 
     private ImageView addImgv(MrComunity comunity) {
