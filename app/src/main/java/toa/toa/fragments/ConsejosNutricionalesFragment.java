@@ -1,6 +1,5 @@
 package toa.toa.fragments;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -29,7 +27,7 @@ import toa.toa.utils.ConsejosNutricionales.Constantes;
 import toa.toa.web.VolleySingleton;
 
 
-public class ConsejosNutricionalesFragment extends Fragment {
+public class ConsejosNutricionalesFragment extends android.support.v4.app.Fragment {
     /*
       Etiqueta de depuracion
        */
@@ -88,7 +86,6 @@ public class ConsejosNutricionalesFragment extends Fragment {
                 getInstance(getActivity()).
                 addToRequestQueue(
                         new JsonObjectRequest(
-                                Request.Method.GET,
                                 Constantes.GET,
                                 null,
                                 new Response.Listener<JSONObject>() {

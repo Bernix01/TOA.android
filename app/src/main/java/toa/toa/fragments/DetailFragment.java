@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -41,7 +40,7 @@ public class DetailFragment extends Fragment {
     private ImageView cabecera;
     private TextView titulo;
     private TextView descripcion;
-    private TextView prioridad;
+    private TextView autor;
     private TextView fechaLim;
     private TextView categoria;
     private ImageButton editButton;
@@ -68,7 +67,7 @@ public class DetailFragment extends Fragment {
         cabecera = (ImageView) v.findViewById(R.id.cabecera);
         titulo = (TextView) v.findViewById(R.id.titulo);
         descripcion = (TextView) v.findViewById(R.id.descripcion);
-        prioridad = (TextView) v.findViewById(R.id.autor);
+        autor = (TextView) v.findViewById(R.id.autor);
         fechaLim = (TextView) v.findViewById(R.id.fecha);
         categoria = (TextView) v.findViewById(R.id.categoria);
 
@@ -81,9 +80,6 @@ public class DetailFragment extends Fragment {
         return v;
     }
 
-    /**
-     * Obtiene los datos desde el servidor
-     */
     public void cargarDatos() {
 
         // Añadir parámetro a la URL del web service
@@ -92,7 +88,6 @@ public class DetailFragment extends Fragment {
         // Realizar petición GET_BY_ID
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(
                 new JsonObjectRequest(
-                        Request.Method.GET,
                         newURL,
                         null,
                         new Response.Listener<JSONObject>() {
@@ -112,6 +107,9 @@ public class DetailFragment extends Fragment {
                 )
         );
     }
+    /**
+     * Obtiene los datos desde el servidor
+     */
 
     /**
      * Procesa cada uno de los estados posibles de la
@@ -130,24 +128,24 @@ public class DetailFragment extends Fragment {
                     // Obtener objeto "meta"
                     JSONObject object = response.getJSONObject("meta");
 
-                    //Parsear objeto 
+                    //Parsear objeto
                     MrConsejo meta = gson.fromJson(object.toString(), MrConsejo.class);
 
                     // Asignar color del fondo
                     switch (meta.getCategoria()) {
-                        case "Salud":
+                        case "Natación":
                             cabecera.setBackgroundColor(getResources().getColor(R.color.saludColor));
                             break;
-                        case "Finanzas":
+                        case "Crossfit":
                             cabecera.setBackgroundColor(getResources().getColor(R.color.finanzasColor));
                             break;
-                        case "Espiritual":
+                        case "Ciclismo":
                             cabecera.setBackgroundColor(getResources().getColor(R.color.espiritualColor));
                             break;
-                        case "Profesional":
+                        case "Running":
                             cabecera.setBackgroundColor(getResources().getColor(R.color.profesionalColor));
                             break;
-                        case "Material":
+                        case "Fútbol":
                             cabecera.setBackgroundColor(getResources().getColor(R.color.materialColor));
                             break;
                     }
@@ -155,10 +153,9 @@ public class DetailFragment extends Fragment {
                     // Seteando valores en los views
                     titulo.setText(meta.getTitulo());
                     descripcion.setText(meta.getDescripcion());
-                    prioridad.setText(meta.getAutor());
+                    autor.setText(meta.getAutor());
                     fechaLim.setText(meta.getFechaLim());
                     categoria.setText(meta.getCategoria());
-
                     break;
 
                 case "2":

@@ -70,7 +70,7 @@ public class MetaAdapter extends RecyclerView.Adapter<MetaAdapter.MetaViewHolder
     @Override
     public void onItemClick(View view, int position) {
         DetailconsejosNutricionalesActivity.launch(
-                (Activity) context, items.get(position).getIdMeta());
+                (Activity) context, items.get(position).getIdConsejo());
     }
 
 
