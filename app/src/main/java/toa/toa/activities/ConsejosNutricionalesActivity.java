@@ -18,7 +18,7 @@ public class ConsejosNutricionalesActivity extends AppCompatActivity {
         // Creación del fragmento principal
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new ConsejosNutricionalesFragment(), "CNFragment")
+                    .add(R.id.container, new ConsejosNutricionalesFragment(), "ConsejosNutricionalesFragment")
                     .commit();
         }
     }
@@ -29,7 +29,7 @@ public class ConsejosNutricionalesActivity extends AppCompatActivity {
         if (requestCode == Constantes.CODIGO_DETALLE || requestCode == 3) {
             if (resultCode == RESULT_OK || resultCode == 203) {
                 ConsejosNutricionalesFragment fragment = (ConsejosNutricionalesFragment) getSupportFragmentManager().
-                        findFragmentByTag("CNFragment");
+                        findFragmentByTag("ConsejosNutricionalesFragment");
                 fragment.cargarAdaptador();
             }
         }

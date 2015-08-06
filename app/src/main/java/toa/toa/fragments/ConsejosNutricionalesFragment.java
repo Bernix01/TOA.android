@@ -28,24 +28,16 @@ import toa.toa.web.VolleySingleton;
 
 
 public class ConsejosNutricionalesFragment extends android.support.v4.app.Fragment {
-    /*
-      Etiqueta de depuracion
-       */
+    /*      Etiqueta de depuracion       */
     private static final String TAG = ConsejosNutricionalesFragment.class.getSimpleName();
 
-    /*
-    Adaptador del recycler view
-     */
+    /*    Adaptador del recycler view    */
     private MetaAdapter adapter;
 
-    /*
-    Instancia global del recycler view
-     */
+    /*    Instancia global del recycler view     */
     private RecyclerView lista;
 
-    /*
-    instancia global del administrador
-     */
+    /*    instancia global del administrador     */
     private RecyclerView.LayoutManager lManager;
 
 
