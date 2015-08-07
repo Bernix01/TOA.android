@@ -27,33 +27,6 @@
         android:orientation="vertical"
         android:paddingBottom="60dp">
 
-        <RelativeLayout
-            android:id="@+id/relativeLayout2"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/my_awesome_toolbar"
-            android:gravity="right">
-
-            <ImageView
-                android:id="@+id/main_ui_pimage_imv"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="5dp"
-                android:layout_toRightOf="@+id/main_ui_name_txtv" />
-
-            <TextView
-                android:id="@+id/main_ui_name_txtv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="3dp"
-                android:text="Wilmer Vera"
-                android:textSize="18sp" />
-        </RelativeLayout>
-
         <ImageView
             android:id="@+id/imageView9"
             android:layout_width="100dp"
@@ -76,6 +49,7 @@
             android:layout_below="@+id/textView8"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="10dp"
+            android:padding="8dp"
             android:text="El éxito no llega si tu no vas hacia él"
             android:textAppearance="?android:attr/textAppearanceSmall" />
     </LinearLayout>
@@ -90,7 +64,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:foregroundGravity="center_vertical|center_horizontal"
-        android:paddingBottom="60dp"
         app:pstsIndicatorColor="?attr/colorAccent"
         app:pstsIndicatorHeight="3dp"
         app:pstsShouldExpand="true" />
@@ -102,5 +75,32 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/tabsCrossfit" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_above="@+id/linearLayout5"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:gravity="right">
+
+        <ImageView
+            android:id="@+id/main_ui_pimage_imv"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@+id/main_ui_name_txtv" />
+
+        <TextView
+            android:id="@+id/main_ui_name_txtv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="3dp"
+            android:text="Wilmer Vera"
+            android:textSize="18sp" />
+    </RelativeLayout>
 
 </RelativeLayout>

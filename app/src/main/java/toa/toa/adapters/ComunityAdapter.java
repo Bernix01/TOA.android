@@ -124,7 +124,5 @@ public class ComunityAdapter extends RecyclerView.Adapter<ComunityAdapter.ViewHo
             comunityImg = (ImageView) itemView.findViewById(R.id.comunity_image);
             content = (RelativeLayout) itemView.findViewById(R.id.content_comunity);
         }
-
     }
-
 }

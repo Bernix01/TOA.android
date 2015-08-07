@@ -55,7 +55,7 @@ public class TriathlonActivity extends AppCompatActivity {
             finish();
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(true);
         SirHandler handler = new SirHandler(getApplicationContext());
         handler.getUserById(__n_id, new SirUserRetrieverClass() {
             @Override

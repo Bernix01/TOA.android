@@ -54,18 +54,19 @@ public class FootballActivity extends AppCompatActivity {
             startActivity(firstVisit);
             finish();
         }
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         SirHandler handler = new SirHandler(getApplicationContext());
+        final MrUser currentUser = handler.getCurrentUser();
         handler.getUserById(__n_id, new SirUserRetrieverClass() {
             @Override
             public void goIt(MrUser user) {
                 __user = user;
                 ViewPager pager = (ViewPager) findViewById(R.id.pagerFootbol);
-                pager.setAdapter(new CollectionPagerFootbolAdapter(getSupportFragmentManager(), user.get_id()));
+                pager.setAdapter(new CollectionPagerFootbolAdapter(getSupportFragmentManager(), currentUser.get_id()));
                 PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabsFootbol);
                 tabs.setViewPager(pager);
-                name_txtv.setText(user.get_uname());
+                name_txtv.setText(currentUser.get_uname());
                 name_txtv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -74,8 +75,8 @@ public class FootballActivity extends AppCompatActivity {
                         startActivity(i);
                     }
                 });
-                if (!user.get_pimage().isEmpty()) {
-                    Picasso.with(getApplicationContext()).load(user.get_pimage()).transform(new CropCircleTransformation()).into(pimage_imgv);
+                if (!currentUser.get_pimage().isEmpty()) {
+                    Picasso.with(getApplicationContext()).load(currentUser.get_pimage()).transform(new CropCircleTransformation()).into(pimage_imgv);
                 } else {
                     Picasso.with(getApplicationContext()).load(R.drawable.defaultpimage).transform(new CropCircleTransformation()).into(pimage_imgv);
                 }
