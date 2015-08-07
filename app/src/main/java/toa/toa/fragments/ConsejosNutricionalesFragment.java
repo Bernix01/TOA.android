@@ -9,11 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
+import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,8 +23,6 @@ import java.util.Arrays;
 import toa.toa.Objects.MrConsejo;
 import toa.toa.R;
 import toa.toa.adapters.MetaAdapter;
-import toa.toa.utils.ConsejosNutricionales.Constantes;
-import toa.toa.web.VolleySingleton;
 
 
 public class ConsejosNutricionalesFragment extends android.support.v4.app.Fragment {
@@ -74,7 +72,21 @@ public class ConsejosNutricionalesFragment extends android.support.v4.app.Fragme
      */
     public void cargarAdaptador() {
         // Petición GET
-        VolleySingleton.
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get("http://www.mundotoa.co/api/obtener_consejo.php", new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                procesarRespuesta(response);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.e("cargarAdaptador error", responseString);
+                Log.e("cargarAdaptador error", throwable.getMessage());
+            }
+        });
+        /*VolleySingleton.
                 getInstance(getActivity()).
                 addToRequestQueue(
                         new JsonObjectRequest(
@@ -89,6 +101,7 @@ public class ConsejosNutricionalesFragment extends android.support.v4.app.Fragme
                                     }
                                 },
                                 new Response.ErrorListener() {
+
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
                                         Log.d(TAG, "Error Volley: " + error.getMessage());
@@ -96,7 +109,7 @@ public class ConsejosNutricionalesFragment extends android.support.v4.app.Fragme
                                 }
 
                         )
-                );
+                );*/
     }
 
     /**
@@ -113,7 +126,7 @@ public class ConsejosNutricionalesFragment extends android.support.v4.app.Fragme
             switch (estado) {
                 case "1": // EXITO
                     // Obtener array "metas" Json
-                    JSONArray mensaje = response.getJSONArray("metas");
+                    JSONArray mensaje = response.getJSONArray("consejo");
                     // Parsear con Gson
                     MrConsejo[] metas = gson.fromJson(mensaje.toString(), MrConsejo[].class);
                     // Inicializar adaptador

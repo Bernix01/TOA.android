@@ -78,12 +78,12 @@ public class ComunityAdapter extends RecyclerView.Adapter<ComunityAdapter.ViewHo
                         contexto.startActivity(sportRunning);
                         break;
 
-                    case "FÚTBOL":
+                    case "FÃšTBOL":
                         Intent sportFootbol = new Intent(contexto.getApplicationContext(), FootballActivity.class);
                         sportFootbol.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         contexto.startActivity(sportFootbol);
                         break;
-                    case "NATACIÓN":
+                    case "NATACIÃ“N":
                         Intent sportSwimming = new Intent(contexto.getApplicationContext(), SwimmingActivity.class);
                         sportSwimming.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         contexto.startActivity(sportSwimming);
@@ -95,7 +95,7 @@ public class ComunityAdapter extends RecyclerView.Adapter<ComunityAdapter.ViewHo
 
                         contexto.startActivity(sportCycling);
                         break;
-                    case "TRIATLÓN":
+                    case "TRIATLÃ“N":
                         Intent sportTriathlon = new Intent(contexto.getApplicationContext(), TriathlonActivity.class);
                         sportTriathlon.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         contexto.startActivity(sportTriathlon);
