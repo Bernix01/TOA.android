@@ -8,4 +8,10 @@
     <color name="primary_dark">#0e6c63</color>
     <color name="primary_light">#B2DFDB</color>
     <color name="accent">#00b1a1</color>
+
+    <color name="saludColor">#41AB97</color>
+    <color name="finanzasColor">#FEC246</color>
+    <color name="espiritualColor">#72C68B</color>
+    <color name="profesionalColor">#EC6B56</color>
+    <color name="materialColor">#462445</color>
 </resources>

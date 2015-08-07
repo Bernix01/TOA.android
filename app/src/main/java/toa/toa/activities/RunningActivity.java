@@ -55,7 +55,7 @@ public class RunningActivity extends AppCompatActivity {
             finish();
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(true);
         SirHandler handler = new SirHandler(getApplicationContext());
         final MrUser currentUser = handler.getCurrentUser();
         handler.getUserById(__n_id, new SirUserRetrieverClass() {

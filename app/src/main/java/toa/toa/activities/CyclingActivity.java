@@ -55,7 +55,7 @@ public class CyclingActivity extends AppCompatActivity {
             startActivity(firstVisit);
             finish();
         }
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         SirHandler handler = new SirHandler(getApplicationContext());
         final MrUser currentUser = handler.getCurrentUser();

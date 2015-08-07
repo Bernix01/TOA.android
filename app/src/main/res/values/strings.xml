@@ -64,5 +64,6 @@
     </string-array>
     <string name="title_activity_friends">FriendsActivity</string>
     <string name="item_row_friend_delete_btn">Eliminar</string>
+    <string name="title_activity_consejos_nutricionales">ConsejosNutricionalesActivity</string>
 
 </resources>
