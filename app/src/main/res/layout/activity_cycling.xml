@@ -70,12 +70,20 @@
 
         <TextView
             android:id="@+id/textView9"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textView8"
             android:layout_centerHorizontal="true"
-            android:gravity="center"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:freezesText="true"
+            android:gravity="center_horizontal"
+            android:marqueeRepeatLimit="marquee_forever"
             android:padding="8dp"
+            android:paddingLeft="5dip"
+            android:paddingRight="5dip"
+            android:scrollHorizontally="true"
             android:text="Mi fortaleza es que soy más equilibrado y tranquilo que la mayoría de ciclistas.-Miguel Indurain."
             android:textAppearance="?android:attr/textAppearanceSmall" />
     </LinearLayout>

@@ -59,7 +59,6 @@
         android:id="@+id/tabsCrossfit"
         android:layout_width="fill_parent"
         android:layout_height="60dip"
-
         android:layout_alignBottom="@+id/linearLayout5"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"

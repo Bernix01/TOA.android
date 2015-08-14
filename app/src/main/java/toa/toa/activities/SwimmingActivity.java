@@ -45,7 +45,6 @@ public class SwimmingActivity extends AppCompatActivity {
         }
         toolbar.getBackground().setAlpha(0);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
         SharedPreferences userDetails = getApplicationContext().getSharedPreferences("u_data", MODE_PRIVATE);
         setId(userDetails.getInt("n_id", -1));
         if (getId() == -1) {

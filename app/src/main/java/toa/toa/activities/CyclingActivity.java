@@ -38,15 +38,16 @@ public class CyclingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cycling);
         final TextView name_txtv = (TextView) findViewById(R.id.main_ui_name_txtv);
         final ImageView pimage_imgv = (ImageView) findViewById(R.id.main_ui_pimage_imv);
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
+
         if (Build.VERSION.SDK_INT > 19) {
             RelativeLayout view = (RelativeLayout) findViewById(R.id.cyclingtactivityLayou);
             view.setPadding(0, getStatusBarHeight(), 0, getNavigationBarHeight());
         }
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
 
         toolbar.getBackground().setAlpha(0);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
+        // getSupportActionBar().setTitle("");
         SharedPreferences userDetails = getApplicationContext().getSharedPreferences("u_data", MODE_PRIVATE);
         setId(userDetails.getInt("n_id", -1));
         if (getId() == -1) {
@@ -57,6 +58,7 @@ public class CyclingActivity extends AppCompatActivity {
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
         SirHandler handler = new SirHandler(getApplicationContext());
         final MrUser currentUser = handler.getCurrentUser();
         handler.getUserById(__n_id, new SirUserRetrieverClass() {
@@ -92,6 +94,14 @@ public class CyclingActivity extends AppCompatActivity {
 
     }
 
+    private int getId() {
+        return __n_id;
+    }
+
+    private void setId(int id) {
+        __n_id = id;
+    }
+
     public int getStatusBarHeight() {
         int result = 0;
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
@@ -109,13 +119,7 @@ public class CyclingActivity extends AppCompatActivity {
         }
         return 0;
     }
-    private int getId() {
-        return __n_id;
-    }
 
-    private void setId(int id) {
-        __n_id = id;
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
