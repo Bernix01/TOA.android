@@ -28,10 +28,10 @@ import toa.toa.utils.TOA.SirHandler;
 public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder> {
 
     private Context contexto;
-    private ArrayList<MrEvent> comunities;
+    private ArrayList<MrEvent> events;
 
     public EventsAdapter(ArrayList<MrEvent> comunities, Context contexto) {
-        this.comunities = comunities;
+        this.events = comunities;
         this.contexto = contexto;
     }
 
@@ -44,7 +44,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final MrEvent event = comunities.get(position);
+        final MrEvent event = events.get(position);
         
         SirHandler handler = new SirHandler(contexto);
     }
@@ -59,7 +59,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return comunities.size();
+        return events.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
