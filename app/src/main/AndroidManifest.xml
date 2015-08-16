@@ -67,6 +67,14 @@
                 android:value="toa.toa.ProfileActivity" />
         </activity>
         <activity
+            android:name=".activities.DetailconsejosNutricionalesActivity"
+            android:label="@string/title_activity_consejos_nutricionales"
+            android:parentActivityName=".activities.ConsejosNutricionalesActivity">
+            <mrConsejo-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="toa.toa.activities.ConsejosNutricionalesActivity" />
+        </activity>
+        <activity
             android:name=".ProfileActivity"
             android:label="@string/title_activity_profile"
             android:parentActivityName=".MainActivity">
