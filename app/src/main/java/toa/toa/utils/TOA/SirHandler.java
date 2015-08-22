@@ -125,7 +125,7 @@ public class SirHandler {
     public float tryGetFloat(JSONObject j, String name) {
         float r = -1;
         try {
-            r = (float) j.get(name);
+            r = (int) j.get(name) * 1.0f;
         } catch (JSONException e) {
             Log.e("error", e.getMessage());
         }
@@ -235,10 +235,8 @@ public class SirHandler {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 ArrayList<MrComunity> sports = new ArrayList<MrComunity>();
-                Log.e("response", response.toString());
                 try {
                     JSONArray data = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
-                    Log.e("respuesta", response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row").toString());
                     int datos = data.length();
                     for (int i = 0; i < datos; i++)
                         sports.add(new MrComunity(data.getJSONObject(i).getJSONArray("row").getString(0), data.getJSONObject(i).getJSONArray("row").getString(1), data.getJSONObject(i).getJSONArray("row").getString(2)));
@@ -329,7 +327,6 @@ public class SirHandler {
         JSONObject subcmd = new JSONObject();
         try {
             subcmd.put("statement", "MATCH (n:user)-[r:Likes]-(a:Sport) WHERE a.name=\"" + comunity.getComunityName() + "\" return n, id(n)");
-            Log.i("cmdMembers", subcmd.getString("statement"));
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {
@@ -340,11 +337,9 @@ public class SirHandler {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.e("response", response.toString());
                 try {
                     final ArrayList<MrUser> friends = new ArrayList<MrUser>();
                     JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
-                    Log.e("respuesta", response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row").toString());
                     final int datos = dataf.length();
                     for (int i = 0; i < datos; i++) {
                         JSONObject udata = dataf.getJSONObject(i).getJSONArray("row").getJSONObject(0);
@@ -356,7 +351,6 @@ public class SirHandler {
                                 friends.add(finalU);
                                 if (friends.size() == datos)
                                     retriever.goIt(friends);
-
                             }
 
                             @Override
@@ -424,12 +418,13 @@ public class SirHandler {
     }
 
     public void getSportEvents(final String com, final SirEventsRetriever retriever) {
-
+        Log.i("SPORTS", "STARTING...");
         JSONObject cmd = new JSONObject();
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
         try {
-            subcmd.put("statement", "MATCH (n:Event)-[r:isAbout]->(a:Sport) WHERE a.name=\"" + com + "\" RETURN n");
+            subcmd.put("statement", "MATCH (n:Event)-[r:ABOUT]->(a:Sport) WHERE a.name=\"" + com + "\" RETURN n, id(n)");
+            Log.e("SPORT STATEMENT", subcmd.getString("statement"));
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {
@@ -440,7 +435,6 @@ public class SirHandler {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.e("response", response.toString());
                 try {
                     ArrayList<MrEvent> events = new ArrayList<MrEvent>();
                     JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
@@ -448,7 +442,6 @@ public class SirHandler {
                     int datos = dataf.length();
                     for (int i = 0; i < datos; i++) {
                         JSONObject udata = dataf.getJSONObject(i).getJSONArray("row").getJSONObject(0);
-                        Log.e("udata", udata.getString("u_name"));
                         MrEvent temp = new MrEvent(dataf.getJSONObject(i).getJSONArray("row").getInt(1),
                                 tryGetString(udata, "name"),
                                 UtilidadesExtras.convertDate(tryGetString(udata, "dateStart")),
@@ -470,7 +463,7 @@ public class SirHandler {
                     retriever.gotIt(events);
 
                 } catch (JSONException e) {
-                    Log.e("exception", e.getMessage());
+                    retriever.failure(e.getLocalizedMessage());
                 }
             }
 

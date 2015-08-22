@@ -20,32 +20,28 @@ import toa.toa.utils.TOA.SirHandler;
 
 public class EventsFragment extends android.support.v4.app.Fragment {
     private static final String ARG_PARAM1 = "sport";
-    private String mParam1;
-
+    private MrComunity com;
     public EventsFragment() {
         // Required empty public constructor
     }
 
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Bundle bundle = this.getArguments();
-        MrComunity com = bundle.getParcelable("sport");
+        if (savedInstanceState == null) {
+            Bundle bundle = this.getArguments();
+            com = bundle.getParcelable("sport");
+        } else {
+            com = savedInstanceState.getParcelable("sport");
+        }
         // Inflate the layout for this fragment
         View holder = inflater.inflate(R.layout.fragment_events, container, false);
         final SuperRecyclerView recyclerView = (SuperRecyclerView) holder.findViewById(R.id.events_srecyclerv);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         SirHandler handler = new SirHandler(getActivity().getApplicationContext());
-        handler.getSportEvents(mParam1, new SirEventsRetriever() {
+        handler.getSportEvents(com.getComunityName(), new SirEventsRetriever() {
             @Override
             public void gotIt(ArrayList<MrEvent> events) {
                 recyclerView.setAdapter(new EventsAdapter(events, getActivity().getApplicationContext()));
@@ -59,4 +55,8 @@ public class EventsFragment extends android.support.v4.app.Fragment {
         return holder;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable("sport", com);
+    }
 }

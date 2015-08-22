@@ -36,13 +36,13 @@ public class CollectionPagerComunityAdapter extends FragmentStatePagerAdapter im
                 fr.setArguments(bundle);
                 return fr;
             case 1:
+                return new NoticiasFragment();
+            case 2:
                 EventsFragment events = new EventsFragment();
                 Bundle bundleE = new Bundle();
                 bundleE.putParcelable("sport", com);
                 events.setArguments(bundleE);
                 return events;
-            case 2:
-                return new NoticiasFragment();
             case 3:
                 return new NoticiasFragment();
         }
