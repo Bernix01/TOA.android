@@ -17,12 +17,7 @@ import java.util.ArrayList;
 import jp.wasabeef.picasso.transformations.BlurTransformation;
 import toa.toa.Objects.MrComunity;
 import toa.toa.R;
-import toa.toa.activities.CrossFitActivity;
-import toa.toa.activities.CyclingActivity;
-import toa.toa.activities.FootballActivity;
-import toa.toa.activities.RunningActivity;
-import toa.toa.activities.SwimmingActivity;
-import toa.toa.activities.TriathlonActivity;
+import toa.toa.activities.ComunityActivity;
 
 /**
  * Creado por : lawliet
@@ -63,13 +58,17 @@ public class ComunityAdapter extends RecyclerView.Adapter<ComunityAdapter.ViewHo
         holder.content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String comunitySelected = com.getComunityName().trim();
+                Intent sportCrossfit = new Intent(contexto.getApplicationContext(), ComunityActivity.class);
+                sportCrossfit.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                sportCrossfit.putExtra("sport", com);
+                contexto.startActivity(sportCrossfit);
+               /* String comunitySelected = com.getComunityName().trim();
                 comunitySelected = comunitySelected.toUpperCase();
                 switch (comunitySelected) {
                     case "CROSSFIT":
-                        Intent sportCrossfit = new Intent(contexto.getApplicationContext(), CrossFitActivity.class);
+                        Intent sportCrossfit = new Intent(contexto.getApplicationContext(), ComunityActivity.class);
                         sportCrossfit.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
+                        sportCrossfit.putExtra("sport",com);
                         contexto.startActivity(sportCrossfit);
                         break;
                     case "RUNNING":
@@ -100,7 +99,7 @@ public class ComunityAdapter extends RecyclerView.Adapter<ComunityAdapter.ViewHo
                         sportTriathlon.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         contexto.startActivity(sportTriathlon);
                         break;
-                }
+                }*/
             }
         });
     }

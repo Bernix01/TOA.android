@@ -310,7 +310,8 @@ public class SirHandler {
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
         try {
-            subcmd.put("statement", "MATCH (n:user)-[r:Follows]-(a:user) WHERE a.name=\"" + comunity.getComunityName() + "\" return n, id(n)");
+            subcmd.put("statement", "MATCH (n:user)-[r:Likes]-(a:Sport) WHERE a.name=\"" + comunity.getComunityName() + "\" return n, id(n)");
+            Log.i("cmdMembers", subcmd.getString("statement"));
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {
@@ -323,17 +324,29 @@ public class SirHandler {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.e("response", response.toString());
                 try {
-                    ArrayList<MrUser> friends = new ArrayList<MrUser>();
+                    final ArrayList<MrUser> friends = new ArrayList<MrUser>();
                     JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
                     Log.e("respuesta", response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row").toString());
-                    int datos = dataf.length();
+                    final int datos = dataf.length();
                     for (int i = 0; i < datos; i++) {
                         JSONObject udata = dataf.getJSONObject(i).getJSONArray("row").getJSONObject(0);
-                        Log.e("udata", udata.getString("u_name"));
-                        friends.add(new MrUser(dataf.getJSONObject(i).getJSONArray("row").getInt(1), tryGetString(udata, "name"), tryGetString(udata, "u_name"), tryGetString(udata, "email"), tryGetString(udata, "bio"), tryGetInt(udata, "gender"), tryGetInt(udata, "age"), tryGetString(udata, "pimageurl")));//aquí parece ser el error
+                        final MrUser temp = new MrUser(dataf.getJSONObject(i).getJSONArray("row").getInt(1), tryGetString(udata, "name"), tryGetString(udata, "u_name"), tryGetString(udata, "email"), tryGetString(udata, "bio"), tryGetInt(udata, "gender"), tryGetInt(udata, "age"), tryGetString(udata, "pimageurl"));
+                        getUserSports(temp, new SirSportsListRetriever() {
+                            @Override
+                            public void goIt(ArrayList<MrComunity> sports) {
+                                MrUser finalU = temp.withSports(sports);
+                                friends.add(finalU);
+                                if (friends.size() == datos)
+                                    retriever.goIt(friends);
+
+                            }
+
+                            @Override
+                            public void failure(String error) {
+                                super.failure(error);
+                            }
+                        });
                     }
-                    Log.e("friends", friends.size() + "");
-                    retriever.goIt(friends);
 
                 } catch (JSONException e) {
                     Log.e("exception", e.getMessage());

@@ -50,7 +50,7 @@ public class DetailconsejosNutricionalesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_fragment_container);
 
         if (getSupportActionBar() != null) {
             // Dehabilitar titulo de la actividad

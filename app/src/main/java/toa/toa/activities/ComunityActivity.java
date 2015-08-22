@@ -1,17 +1,12 @@
 package toa.toa.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,25 +16,28 @@ import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
-import toa.toa.FirstVisit;
+import toa.toa.Objects.MrComunity;
 import toa.toa.Objects.MrUser;
 import toa.toa.ProfileActivity;
 import toa.toa.R;
-import toa.toa.adapters.CollectionPagerCrossfitAdapter;
+import toa.toa.adapters.CollectionPagerComunityAdapter;
 import toa.toa.utils.TOA.SirHandler;
-import toa.toa.utils.TOA.SirUserRetrieverClass;
 
-public class CrossFitActivity extends AppCompatActivity {
-    private static int __n_id;
+public class ComunityActivity extends AppCompatActivity {
     private MrUser __user = new MrUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crossfit);
+        final MrComunity com = getIntent().getParcelableExtra("sport");
+        final TextView sportName = (TextView) findViewById(R.id.sport_name_txtv);
+        final ImageView sportImage = (ImageView) findViewById(R.id.sport_imgv);
+        if (!com.getComunityImg().isEmpty())
+            Picasso.with(getApplicationContext()).load(com.getComunityImg()).into(sportImage);
+        sportName.setText(com.getComunityName());
         final TextView name_txtv = (TextView) findViewById(R.id.main_ui_name_txtv);
         final ImageView pimage_imgv = (ImageView) findViewById(R.id.main_ui_pimage_imv);
         if (Build.VERSION.SDK_INT > 19) {
@@ -47,77 +45,41 @@ public class CrossFitActivity extends AppCompatActivity {
             view.setPadding(0, getStatusBarHeight(), 0, getNavigationBarHeight());
         }
         final Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
-
         toolbar.getBackground().setAlpha(0);
         setSupportActionBar(toolbar);
         // getSupportActionBar().setTitle("");
-        SharedPreferences userDetails = getApplicationContext().getSharedPreferences("u_data", MODE_PRIVATE);
-        setId(userDetails.getInt("n_id", -1));
-        if (getId() == -1) {
-            Intent firstVisit = new Intent(getApplicationContext(), FirstVisit.class);
-            firstVisit.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(firstVisit);
-            finish();
-        }
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+
         SirHandler handler = new SirHandler(getApplicationContext());
         final MrUser currentUser = handler.getCurrentUser();
-        handler.getUserById(__n_id, new SirUserRetrieverClass() {
+        ViewPager pager = (ViewPager) findViewById(R.id.sportPager);
+        pager.setAdapter(new CollectionPagerComunityAdapter(getSupportFragmentManager(), com));
+        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.sportTabs);
+        tabs.setViewPager(pager);
+        name_txtv.setText(currentUser.get_uname());
+        name_txtv.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void goIt(MrUser user) {
-                __user = user;
-                ViewPager pager = (ViewPager) findViewById(R.id.pagerCrossfit);
-                pager.setAdapter(new CollectionPagerCrossfitAdapter(getSupportFragmentManager(), currentUser.get_id()));
-                PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabsCrossfit);
-                tabs.setViewPager(pager);
-                name_txtv.setText(currentUser.get_uname());
-                name_txtv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-                        i.putExtra("user", __user);
-                        startActivity(i);
-                    }
-                });
-                if (!currentUser.get_pimage().isEmpty()) {
-                    Picasso.with(getApplicationContext()).load(currentUser.get_pimage()).transform(new CropCircleTransformation()).into(pimage_imgv);
-                } else {
-                    Picasso.with(getApplicationContext()).load(R.drawable.defaultpimage).transform(new CropCircleTransformation()).into(pimage_imgv);
-                }
-                Picasso.with(getApplicationContext()).load(com.getBackImage()).into(new Target() {
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        RelativeLayout cnt = (RelativeLayout) findViewById(R.id.profile_bg_imgv);
-                        cnt.setBackground(new BitmapDrawable(getResources(), bitmap));
-                    }
-
-                    @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
-
-                    }
-
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                    }
-                });
-            }
-
-            @Override
-            public void failure(String error) {
-                Log.e("error", error);
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+                i.putExtra("user", __user);
+                startActivity(i);
             }
         });
-    }
+        pimage_imgv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+                i.putExtra("user", __user);
+                startActivity(i);
+            }
+        });
+        if (!currentUser.get_pimage().isEmpty()) {
+            Picasso.with(getApplicationContext()).load(currentUser.get_pimage()).transform(new CropCircleTransformation()).into(pimage_imgv);
+        } else {
+            Picasso.with(getApplicationContext()).load(R.drawable.defaultpimage).transform(new CropCircleTransformation()).into(pimage_imgv);
+        }
 
-    private int getId() {
-        return __n_id;
-    }
 
-    private void setId(int id) {
-        __n_id = id;
     }
 
     public int getStatusBarHeight() {
