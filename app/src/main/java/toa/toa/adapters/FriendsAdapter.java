@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.daimajia.swipe.SwipeLayout;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -23,8 +24,6 @@ import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import toa.toa.Objects.MrComunity;
 import toa.toa.Objects.MrUser;
 import toa.toa.R;
-import toa.toa.utils.TOA.SirHandler;
-import toa.toa.utils.TOA.SirSportsListRetriever;
 
 /**
  * Created by programador on 7/21/15.
@@ -33,6 +32,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
 
     private static Context contexto;
     private ArrayList<MrUser> comunities;
+
 
     public FriendsAdapter(ArrayList<MrUser> comunities, Context contexto) {
         this.comunities = comunities;
@@ -55,17 +55,13 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         } else {
             Picasso.with(contexto).load(R.drawable.defaultpimage).transform(new CropCircleTransformation()).into(holder.pimage);
         }
-        SirHandler handler = new SirHandler(contexto);
-        handler.getUserSports(com, new SirSportsListRetriever() {
+        holder.glSports.removeAllViews();
+        for (MrComunity sport : com.get_sports())
+            holder.glSports.addView(addImgv(sport));
+        holder.swipeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void goIt(ArrayList<MrComunity> sports) {
-                for (MrComunity sport : sports)
-                    holder.glSports.addView(addImgv(sport));
-            }
-
-            @Override
-            public void failure(String error) {
-
+            public void onClick(View v) {
+                holder.swipeLayout.toggle();
             }
         });
     }
@@ -88,9 +84,11 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         public TextView nametxtv;
         public ImageView pimage;
         public GridLayout glSports;
+        public SwipeLayout swipeLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            swipeLayout = (SwipeLayout) itemView.findViewById(R.id.SwipeLayout);
             nametxtv = (TextView) itemView.findViewById(R.id.friend_name_txtv);
             pimage = (ImageView) itemView.findViewById(R.id.friend_pimage_imv);
             glSports = (GridLayout) itemView.findViewById(R.id.friend_sports_gl);

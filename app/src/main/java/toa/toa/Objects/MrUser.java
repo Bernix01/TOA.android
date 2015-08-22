@@ -7,6 +7,8 @@ package toa.toa.Objects;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 /**
  * Created by Guillermo on 6/9/2015.
  */
@@ -28,6 +30,7 @@ public class MrUser implements Parcelable {
     private int _gender;
     private int _age;
     private String _pimage;
+    private ArrayList<MrComunity> _sports;
 
     public MrUser(int id, String name, String uname, String email, String bio, int gender, int age, String pimage) {
         this._id = id;
@@ -54,6 +57,15 @@ public class MrUser implements Parcelable {
         _pimage = in.readString();
         _age = in.readInt();
 
+    }
+
+    public MrUser withSports(ArrayList<MrComunity> sports) {
+        this._sports = sports;
+        return this;
+    }
+
+    public ArrayList<MrComunity> get_sports() {
+        return this._sports;
     }
 
     public int get_age() {
