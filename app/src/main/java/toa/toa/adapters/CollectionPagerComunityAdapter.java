@@ -8,9 +8,9 @@ import com.astuetz.PagerSlidingTabStrip;
 
 import toa.toa.Objects.MrComunity;
 import toa.toa.R;
+import toa.toa.fragments.EventsFragment;
 import toa.toa.fragments.MembersFragment;
 import toa.toa.fragments.NoticiasFragment;
-import toa.toa.fragments.NutricionFragment;
 
 /**
  * Created by Junior on 11/07/2015.
@@ -36,7 +36,11 @@ public class CollectionPagerComunityAdapter extends FragmentStatePagerAdapter im
                 fr.setArguments(bundle);
                 return fr;
             case 1:
-                return new NutricionFragment();
+                EventsFragment events = new EventsFragment();
+                Bundle bundleE = new Bundle();
+                bundleE.putParcelable("sport", com);
+                events.setArguments(bundleE);
+                return events;
             case 2:
                 return new NoticiasFragment();
             case 3:

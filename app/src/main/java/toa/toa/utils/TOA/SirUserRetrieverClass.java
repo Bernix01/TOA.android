@@ -4,6 +4,8 @@
 
 package toa.toa.utils.TOA;
 
+import android.util.Log;
+
 import toa.toa.Objects.MrUser;
 
 /**
@@ -17,6 +19,6 @@ public class SirUserRetrieverClass implements SirUserRetrieverInterface {
 
     @Override
     public void failure(String error) {
-
+        Log.e("SirUserRetrieverClassError", error);
     }
 }

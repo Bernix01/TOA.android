@@ -10,11 +10,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.squareup.picasso.PIcassoTools;
-import com.squareup.picasso.Picasso;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -30,14 +29,11 @@ public class FriendsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
-
-
+        setSupportActionBar((Toolbar) findViewById(R.id.my_awesome_toolbar));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.friends_recyclerview);
-        if (Build.VERSION.SDK_INT > 19) {
-            recyclerView.setPadding(0, getStatusBarHeight(), 0, getNavigationBarHeight());
-        }
-
-        PIcassoTools.clearCache(Picasso.with(getApplicationContext()));
+        if (Build.VERSION.SDK_INT > 19)
+            findViewById(R.id.cnt).setPadding(0, getStatusBarHeight(), 0, getNavigationBarHeight());
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         SirHandler handler = new SirHandler(getApplicationContext());
         handler.getUserFriends(handler.getCurrentUser(), new SirFriendsRetriever() {
@@ -45,7 +41,6 @@ public class FriendsActivity extends AppCompatActivity {
             public void goIt(ArrayList<MrUser> friends) {
                 recyclerView.setAdapter(new FriendsAdapter(friends, getApplicationContext()));
             }
-
             @Override
             public void failure(String error) {
                 super.failure(error);
@@ -86,7 +81,8 @@ public class FriendsActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_addFriend) {
+            Toast.makeText(getApplicationContext(), "Not ready yet :-)", Toast.LENGTH_SHORT).show();
             return true;
         }
 

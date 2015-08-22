@@ -4,6 +4,8 @@
 
 package toa.toa.utils.TOA;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 import toa.toa.Objects.MrUser;
@@ -19,6 +21,6 @@ public class SirFriendsRetriever implements SirFriendsInterface {
 
     @Override
     public void failure(String error) {
-
+        Log.e("SirFriendsRetrieverError", error);
     }
 }

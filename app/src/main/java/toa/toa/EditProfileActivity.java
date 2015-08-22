@@ -122,7 +122,7 @@ public class EditProfileActivity extends AppCompatActivity {
         if (!age.getText().toString().isEmpty())
         _cuser.set_age(Integer.parseInt(age.getText().toString()));
         _cuser.set_bio(bio.getText().toString());
-        _cuser.set_name(name.getText().toString());
+        _cuser.set_uname(name.getText().toString());
         _cuser.set_email(email.getText().toString());
     }
 

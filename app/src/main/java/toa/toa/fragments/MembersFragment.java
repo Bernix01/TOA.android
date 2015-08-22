@@ -23,19 +23,16 @@ import toa.toa.utils.TOA.SirHandler;
  * Created by Junior on 18/06/2015.
  */
 public class MembersFragment extends android.support.v4.app.Fragment {
-    private MrComunity com;
     private SuperRecyclerView recyclerComunities;
 
     public MembersFragment() {
 
-
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Bundle bundle = this.getArguments();
-        com = bundle.getParcelable("sport");
+        MrComunity com = bundle.getParcelable("sport");
         View root = inflater.inflate(R.layout.comunity_layout, container, false);
         recyclerComunities = (SuperRecyclerView) root.findViewById(R.id.my_recycler_comunity_view);
         recyclerComunities.setLayoutManager(new LinearLayoutManager(getActivity()));

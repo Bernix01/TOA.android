@@ -53,7 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
             cnt.setPadding(0, getStatusBarHeight(), 0, getNavigationBarHeight());
         }
 
-        _user = getIntent().getParcelableExtra("user");
+        _user = (new SirHandler(getApplicationContext()).getCurrentUser());
         TextView name = (TextView) findViewById(R.id.profile_name_txtv);
         TextView bio = (TextView) findViewById(R.id.profle_bio_txtv);
         ImageView pic = (ImageView) findViewById(R.id.profile_person_imgv);
@@ -81,14 +81,17 @@ public class ProfileActivity extends AppCompatActivity {
             public void goIt(ArrayList<MrComunity> sports) {
                 ProfileSportsAdapter adapter = new ProfileSportsAdapter(sports, getApplicationContext());
                 sportsrecycler.setAdapter(adapter);
-
             }
-
             @Override
             public void failure(String error) {
                 Log.e("profile_sports_error", error);
             }
         });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     public int getStatusBarHeight() {

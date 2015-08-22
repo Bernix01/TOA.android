@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daimajia.swipe.SwipeLayout;
 import com.squareup.picasso.Picasso;
@@ -58,6 +59,12 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         holder.glSports.removeAllViews();
         for (MrComunity sport : com.get_sports())
             holder.glSports.addView(addImgv(sport));
+        holder.pimage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(contexto, ":-)", Toast.LENGTH_SHORT).show();
+            }
+        });
         holder.swipeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

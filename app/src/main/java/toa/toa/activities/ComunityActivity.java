@@ -26,7 +26,6 @@ import toa.toa.adapters.CollectionPagerComunityAdapter;
 import toa.toa.utils.TOA.SirHandler;
 
 public class ComunityActivity extends AppCompatActivity {
-    private MrUser __user = new MrUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +46,10 @@ public class ComunityActivity extends AppCompatActivity {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         toolbar.getBackground().setAlpha(0);
         setSupportActionBar(toolbar);
-        // getSupportActionBar().setTitle("");
+        getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        SirHandler handler = new SirHandler(getApplicationContext());
+        final SirHandler handler = new SirHandler(getApplicationContext());
         final MrUser currentUser = handler.getCurrentUser();
         ViewPager pager = (ViewPager) findViewById(R.id.sportPager);
         pager.setAdapter(new CollectionPagerComunityAdapter(getSupportFragmentManager(), com));
@@ -61,7 +60,7 @@ public class ComunityActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-                i.putExtra("user", __user);
+                i.putExtra("user", handler.getCurrentUser());
                 startActivity(i);
             }
         });
@@ -69,7 +68,7 @@ public class ComunityActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-                i.putExtra("user", __user);
+                i.putExtra("user", handler.getCurrentUser());
                 startActivity(i);
             }
         });

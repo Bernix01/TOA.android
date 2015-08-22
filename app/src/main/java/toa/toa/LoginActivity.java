@@ -75,7 +75,7 @@ public class LoginActivity extends Activity {
                                 _cuser.set_gender(handler.tryGetInt(udata, 4));
                                 _cuser.set_email(handler.tryGetString(udata, 5));
                                 _cuser.set_pimage(handler.tryGetString(udata, 6));
-                                handler.registerCurrentUser(_cuser);
+                                handler.registerCurrentUser(_cuser, _user);
                                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

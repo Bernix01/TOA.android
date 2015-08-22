@@ -30,9 +30,9 @@ import toa.toa.utils.UtilidadesExtras;
  */
 public class SirHandler {
 
+    protected static String __hash;
     private MrUser _currentUser = new MrUser();
     private Context mcontext;
-
     /**
      * Crea un nuevo SirHandler, vacío.
      *
@@ -53,17 +53,15 @@ public class SirHandler {
         _currentUser.set_pimage(userDetails.getString("pimage", ""));
     }
 
-    public void fetchUserData() {
-        Log.i("fetch", "fetch started");
+    public void fetchUserData(final String hash) {
         SharedPreferences userDetails = mcontext.getSharedPreferences("u_data", Context.MODE_PRIVATE);
         final int _id = userDetails.getInt("n_id", -1);
-        Log.i("fetch", "fetching user with id: " + _id);
         getUserById(_id, new SirUserRetrieverClass() {
             @Override
             public void goIt(MrUser user) {
                 Log.i("fetch", "Current updated successfully");
                 _currentUser = user;
-                registerCurrentUser(_currentUser);
+                registerCurrentUser(_currentUser, hash);
             }
 
             @Override
@@ -81,6 +79,7 @@ public class SirHandler {
     public void updateUserAsync(MrUser newUser) {
         _currentUser = newUser;
         updateRemoteData();
+        fetchUserData(__hash);
     }
 
     private void updateRemoteData() {
@@ -92,6 +91,7 @@ public class SirHandler {
             user.put("bio", _currentUser.get_bio());
             user.put("gender", _currentUser.get_gender());
             user.put("pimageurl", _currentUser.get_pimage());
+            user.put("pw", __hash);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -106,6 +106,10 @@ public class SirHandler {
                 Toast.makeText(mcontext, "Could not update profile :(", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void setHash(String hash) {
+        __hash = hash;
     }
 
     public int tryGetInt(JSONObject j, String name) {
@@ -127,6 +131,7 @@ public class SirHandler {
         }
         return r;
     }
+
     public String tryGetString(JSONObject j, String name) {
         String r = "";
         try {
@@ -159,7 +164,7 @@ public class SirHandler {
         return r;
     }
 
-    public void registerCurrentUser(MrUser user) {
+    public void registerCurrentUser(MrUser user, String hash) {
         SharedPreferences userDetails = mcontext.getSharedPreferences("u_data", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = userDetails.edit();
         editor.putInt("n_id", user.get_id());
@@ -169,8 +174,10 @@ public class SirHandler {
         editor.putInt("gender", user.get_gender());
         editor.putString("email", user.get_email());
         editor.putString("pimage", user.get_pimage());
+        editor.putString("hash", hash);
         editor.apply();
         Log.i("fetch", "Shared updated successfully");
+        setHash(hash);
     }
 
     public void getUserById(int id, final SirUserRetrieverClass userRetriever) {
@@ -251,12 +258,12 @@ public class SirHandler {
 
     }
 
-
     public void logout(SimpleCallbackClass callback) {
         SharedPreferences userDetails = mcontext.getSharedPreferences("u_data", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = userDetails.edit();
         editor.clear();
         editor.apply();
+
         callback.goIt();
     }
 
@@ -279,18 +286,29 @@ public class SirHandler {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.e("response", response.toString());
                 try {
-                    ArrayList<MrUser> friends = new ArrayList<MrUser>();
+                    final ArrayList<MrUser> friends = new ArrayList<MrUser>();
                     JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
                     Log.e("respuesta", response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row").toString());
-                    int datos = dataf.length();
+                    final int datos = dataf.length();
                     for (int i = 0; i < datos; i++) {
                         JSONObject udata = dataf.getJSONObject(i).getJSONArray("row").getJSONObject(0);
-                        Log.e("udata", udata.getString("u_name"));
-                        friends.add(new MrUser(dataf.getJSONObject(i).getJSONArray("row").getInt(1), tryGetString(udata, "name"), tryGetString(udata, "u_name"), tryGetString(udata, "email"), tryGetString(udata, "bio"), tryGetInt(udata, "gender"), tryGetInt(udata, "age"), tryGetString(udata, "pimageurl")));//aquí parece ser el error
-                    }
-                    Log.e("friends", friends.size() + "");
-                    retriever.goIt(friends);
+                        final MrUser temp = new MrUser(dataf.getJSONObject(i).getJSONArray("row").getInt(1), tryGetString(udata, "name"), tryGetString(udata, "u_name"), tryGetString(udata, "email"), tryGetString(udata, "bio"), tryGetInt(udata, "gender"), tryGetInt(udata, "age"), tryGetString(udata, "pimageurl"));
+                        getUserSports(temp, new SirSportsListRetriever() {
+                            @Override
+                            public void goIt(ArrayList<MrComunity> sports) {
+                                MrUser finalU = temp.withSports(sports);
+                                friends.add(finalU);
+                                if (friends.size() == datos)
+                                    retriever.goIt(friends);
 
+                            }
+
+                            @Override
+                            public void failure(String error) {
+                                super.failure(error);
+                            }
+                        });
+                    }
                 } catch (JSONException e) {
                     Log.e("exception", e.getMessage());
                 }
