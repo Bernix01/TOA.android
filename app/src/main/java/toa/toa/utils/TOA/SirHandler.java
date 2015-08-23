@@ -423,7 +423,8 @@ public class SirHandler {
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
         try {
-            subcmd.put("statement", "MATCH (n:Event)-[r:isAbout]->(a:Sport) WHERE a.name=\"" + com + "\" RETURN n");
+            subcmd.put("statement", "MATCH (n:Event)-[r:ABOUT]->(a:Sport) WHERE a.name=\"" + com + "\" RETURN n,id(n)");
+            Log.i("statement", "MATCH (n:Event)-[r:isAbout]->(a:Sport) WHERE a.name=\"" + com + "\" RETURN n,id(n)");
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {
@@ -434,6 +435,7 @@ public class SirHandler {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.i("resonse", response.toString());
                 try {
                     ArrayList<MrEvent> events = new ArrayList<MrEvent>();
                     JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
