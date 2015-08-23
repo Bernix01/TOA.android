@@ -78,7 +78,7 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
             try {
                 photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
                 imagePath = uriToFilename(photoUri);
-                Log.i("newImagePath", "path: "+imagePath);
+                Log.i("newImagePath", "path: " + imagePath);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -107,6 +107,7 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
 
         return path;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,6 +133,10 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
         name.setText(_cuser.get_uname());
         bio.setText(_cuser.get_bio());
         email.setText(_cuser.get_email());
+        Log.e("age", _cuser.get_age() + " ");
+        if (_cuser.get_age() != 0)
+            age.setText(String.valueOf(_cuser.get_age()));
+        sex.setSelection(_cuser.get_gender());
         if (!_cuser.get_pimage().isEmpty()) {
             Picasso.with(getApplicationContext()).load(_cuser.get_pimage()).transform(new CropCircleTransformation()).into(pimage_imgv);
         } else {
@@ -222,7 +227,7 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
         _cuser.set_bio(bio.getText().toString());
         _cuser.set_uname(name.getText().toString());
         _cuser.set_email(email.getText().toString());
-        if(!imagePath.isEmpty()) {
+        if (!imagePath.isEmpty()) {
             UpdateProfile task = new UpdateProfile();
             task.execute();
         } else {
@@ -251,7 +256,7 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
     @Override
     public void choiceAvatarFromCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraFileName = getString(R.string.TOA_IMAGES_PATH) + System.currentTimeMillis()+".jpg";
+        cameraFileName = getString(R.string.TOA_IMAGES_PATH) + System.currentTimeMillis() + ".jpg";
         File file = new File(getString(R.string.TOA_IMAGES_PATH));
         if (!file.exists()) {
             file.mkdirs();

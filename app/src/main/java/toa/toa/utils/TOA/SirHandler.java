@@ -51,6 +51,7 @@ public class SirHandler {
         _currentUser.set_name(userDetails.getString("name", ""));
         _currentUser.set_uname(userDetails.getString("uname", ""));
         _currentUser.set_pimage(userDetails.getString("pimage", ""));
+        __hash = userDetails.getString("hash", "");
     }
 
     public void fetchUserData(final String hash) {
@@ -92,6 +93,11 @@ public class SirHandler {
             user.put("gender", _currentUser.get_gender());
             user.put("pimageurl", _currentUser.get_pimage());
             user.put("pw", __hash);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            Log.e("userProps", user.toString(3));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -261,7 +267,7 @@ public class SirHandler {
         SharedPreferences.Editor editor = userDetails.edit();
         editor.clear();
         editor.apply();
-
+        editor.commit();
         callback.goIt();
     }
 
