@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
         final Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar); 
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
                 ViewPager pager = (ViewPager) findViewById(R.id.pager);
