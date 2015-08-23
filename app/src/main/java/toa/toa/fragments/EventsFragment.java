@@ -21,17 +21,11 @@ import toa.toa.utils.TOA.SirHandler;
 public class EventsFragment extends android.support.v4.app.Fragment {
     private static final String ARG_PARAM1 = "sport";
     private MrComunity com;
-
     public EventsFragment() {
         // Required empty public constructor
     }
 
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

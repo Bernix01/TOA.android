@@ -67,5 +67,6 @@
     <string name="title_activity_consejos_nutricionales">ConsejosNutricionalesActivity</string>
     <string name="action_addFriend">Agregar amigo</string>
     <string name="TOA_IMAGES_PATH">/sdcard/TOA/</string>
+    <string name="organiza_txt">Organiza:</string>
 
 </resources>

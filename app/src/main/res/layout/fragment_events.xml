@@ -6,6 +6,4 @@
     app:layout_empty="@layout/emptyview"
     app:layout_moreProgress="@layout/view_more_progress"
     app:mainLayoutId="@layout/layout_recyclerview_verticalscroll"
-    app:recyclerClipToPadding="false"
-    app:recyclerPadding="16dp"
     app:scrollbarStyle="insideInset" />
