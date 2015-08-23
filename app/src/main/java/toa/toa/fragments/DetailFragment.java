@@ -11,18 +11,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
+import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import toa.toa.Objects.MrConsejo;
 import toa.toa.R;
 import toa.toa.utils.ConsejosNutricionales.Constantes;
-import toa.toa.web.VolleySingleton;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -84,9 +83,21 @@ public class DetailFragment extends Fragment {
 
         // Añadir parámetro a la URL del web service
         String newURL = Constantes.GET_BY_ID + "?idMeta=" + extra;
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(Constantes.GET_BY_ID + "?idMeta=" + extra, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                procesarRespuesta(response);
+            }
 
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.e("cargarAdaptador error", responseString);
+                Log.e("cargarAdaptador error", throwable.getMessage());
+            }
+        });
         // Realizar petición GET_BY_ID
-        VolleySingleton.getInstance(getActivity()).addToRequestQueue(
+        /*VolleySingleton.getInstance(getActivity()).addToRequestQueue(
                 new JsonObjectRequest(
                         newURL,
                         null,
@@ -105,7 +116,7 @@ public class DetailFragment extends Fragment {
                             }
                         }
                 )
-        );
+        );*/
     }
     /**
      * Obtiene los datos desde el servidor

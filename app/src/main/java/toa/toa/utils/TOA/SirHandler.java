@@ -20,17 +20,19 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import toa.toa.Objects.MrComunity;
+import toa.toa.Objects.MrEvent;
 import toa.toa.Objects.MrUser;
 import toa.toa.utils.RestApi;
+import toa.toa.utils.UtilidadesExtras;
 
 /**
  * Created by programador on 7/17/15.
  */
 public class SirHandler {
 
+    protected static String __hash;
     private MrUser _currentUser = new MrUser();
     private Context mcontext;
-
     /**
      * Crea un nuevo SirHandler, vacío.
      *
@@ -51,17 +53,15 @@ public class SirHandler {
         _currentUser.set_pimage(userDetails.getString("pimage", ""));
     }
 
-    public void fetchUserData() {
-        Log.i("fetch", "fetch started");
+    public void fetchUserData(final String hash) {
         SharedPreferences userDetails = mcontext.getSharedPreferences("u_data", Context.MODE_PRIVATE);
         final int _id = userDetails.getInt("n_id", -1);
-        Log.i("fetch", "fetching user with id: " + _id);
         getUserById(_id, new SirUserRetrieverClass() {
             @Override
             public void goIt(MrUser user) {
                 Log.i("fetch", "Current updated successfully");
                 _currentUser = user;
-                registerCurrentUser(_currentUser);
+                registerCurrentUser(_currentUser, hash);
             }
 
             @Override
@@ -79,6 +79,7 @@ public class SirHandler {
     public void updateUserAsync(MrUser newUser) {
         _currentUser = newUser;
         updateRemoteData();
+        fetchUserData(__hash);
     }
 
     private void updateRemoteData() {
@@ -90,6 +91,7 @@ public class SirHandler {
             user.put("bio", _currentUser.get_bio());
             user.put("gender", _currentUser.get_gender());
             user.put("pimageurl", _currentUser.get_pimage());
+            user.put("pw", __hash);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -106,10 +108,24 @@ public class SirHandler {
         });
     }
 
+    private void setHash(String hash) {
+        __hash = hash;
+    }
+
     public int tryGetInt(JSONObject j, String name) {
         int r = -1;
         try {
             r = j.getInt(name);
+        } catch (JSONException e) {
+            Log.e("error", e.getMessage());
+        }
+        return r;
+    }
+
+    public float tryGetFloat(JSONObject j, String name) {
+        float r = -1;
+        try {
+            r = (int) j.get(name) * 1.0f;
         } catch (JSONException e) {
             Log.e("error", e.getMessage());
         }
@@ -148,7 +164,7 @@ public class SirHandler {
         return r;
     }
 
-    public void registerCurrentUser(MrUser user) {
+    public void registerCurrentUser(MrUser user, String hash) {
         SharedPreferences userDetails = mcontext.getSharedPreferences("u_data", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = userDetails.edit();
         editor.putInt("n_id", user.get_id());
@@ -158,8 +174,10 @@ public class SirHandler {
         editor.putInt("gender", user.get_gender());
         editor.putString("email", user.get_email());
         editor.putString("pimage", user.get_pimage());
+        editor.putString("hash", hash);
         editor.apply();
         Log.i("fetch", "Shared updated successfully");
+        setHash(hash);
     }
 
     public void getUserById(int id, final SirUserRetrieverClass userRetriever) {
@@ -217,10 +235,8 @@ public class SirHandler {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 ArrayList<MrComunity> sports = new ArrayList<MrComunity>();
-                Log.e("response", response.toString());
                 try {
                     JSONArray data = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
-                    Log.e("respuesta", response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row").toString());
                     int datos = data.length();
                     for (int i = 0; i < datos; i++)
                         sports.add(new MrComunity(data.getJSONObject(i).getJSONArray("row").getString(0), data.getJSONObject(i).getJSONArray("row").getString(1), data.getJSONObject(i).getJSONArray("row").getString(2)));
@@ -240,12 +256,12 @@ public class SirHandler {
 
     }
 
-
     public void logout(SimpleCallbackClass callback) {
         SharedPreferences userDetails = mcontext.getSharedPreferences("u_data", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = userDetails.edit();
         editor.clear();
         editor.apply();
+
         callback.goIt();
     }
 
@@ -268,18 +284,29 @@ public class SirHandler {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.e("response", response.toString());
                 try {
-                    ArrayList<MrUser> friends = new ArrayList<MrUser>();
+                    final ArrayList<MrUser> friends = new ArrayList<MrUser>();
                     JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
                     Log.e("respuesta", response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row").toString());
-                    int datos = dataf.length();
+                    final int datos = dataf.length();
                     for (int i = 0; i < datos; i++) {
                         JSONObject udata = dataf.getJSONObject(i).getJSONArray("row").getJSONObject(0);
-                        Log.e("udata", udata.getString("u_name"));
-                        friends.add(new MrUser(dataf.getJSONObject(i).getJSONArray("row").getInt(1), tryGetString(udata, "name"), tryGetString(udata, "u_name"), tryGetString(udata, "email"), tryGetString(udata, "bio"), tryGetInt(udata, "gender"), tryGetInt(udata, "age"), tryGetString(udata, "pimageurl")));//aquí parece ser el error
-                    }
-                    Log.e("friends", friends.size() + "");
-                    retriever.goIt(friends);
+                        final MrUser temp = new MrUser(dataf.getJSONObject(i).getJSONArray("row").getInt(1), tryGetString(udata, "name"), tryGetString(udata, "u_name"), tryGetString(udata, "email"), tryGetString(udata, "bio"), tryGetInt(udata, "gender"), tryGetInt(udata, "age"), tryGetString(udata, "pimageurl"));
+                        getUserSports(temp, new SirSportsListRetriever() {
+                            @Override
+                            public void goIt(ArrayList<MrComunity> sports) {
+                                MrUser finalU = temp.withSports(sports);
+                                friends.add(finalU);
+                                if (friends.size() == datos)
+                                    retriever.goIt(friends);
 
+                            }
+
+                            @Override
+                            public void failure(String error) {
+                                super.failure(error);
+                            }
+                        });
+                    }
                 } catch (JSONException e) {
                     Log.e("exception", e.getMessage());
                 }
@@ -299,7 +326,7 @@ public class SirHandler {
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
         try {
-            subcmd.put("statement", "MATCH (n:user)-[r:Follows]-(a:user) WHERE a.name=\"" + comunity.getComunityName() + "\" return n, id(n)");
+            subcmd.put("statement", "MATCH (n:user)-[r:Likes]-(a:Sport) WHERE a.name=\"" + comunity.getComunityName() + "\" return n, id(n)");
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {
@@ -310,19 +337,28 @@ public class SirHandler {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.e("response", response.toString());
                 try {
-                    ArrayList<MrUser> friends = new ArrayList<MrUser>();
+                    final ArrayList<MrUser> friends = new ArrayList<MrUser>();
                     JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
-                    Log.e("respuesta", response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row").toString());
-                    int datos = dataf.length();
+                    final int datos = dataf.length();
                     for (int i = 0; i < datos; i++) {
                         JSONObject udata = dataf.getJSONObject(i).getJSONArray("row").getJSONObject(0);
-                        Log.e("udata", udata.getString("u_name"));
-                        friends.add(new MrUser(dataf.getJSONObject(i).getJSONArray("row").getInt(1), tryGetString(udata, "name"), tryGetString(udata, "u_name"), tryGetString(udata, "email"), tryGetString(udata, "bio"), tryGetInt(udata, "gender"), tryGetInt(udata, "age"), tryGetString(udata, "pimageurl")));//aquí parece ser el error
+                        final MrUser temp = new MrUser(dataf.getJSONObject(i).getJSONArray("row").getInt(1), tryGetString(udata, "name"), tryGetString(udata, "u_name"), tryGetString(udata, "email"), tryGetString(udata, "bio"), tryGetInt(udata, "gender"), tryGetInt(udata, "age"), tryGetString(udata, "pimageurl"));
+                        getUserSports(temp, new SirSportsListRetriever() {
+                            @Override
+                            public void goIt(ArrayList<MrComunity> sports) {
+                                MrUser finalU = temp.withSports(sports);
+                                friends.add(finalU);
+                                if (friends.size() == datos)
+                                    retriever.goIt(friends);
+                            }
+
+                            @Override
+                            public void failure(String error) {
+                                super.failure(error);
+                            }
+                        });
                     }
-                    Log.e("friends", friends.size() + "");
-                    retriever.goIt(friends);
 
                 } catch (JSONException e) {
                     Log.e("exception", e.getMessage());
@@ -381,4 +417,61 @@ public class SirHandler {
         });
     }
 
+    public void getSportEvents(final String com, final SirEventsRetriever retriever) {
+
+        JSONObject cmd = new JSONObject();
+        JSONArray cmds = new JSONArray();
+        JSONObject subcmd = new JSONObject();
+        try {
+            subcmd.put("statement", "MATCH (n:Event)-[r:ABOUT]->(a:Sport) WHERE a.name=\"" + com + "\" RETURN n,id(n)");
+            Log.i("statement", "MATCH (n:Event)-[r:isAbout]->(a:Sport) WHERE a.name=\"" + com + "\" RETURN n,id(n)");
+            cmds.put(subcmd);
+            cmd.put("statements", cmds);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.i("resonse", response.toString());
+                try {
+                    ArrayList<MrEvent> events = new ArrayList<MrEvent>();
+                    JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
+                    int datos = dataf.length();
+                    for (int i = 0; i < datos; i++) {
+                        JSONObject udata = dataf.getJSONObject(i).getJSONArray("row").getJSONObject(0);
+                        MrEvent temp = new MrEvent(dataf.getJSONObject(i).getJSONArray("row").getInt(1),
+                                tryGetString(udata, "name"),
+                                UtilidadesExtras.convertDate(tryGetString(udata, "dateStart")),
+                                UtilidadesExtras.convertDate(tryGetString(udata, "dateEnd")),
+                                tryGetString(udata, "organizer"),
+                                tryGetString(udata, "descr"),
+                                tryGetString(udata, "address"),
+                                tryGetFloat(udata, "x"),
+                                tryGetFloat(udata, "y"));
+                        if (com.equals("Running") || com.equals("Ciclismo") || com.equals("Natación"))
+                            temp = temp.withDistance(tryGetFloat(udata, "distance"));
+                        if (com.equals("Triatlón"))
+                            temp = temp.withCategory(tryGetString(udata, "cat"));
+                        float price = tryGetFloat(udata, "price");
+                        temp = temp.withPrice((price == 0.0f) ? 0 : price);
+                        events.add(temp);
+                    }
+                    Log.e("friends", events.size() + "");
+                    retriever.gotIt(events);
+
+                } catch (JSONException e) {
+                    retriever.failure(e.getLocalizedMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.e("error", "code: " + statusCode + " " + throwable.toString());
+                retriever.failure(throwable.toString());
+            }
+        });
+    }
 }

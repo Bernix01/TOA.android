@@ -3,6 +3,7 @@
     package="toa.toa">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -22,7 +23,7 @@
             android:name=".RegisterActivity"
             android:label="@string/title_activity_register"
             android:parentActivityName=".Splash_Activity">
-            <mrConsejo-data
+            <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="toa.toa.Splash_Activity" />
         </activity>
@@ -31,7 +32,7 @@
             android:label="@string/title_activity_splash_" >
         </activity>
 
-        <mrConsejo-data
+        <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
@@ -43,7 +44,7 @@
             android:label="@string/title_activity_first_visit"
             android:parentActivityName=".Splash_Activity" />
 
-        <mrConsejo-data
+        <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value="toa.toa.Splash_Activity" />
 
@@ -51,7 +52,7 @@
             android:name=".FirstTime"
             android:label="@string/title_activity_first_time"
             android:parentActivityName=".Splash_Activity">
-            <mrConsejo-data
+            <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="toa.toa.Splash_Activity" />
         </activity>
@@ -62,15 +63,23 @@
             android:name=".EditProfileActivity"
             android:label="@string/title_activity_edit_profile"
             android:parentActivityName=".ProfileActivity">
-            <mrConsejo-data
+            <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="toa.toa.ProfileActivity" />
+        </activity>
+        <activity
+            android:name=".activities.DetailconsejosNutricionalesActivity"
+            android:label="@string/title_activity_consejos_nutricionales"
+            android:parentActivityName=".activities.ConsejosNutricionalesActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="toa.toa.activities.ConsejosNutricionalesActivity" />
         </activity>
         <activity
             android:name=".ProfileActivity"
             android:label="@string/title_activity_profile"
             android:parentActivityName=".MainActivity">
-            <mrConsejo-data
+            <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="toa.toa.MainActivity" />
         </activity>
@@ -78,7 +87,7 @@
             android:name=".FriendsActivity"
             android:label="@string/title_activity_friends"
             android:parentActivityName=".ProfileActivity">
-            <mrConsejo-data
+            <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="toa.toa.ProfileActivity" />
         </activity>
@@ -124,12 +133,12 @@
                 android:value="toa.toa.Splash_Activity" />
         </activity>
         <activity
-            android:name=".activities.CrossFitActivity"
+            android:name=".activities.ComunityActivity"
             android:label="@string/title_activity_atletismo_sport"
-            android:parentActivityName=".activities.CrossFitActivity">
-            <mrConsejo-data
+            android:parentActivityName=".MainActivity">
+            <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="toa.toa.Splash_Activity" />
+                android:value="toa.toa.MainActivity" />
         </activity>
         <activity
             android:name=".activities.ConsejosNutricionalesActivity"

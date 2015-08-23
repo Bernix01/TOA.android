@@ -14,7 +14,7 @@ public class Constantes {
     public static final String EXTRA_ID = "IDEXTRA";
     private static final int PUERTO_HOST = 80;
     public static final String GET = "http://mundotoa.co:" + PUERTO_HOST + "/api/obtener_consejo.php";
-    public static final String GET_BY_ID = "http://10.0.3.2:" + PUERTO_HOST + "/api/obtener_consejo_por_id.php";
+    public static final String GET_BY_ID = "http://mundotoa.co:" + PUERTO_HOST + "/api/obtener_consejo_por_id.php";
     //public static final String UPDATE = "http://10.0.3.2:" + PUERTO_HOST + "/api/actualizar_consejo.php";
     //public static final String DELETE = "http://10.0.3.2:" + PUERTO_HOST + "/api/borrar_consejo.php";
     public static final String INSERT = "http://mundotoa.co:" + PUERTO_HOST + "/api/insertar_consejo.php";

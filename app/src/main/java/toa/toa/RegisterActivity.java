@@ -180,7 +180,7 @@ public class RegisterActivity extends ActionBarActivity {
                                 editor.putInt("n_id", _id);
                                 editor.apply();
                                 SirHandler handler = new SirHandler(getApplicationContext());
-                                handler.fetchUserData();
+                                handler.fetchUserData(Base64.encodeToString((usr.getText().toString() + pw.getText().toString()).getBytes(), Base64.DEFAULT));
                                 btn.setProgress(100);
                                 Intent i = new Intent(getApplicationContext(), FirstTime.class);
                                 i.putExtra("nid", _id);

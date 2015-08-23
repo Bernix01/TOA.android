@@ -4,12 +4,6 @@ package toa.toa.web;
  * Creado por Hermosa Programación.
  */
 
-import android.content.Context;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-
 /**
  * Creado por Hermosa Programación.
  * <p/>
@@ -18,7 +12,7 @@ import com.android.volley.toolbox.Volley;
 
 public final class VolleySingleton {
 
-    // Atributos
+ /*   // Atributos
     private static VolleySingleton singleton;
     private static Context context;
     private RequestQueue requestQueue;
@@ -35,24 +29,24 @@ public final class VolleySingleton {
      * @param context contexto donde se ejecutarán las peticiones
      * @return Instancia
      */
-    public static synchronized VolleySingleton getInstance(Context context) {
+  /*  public static synchronized VolleySingleton getInstance(Context context) {
         if (singleton == null) {
             singleton = new VolleySingleton(context.getApplicationContext());
         }
         return singleton;
-    }
+    }*/
 
     /**
      * Obtiene la instancia de la cola de peticiones
      *
      * @return cola de peticiones
      */
-    public RequestQueue getRequestQueue() {
+  /*  public RequestQueue getRequestQueue() {
         if (requestQueue == null) {
             requestQueue = Volley.newRequestQueue(context.getApplicationContext());
         }
         return requestQueue;
-    }
+    }*/
 
     /**
      * Añade la petición a la cola
@@ -60,8 +54,8 @@ public final class VolleySingleton {
      * @param req petición
      * @param <T> Resultado final de tipo T
      */
-    public <T> void addToRequestQueue(Request<T> req) {
+   /* public <T> void addToRequestQueue(Request<T> req) {
         getRequestQueue().add(req);
     }
-
+*/
 }

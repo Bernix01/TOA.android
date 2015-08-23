@@ -4,6 +4,7 @@
 
 <com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/SwipeLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <!-- Bottom View Start-->
@@ -22,6 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/item_row_friend_delete_btn"
+            android:textAlignment="center"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textSize="23sp" />
 
@@ -52,11 +54,11 @@
             android:id="@+id/friend_sports_gl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="false"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentTop="false"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
+            android:animateLayoutChanges="true"
             app:columnCount="3"
             app:rowCount="3" />
 
@@ -64,8 +66,6 @@
             android:id="@+id/friend_pimage_imv"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_alignParentLeft="false"
-            android:layout_alignParentTop="false"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"

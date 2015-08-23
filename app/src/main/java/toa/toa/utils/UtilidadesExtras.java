@@ -1,10 +1,17 @@
+/*
+ * Copyright TOA Inc. 2015.
+ */
+
 package toa.toa.utils;
 
 
 import android.util.Base64;
 
 import java.security.MessageDigest;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -40,6 +47,16 @@ public class UtilidadesExtras {
         } catch (Exception ex) {
         }
         return base64EncryptedString;
+    }
+
+    public static Date convertDate(String date) {
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("dd/MMM/yyyy hh:mm", Locale.getDefault());
+            return format.parse(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

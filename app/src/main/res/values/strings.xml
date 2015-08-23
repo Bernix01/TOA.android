@@ -64,7 +64,10 @@
         <item>Femenino</item>
     </string-array>
     <string name="title_activity_friends">FriendsActivity</string>
-    <string name="item_row_friend_delete_btn">Eliminar</string>
+    <string name="item_row_friend_delete_btn">Dejar de seguir</string>
     <string name="title_activity_consejos_nutricionales">ConsejosNutricionalesActivity</string>
+    <string name="action_addFriend">Agregar amigo</string>
+    <string name="TOA_IMAGES_PATH">/sdcard/TOA/</string>
+    <string name="organiza_txt">Organiza:</string>
 
 </resources>
