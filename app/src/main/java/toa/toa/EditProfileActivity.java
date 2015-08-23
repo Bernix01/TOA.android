@@ -236,12 +236,12 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
                 final String filePath = imagePath;
                 Log.i("filePathToUpload", filePath);
                 // Create or overwrite the "myimage.jpg" blob with contents from a local file.
-                CloudBlockBlob blob = container.getBlockBlobReference(_cuser.get_id() + "_pimage_" + _cuser.get_name() + ".jpg");
+                CloudBlockBlob blob = container.getBlockBlobReference(_cuser.get_id() + "-pimage-" + _cuser.get_name() + ".jpg");
                 File source = new File(filePath);
                 if (!source.exists())
                     Log.e("fileerror", "null");
                 blob.upload(new FileInputStream(source), source.length());
-                _cuser.set_pimage("https://archivestoa.blob.core.windows.net/app-images/" + _cuser.get_id() + "_pimage_" + _cuser.get_name() + ".jpg");
+                _cuser.set_pimage("https://archivestoa.blob.core.windows.net/app-images/" + _cuser.get_id() + "-pimage-" + _cuser.get_name() + ".jpg");
             } catch (Exception e) {
                 e.printStackTrace();
             }
