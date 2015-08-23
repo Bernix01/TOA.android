@@ -4,7 +4,8 @@
         android:id="@+id/content_comunity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#e1010101">
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground">
 
         <ImageView
             android:id="@+id/comunity_bck_imv"

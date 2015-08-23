@@ -38,7 +38,6 @@ import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
@@ -226,42 +225,7 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
         if(!imagePath.isEmpty()) {
             UpdateProfile task = new UpdateProfile();
             task.execute();
-        }
-    }
-
-    private class UpdateProfile extends AsyncTask<Void, String, String> {
-
-        @Override
-        protected String doInBackground(Void... voids) {
-            try {
-                // Retrieve storage account from connection-string.
-                CloudStorageAccount storageAccount = CloudStorageAccount.parse(storageConnectionString);
-
-                // Create the blob client.
-                CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
-
-                // Retrieve reference to a previously created container.
-                CloudBlobContainer container = blobClient.getContainerReference("app-images");
-
-                // Define the path to a local file.
-                final String filePath = imagePath;
-                Log.i("filePathToUpload", filePath);
-                // Create or overwrite the "myimage.jpg" blob with contents from a local file.
-                CloudBlockBlob blob = container.getBlockBlobReference("pimage-"+_cuser.get_id() + "-" + _cuser.get_name()+".jpg");
-                //File source = new File(filePath);
-                blob.uploadFromFile(filePath);
-                //blob.upload(new FileInputStream(source), source.length());
-                _cuser.set_pimage("https://archivestoa.blob.core.windows.net/app-images/pimage-" + _cuser.get_id()+"-" + _cuser.get_name() + ".jpg");
-                Picasso.with(getApplicationContext()).invalidate(_cuser.get_pimage());
-                return "Yeah";
-            } catch (Exception e) {
-                e.printStackTrace();
-                return e.getLocalizedMessage();
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
+        } else {
             handler.updateUserAsync(_cuser);
         }
     }
@@ -331,5 +295,42 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private class UpdateProfile extends AsyncTask<Void, String, String> {
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                // Retrieve storage account from connection-string.
+                CloudStorageAccount storageAccount = CloudStorageAccount.parse(storageConnectionString);
+
+                // Create the blob client.
+                CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
+
+                // Retrieve reference to a previously created container.
+                CloudBlobContainer container = blobClient.getContainerReference("app-images");
+
+                // Define the path to a local file.
+                final String filePath = imagePath;
+                Log.i("filePathToUpload", filePath);
+                // Create or overwrite the "myimage.jpg" blob with contents from a local file.
+                CloudBlockBlob blob = container.getBlockBlobReference("pimage-" + _cuser.get_id() + "-" + _cuser.get_name() + ".jpg");
+                //File source = new File(filePath);
+                blob.uploadFromFile(filePath);
+                //blob.upload(new FileInputStream(source), source.length());
+                _cuser.set_pimage("https://archivestoa.blob.core.windows.net/app-images/pimage-" + _cuser.get_id() + "-" + _cuser.get_name() + ".jpg");
+                Picasso.with(getApplicationContext()).invalidate(_cuser.get_pimage());
+                return "Yeah";
+            } catch (Exception e) {
+                e.printStackTrace();
+                return e.getLocalizedMessage();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            handler.updateUserAsync(_cuser);
+        }
     }
 }
