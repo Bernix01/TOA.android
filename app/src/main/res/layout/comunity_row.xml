@@ -3,7 +3,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/content_comunity"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    android:layout_height="125dp"
+    android:background="@color/my_awesome_color"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground">
 
@@ -14,11 +15,11 @@
 
         <ImageView
             android:id="@+id/comunity_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             android:layout_centerVertical="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/abc_btn_rating_star_on_mtrl_alpha" />
+            android:layout_marginLeft="25dp"
+            android:layout_marginStart="25dp" />
 
         <TextView
             android:id="@+id/comunityName"
@@ -30,6 +31,6 @@
             android:layout_toRightOf="@+id/comunity_image"
             android:text="RUNNING"
             android:textColor="#fffefd"
-            android:textSize="45sp" />
+            android:textSize="40sp" />
     </RelativeLayout>
 

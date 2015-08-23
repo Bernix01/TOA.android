@@ -14,8 +14,7 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
-        //renderscriptTargetApi 19
-        // renderscriptSupportModeEnabled true
+        renderscriptSupportModeEnabled true
         multiDexEnabled true
     }
     buildTypes {
@@ -25,6 +24,9 @@ android {
         }
     }
 
+}
+configurations {
+    all*.exclude group: 'com.android.support', module: 'support-annotations'
 }
 dependencies {
     //compile fileTree(dir: 'toa.toa.libs', include: ['*.jar'])
@@ -44,7 +46,6 @@ dependencies {
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.github.navasmdc:MaterialDesign:1.5@aar'
     compile 'jp.wasabeef:picasso-transformations:1.0.5'
-    compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.2.3'
     compile 'com.android.support:gridlayout-v7:23.0.0'
     compile 'com.microsoft.azure.android:azure-storage-android:0.6.0@aar'
 }

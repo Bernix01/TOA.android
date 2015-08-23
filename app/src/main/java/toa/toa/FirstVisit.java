@@ -29,7 +29,7 @@ public class FirstVisit extends AppIntro2 {
         setDepthAnimation();
         if (Build.VERSION.SDK_INT > 19) {
             RelativeLayout r = (RelativeLayout) findViewById(R.id.bottom).getParent();
-            r.setPadding(0, getStatusBarHeight(), 0, getNavigationBarHeight());
+            r.setPadding(0, 0, 0, getNavigationBarHeight());
         }
     }
 
