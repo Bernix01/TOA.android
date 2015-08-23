@@ -125,7 +125,7 @@ public class SirHandler {
     public float tryGetFloat(JSONObject j, String name) {
         float r = -1;
         try {
-            r = (float) j.get(name);
+            r = (int) j.get(name) * 1.0f;
         } catch (JSONException e) {
             Log.e("error", e.getMessage());
         }
@@ -429,7 +429,7 @@ public class SirHandler {
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
         try {
-            subcmd.put("statement", "MATCH (n:Event)-[r:isAbout]->(a:Sport) WHERE a.name=\"" + com + "\" RETURN n");
+            subcmd.put("statement", "MATCH (n:Event)-[r:ABOUT]->(a:Sport) WHERE a.name=\"" + com + "\" RETURN n, id(n)");
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {
@@ -440,15 +440,12 @@ public class SirHandler {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.e("response", response.toString());
                 try {
                     ArrayList<MrEvent> events = new ArrayList<MrEvent>();
                     JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
-                    Log.e("respuesta", response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row").toString());
                     int datos = dataf.length();
                     for (int i = 0; i < datos; i++) {
                         JSONObject udata = dataf.getJSONObject(i).getJSONArray("row").getJSONObject(0);
-                        Log.e("udata", udata.getString("u_name"));
                         MrEvent temp = new MrEvent(dataf.getJSONObject(i).getJSONArray("row").getInt(1),
                                 tryGetString(udata, "name"),
                                 UtilidadesExtras.convertDate(tryGetString(udata, "dateStart")),

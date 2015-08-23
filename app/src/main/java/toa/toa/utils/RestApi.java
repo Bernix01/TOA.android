@@ -43,6 +43,7 @@ public class RestApi {
             return;
         }
         se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+        client.addHeader(AsyncHttpClient.HEADER_CONTENT_TYPE, "application/json");
         client.post(null, getAbsoluteUrl(url), se, "aplication/json", responseHandler);
     }
 
@@ -63,6 +64,7 @@ public class RestApi {
             return;
         }
         se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+        client.addHeader(AsyncHttpClient.HEADER_CONTENT_TYPE, "application/json");
         client.put(null, getAbsoluteUrl(url), se, "aplication/json", responseHandler);
     }
 
@@ -79,6 +81,7 @@ public class RestApi {
         }
         Log.e("set content", "typw");
         se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+        client.addHeader(AsyncHttpClient.HEADER_CONTENT_TYPE, "application/json");
         Log.e("done", "done");
         client.post(null, getAbsoluteUrl(url), se, "aplication/json", responseHandler);
     }
