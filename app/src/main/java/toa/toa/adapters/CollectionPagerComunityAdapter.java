@@ -1,3 +1,7 @@
+/*
+ * Copyright TOA Inc. 2015.
+ */
+
 package toa.toa.adapters;
 
 import android.os.Bundle;
@@ -11,6 +15,7 @@ import toa.toa.R;
 import toa.toa.fragments.EventsFragment;
 import toa.toa.fragments.MembersFragment;
 import toa.toa.fragments.NoticiasFragment;
+import toa.toa.fragments.PlacesFragment;
 
 /**
  * Created by Junior on 11/07/2015.
@@ -44,7 +49,11 @@ public class CollectionPagerComunityAdapter extends FragmentStatePagerAdapter im
                 events.setArguments(bundleE);
                 return events;
             case 3:
-                return new NoticiasFragment();
+                PlacesFragment places = new PlacesFragment();
+                Bundle bundleP = new Bundle();
+                bundleP.putParcelable("sport", com);
+                places.setArguments(bundleP);
+                return places;
         }
         return null;
     }

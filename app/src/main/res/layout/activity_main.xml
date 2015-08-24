@@ -1,3 +1,7 @@
+<!--
+  ~ Copyright TOA Inc. 2015.
+  -->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mainActivityLayout"
@@ -58,10 +62,10 @@
             android:layout_width="fill_parent"
             android:layout_height="60dip"
             android:foregroundGravity="center_vertical|center_horizontal"
-            app:pstsIndicatorColor="?attr/colorAccent"
+            app:pstsDividerColor="@android:color/white"
+            app:pstsIndicatorColor="@color/my_awesome_color"
             app:pstsIndicatorHeight="3dp"
-            app:pstsShouldExpand="true"
-            app:pstsTabBackground="@color/my_awesome_darker_color" />
+            app:pstsShouldExpand="true" />
     </LinearLayout>
 
 </RelativeLayout>

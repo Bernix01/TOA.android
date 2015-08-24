@@ -136,6 +136,7 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
         Log.e("age", _cuser.get_age() + " ");
         if (_cuser.get_age() != 0)
             age.setText(String.valueOf(_cuser.get_age()));
+        if (_cuser.get_gender() != 0)
         sex.setSelection(_cuser.get_gender());
         if (!_cuser.get_pimage().isEmpty()) {
             Picasso.with(getApplicationContext()).load(_cuser.get_pimage()).transform(new CropCircleTransformation()).into(pimage_imgv);
@@ -227,6 +228,7 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
         _cuser.set_bio(bio.getText().toString());
         _cuser.set_uname(name.getText().toString());
         _cuser.set_email(email.getText().toString());
+        _cuser.set_gender(sex.getSelectedItemPosition());
         if (!imagePath.isEmpty()) {
             UpdateProfile task = new UpdateProfile();
             task.execute();
