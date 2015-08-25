@@ -9,14 +9,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,21 +30,32 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.microsoft.azure.storage.CloudStorageAccount;
+import com.microsoft.azure.storage.blob.CloudBlobClient;
+import com.microsoft.azure.storage.blob.CloudBlobContainer;
+import com.microsoft.azure.storage.blob.CloudBlockBlob;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import toa.toa.Objects.MrUser;
+import toa.toa.utils.RealPathUtil;
 import toa.toa.utils.TOA.SirHandler;
 import toa.toa.utils.TOA.SirImageSelectorInterface;
 
 public class EditProfileActivity extends AppCompatActivity implements SirImageSelectorInterface {
 
+    public static final String storageConnectionString =
+            "DefaultEndpointsProtocol=http;" +
+                    "AccountName=archivestoa;" +
+                    "AccountKey=ASFIlz+A19O/sBxAaRHWhzBce+HkSEMgA4iZ+9R08c816CWL3J+daLc3ykFW7Z2LY54IMZ7beyjHpBN/x/LeVg==";
     private static final int CHOICE_AVATAR_FROM_CAMERA_CROP = 0;
     private static final int CHOICE_AVATAR_FROM_GALLERY = 1;
     private static final int CHOICE_AVATAR_FROM_CAMERA = 2;
+    private static String imagePath = "";
     ImageView pimage_imgv;
     private TextView username;
     private EditText name, bio, age, email;
@@ -58,22 +70,42 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
      * @param data
      * @return
      */
-    public static Bitmap getBitmapFromData(Intent data) {
+    public Bitmap getBitmapFromData(Intent data) {
         Bitmap photo = null;
         Uri photoUri = data.getData();
         if (photoUri != null) {
-            photo = BitmapFactory.decodeFile(photoUri.getPath());
+
+            try {
+                photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
+                imagePath = uriToFilename(photoUri);
+                Log.i("newImagePath", "path: " + imagePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         if (photo == null) {
             Bundle extra = data.getExtras();
             if (extra != null) {
                 photo = (Bitmap) extra.get("data");
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                photo.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                if (photo != null) {
+                    photo.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                }
             }
         }
 
         return photo;
+    }
+
+    private String uriToFilename(Uri uri) {
+        String path = null;
+        if (Build.VERSION.SDK_INT < 19) {
+            path = RealPathUtil.getRealPathFromURI_API11to18(getApplicationContext(), uri);
+        } else {
+            path = RealPathUtil.getRealPathFromURI_API19(getApplicationContext(), uri);
+        }
+
+        return path;
     }
 
     @Override
@@ -101,6 +133,11 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
         name.setText(_cuser.get_uname());
         bio.setText(_cuser.get_bio());
         email.setText(_cuser.get_email());
+        Log.e("age", _cuser.get_age() + " ");
+        if (_cuser.get_age() != 0)
+            age.setText(String.valueOf(_cuser.get_age()));
+        if (_cuser.get_gender() != 0)
+        sex.setSelection(_cuser.get_gender());
         if (!_cuser.get_pimage().isEmpty()) {
             Picasso.with(getApplicationContext()).load(_cuser.get_pimage()).transform(new CropCircleTransformation()).into(pimage_imgv);
         } else {
@@ -178,20 +215,26 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_editprof_done) {
             do_the_thing();
-            handler.updateUserAsync(_cuser);
-            finish();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void do_the_thing() {
+    public void do_the_thing() {
+
         if (!age.getText().toString().isEmpty())
-        _cuser.set_age(Integer.parseInt(age.getText().toString()));
+            _cuser.set_age(Integer.parseInt(age.getText().toString()));
         _cuser.set_bio(bio.getText().toString());
         _cuser.set_uname(name.getText().toString());
         _cuser.set_email(email.getText().toString());
+        _cuser.set_gender(sex.getSelectedItemPosition());
+        if (!imagePath.isEmpty()) {
+            UpdateProfile task = new UpdateProfile();
+            task.execute();
+        } else {
+            handler.updateUserAsync(_cuser);
+        }
     }
 
     public int getStatusBarHeight() {
@@ -215,22 +258,21 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
     @Override
     public void choiceAvatarFromCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraFileName = getString(R.string.TOA_IMAGES_PATH) + System.currentTimeMillis();
+        cameraFileName = getString(R.string.TOA_IMAGES_PATH) + System.currentTimeMillis() + ".jpg";
         File file = new File(getString(R.string.TOA_IMAGES_PATH));
         if (!file.exists()) {
             file.mkdirs();
         }
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(cameraFileName)));
         intent.putExtra("return-data", true);
-        startActivityForResult(intent, CHOICE_AVATAR_FROM_CAMERA_CROP);
+        startActivityForResult(intent, CHOICE_AVATAR_FROM_CAMERA);
     }
 
     @Override
     public void choiceAvatarFromGallery() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("image/*");
-        startActivityForResult(getCropIntent(intent), CHOICE_AVATAR_FROM_GALLERY);
+        Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        getIntent.setType("image/jpeg");
+        startActivityForResult(getIntent, CHOICE_AVATAR_FROM_GALLERY);
     }
 
     private Intent getCropIntent(Intent intent) {
@@ -254,10 +296,48 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
             } else if (requestCode == CHOICE_AVATAR_FROM_CAMERA_CROP) {
                 Intent intent = new Intent("com.android.camera.action.CROP");
                 Uri uri = Uri.fromFile(new File(cameraFileName));
+                imagePath = uriToFilename(uri);
                 intent.setDataAndType(uri, "image/*");
                 startActivityForResult(getCropIntent(intent), CHOICE_AVATAR_FROM_CAMERA);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private class UpdateProfile extends AsyncTask<Void, String, String> {
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                // Retrieve storage account from connection-string.
+                CloudStorageAccount storageAccount = CloudStorageAccount.parse(storageConnectionString);
+
+                // Create the blob client.
+                CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
+
+                // Retrieve reference to a previously created container.
+                CloudBlobContainer container = blobClient.getContainerReference("app-images");
+
+                // Define the path to a local file.
+                final String filePath = imagePath;
+                Log.i("filePathToUpload", filePath);
+                // Create or overwrite the "myimage.jpg" blob with contents from a local file.
+                CloudBlockBlob blob = container.getBlockBlobReference("pimage-" + _cuser.get_id() + "-" + _cuser.get_name() + ".jpg");
+                //File source = new File(filePath);
+                blob.uploadFromFile(filePath);
+                //blob.upload(new FileInputStream(source), source.length());
+                _cuser.set_pimage("https://archivestoa.blob.core.windows.net/app-images/pimage-" + _cuser.get_id() + "-" + _cuser.get_name() + ".jpg");
+                Picasso.with(getApplicationContext()).invalidate(_cuser.get_pimage());
+                return "Yeah";
+            } catch (Exception e) {
+                e.printStackTrace();
+                return e.getLocalizedMessage();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            handler.updateUserAsync(_cuser);
+        }
     }
 }

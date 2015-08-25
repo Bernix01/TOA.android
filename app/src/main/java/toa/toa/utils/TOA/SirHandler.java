@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import toa.toa.Objects.MrComunity;
 import toa.toa.Objects.MrEvent;
+import toa.toa.Objects.MrPlace;
 import toa.toa.Objects.MrUser;
 import toa.toa.utils.RestApi;
 import toa.toa.utils.UtilidadesExtras;
@@ -51,6 +52,7 @@ public class SirHandler {
         _currentUser.set_name(userDetails.getString("name", ""));
         _currentUser.set_uname(userDetails.getString("uname", ""));
         _currentUser.set_pimage(userDetails.getString("pimage", ""));
+        __hash = userDetails.getString("hash", "");
     }
 
     public void fetchUserData(final String hash) {
@@ -90,8 +92,14 @@ public class SirHandler {
             user.put("u_name", _currentUser.get_uname());
             user.put("bio", _currentUser.get_bio());
             user.put("gender", _currentUser.get_gender());
+            user.put("age", _currentUser.get_age());
             user.put("pimageurl", _currentUser.get_pimage());
             user.put("pw", __hash);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            Log.e("userProps", user.toString(3));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -125,7 +133,7 @@ public class SirHandler {
     public float tryGetFloat(JSONObject j, String name) {
         float r = -1;
         try {
-            r = (int) j.get(name) * 1.0f;
+            r = (float) (Double.parseDouble(j.getString(name)) * 1.0f);
         } catch (JSONException e) {
             Log.e("error", e.getMessage());
         }
@@ -261,7 +269,7 @@ public class SirHandler {
         SharedPreferences.Editor editor = userDetails.edit();
         editor.clear();
         editor.apply();
-
+        editor.commit();
         callback.goIt();
     }
 
@@ -373,13 +381,13 @@ public class SirHandler {
         });
     }
 
-    public void getPlaces(MrComunity com) {
+    public void getPlaces(MrComunity com, final SirPlacesRetriever retriever) {
 
         JSONObject cmd = new JSONObject();
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
         try {
-            subcmd.put("statement", "MATCH (n:Place)-[r:COVERS]->(a:Sport) WHERE a.name=\"" + com.getComunityName() + "\" RETURN n");
+            subcmd.put("statement", "MATCH (n:Place)-[r:COVERS]->(a:Sport) WHERE a.name=\"" + com.getComunityName() + "\" RETURN n, id(n)");
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {
@@ -392,20 +400,33 @@ public class SirHandler {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.e("response", response.toString());
                 try {
-                    ArrayList<MrUser> friends = new ArrayList<MrUser>();
+                    ArrayList<MrPlace> places = new ArrayList<MrPlace>();
                     JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
                     Log.e("respuesta", response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row").toString());
                     int datos = dataf.length();
                     for (int i = 0; i < datos; i++) {
                         JSONObject udata = dataf.getJSONObject(i).getJSONArray("row").getJSONObject(0);
-                        Log.e("udata", udata.getString("u_name"));
-                        friends.add(new MrUser(dataf.getJSONObject(i).getJSONArray("row").getInt(1), tryGetString(udata, "name"), tryGetString(udata, "u_name"), tryGetString(udata, "email"), tryGetString(udata, "bio"), tryGetInt(udata, "gender"), tryGetInt(udata, "age"), tryGetString(udata, "pimageurl")));//aquí parece ser el error
+                        places.add(new MrPlace(dataf.getJSONObject(i).getJSONArray("row").getInt(1),
+                                tryGetString(udata, "name"),
+                                tryGetString(udata, "email"),
+                                tryGetString(udata, "phone"),
+                                tryGetString(udata, "address"),
+                                tryGetFloat(udata, "X"),
+                                tryGetFloat(udata, "Y"),
+                                tryGetString(udata, "zone"),
+                                tryGetString(udata, "FB"),
+                                tryGetString(udata, "TW"),
+                                tryGetString(udata, "IG"),
+                                tryGetString(udata, "weekTime"),
+                                tryGetString(udata, "weekendTime"),
+                                tryGetString(udata, "website")));
                     }
-                    Log.e("friends", friends.size() + "");
-                    // retriever.goIt(friends);
+                    Log.e("friends", places.size() + "");
+                    retriever.gotIt(places);
 
                 } catch (JSONException e) {
                     Log.e("exception", e.getMessage());
+                    retriever.failure(e.getLocalizedMessage());
                 }
             }
 

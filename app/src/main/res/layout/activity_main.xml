@@ -1,3 +1,7 @@
+<!--
+  ~ Copyright TOA Inc. 2015.
+  -->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mainActivityLayout"
@@ -42,8 +46,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/linearLayout3"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_below="@+id/my_awesome_toolbar" />
 
     <LinearLayout
@@ -59,10 +61,9 @@
             android:id="@+id/tabs"
             android:layout_width="fill_parent"
             android:layout_height="60dip"
-            android:layout_alignTop="@+id/linearLayout3"
             android:foregroundGravity="center_vertical|center_horizontal"
-            android:paddingTop="5dp"
-            app:pstsIndicatorColor="?attr/colorAccent"
+            app:pstsDividerColor="@android:color/white"
+            app:pstsIndicatorColor="@color/my_awesome_color"
             app:pstsIndicatorHeight="3dp"
             app:pstsShouldExpand="true" />
     </LinearLayout>
