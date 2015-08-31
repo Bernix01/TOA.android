@@ -92,47 +92,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="toa.toa.ProfileActivity" />
         </activity>
-        <activity
-            android:name=".activities.RunningActivity"
-            android:label="@string/title_activity_running"
-            android:parentActivityName=".activities.RunningActivity">
-            <mrConsejo-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="toa.toa.Splash_Activity" />
-        </activity>
-        <activity
-            android:name=".activities.CyclingActivity"
-            android:label="@string/title_activity_cycling"
-            android:parentActivityName=".activities.CyclingActivity">
-            <mrConsejo-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="toa.toa.Splash_Activity" />
-        </activity>
-        <activity
-            android:name=".activities.FootballActivity"
-            android:label="@string/title_activity_footbal"
-            android:parentActivityName=".activities.FootballActivity">
-            <mrConsejo-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="toa.toa.Splash_Activity" />
-        </activity>
-        <activity
-            android:name=".activities.SwimmingActivity"
-            android:label="@string/title_activity_swimming"
-            android:parentActivityName=".activities.SwimmingActivity">
-            <mrConsejo-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="toa.toa.Splash_Activity" />
-        </activity>
 
-        <activity
-            android:name=".activities.TriathlonActivity"
-            android:label="@string/title_activity_triathlon"
-            android:parentActivityName=".activities.TriathlonActivity">
-            <mrConsejo-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="toa.toa.Splash_Activity" />
-        </activity>
         <activity
             android:name=".activities.ComunityActivity"
             android:label="@string/title_activity_atletismo_sport"
