@@ -32,7 +32,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 
 import toa.toa.utils.RestApi;
-import toa.toa.utils.TOA.SirHandler;
+import toa.toa.utils.SirHandler;
 
 
 public class RegisterActivity extends ActionBarActivity {

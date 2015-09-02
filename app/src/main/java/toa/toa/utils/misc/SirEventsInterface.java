@@ -2,7 +2,7 @@
  * Copyright TOA Inc. 2015.
  */
 
-package toa.toa.utils.TOA;
+package toa.toa.utils.misc;
 
 import java.util.ArrayList;
 

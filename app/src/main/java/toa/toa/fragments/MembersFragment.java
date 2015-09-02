@@ -1,3 +1,7 @@
+/*
+ * Copyright TOA Inc. 2015.
+ */
+
 package toa.toa.fragments;
 
 import android.content.Context;
@@ -16,8 +20,8 @@ import toa.toa.Objects.MrComunity;
 import toa.toa.Objects.MrUser;
 import toa.toa.R;
 import toa.toa.adapters.FriendsAdapter;
-import toa.toa.utils.TOA.SirFriendsRetriever;
-import toa.toa.utils.TOA.SirHandler;
+import toa.toa.utils.SirHandler;
+import toa.toa.utils.misc.SirFriendsRetriever;
 
 /**
  * Created by Junior on 18/06/2015.

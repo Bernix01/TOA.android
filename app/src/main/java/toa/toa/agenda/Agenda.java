@@ -1,3 +1,7 @@
+/*
+ * Copyright TOA Inc. 2015.
+ */
+
 package toa.toa.agenda;
 
 /**
@@ -5,4 +9,8 @@ package toa.toa.agenda;
  */
 public class Agenda {
 
+    public static void saveEvent(int id) {
+
+    }
+    
 }

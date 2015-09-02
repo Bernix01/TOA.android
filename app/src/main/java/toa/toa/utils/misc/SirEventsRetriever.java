@@ -2,18 +2,18 @@
  * Copyright TOA Inc. 2015.
  */
 
-package toa.toa.utils.TOA;
+package toa.toa.utils.misc;
 
 import java.util.ArrayList;
 
-import toa.toa.Objects.MrPlace;
+import toa.toa.Objects.MrEvent;
 
 /**
  * Created by programador on 7/23/15.
  */
-public class SirPlacesRetriever implements SirPlaceInterface {
+public class SirEventsRetriever implements SirEventsInterface {
     @Override
-    public void gotIt(ArrayList<MrPlace> places) {
+    public void gotIt(ArrayList<MrEvent> events) {
 
     }
 

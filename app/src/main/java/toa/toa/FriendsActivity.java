@@ -19,8 +19,8 @@ import java.util.ArrayList;
 
 import toa.toa.Objects.MrUser;
 import toa.toa.adapters.FriendsAdapter;
-import toa.toa.utils.TOA.SirFriendsRetriever;
-import toa.toa.utils.TOA.SirHandler;
+import toa.toa.utils.SirHandler;
+import toa.toa.utils.misc.SirFriendsRetriever;
 
 
 public class FriendsActivity extends AppCompatActivity {

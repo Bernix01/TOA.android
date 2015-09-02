@@ -1,3 +1,7 @@
+/*
+ * Copyright TOA Inc. 2015.
+ */
+
 package toa.toa.activities;
 
 import android.content.Intent;
@@ -23,7 +27,7 @@ import toa.toa.Objects.MrUser;
 import toa.toa.ProfileActivity;
 import toa.toa.R;
 import toa.toa.adapters.CollectionPagerComunityAdapter;
-import toa.toa.utils.TOA.SirHandler;
+import toa.toa.utils.SirHandler;
 
 public class ComunityActivity extends AppCompatActivity {
 
