@@ -43,8 +43,8 @@ import java.io.IOException;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import toa.toa.Objects.MrUser;
 import toa.toa.utils.RealPathUtil;
-import toa.toa.utils.TOA.SirHandler;
-import toa.toa.utils.TOA.SirImageSelectorInterface;
+import toa.toa.utils.SirHandler;
+import toa.toa.utils.misc.SirImageSelectorInterface;
 
 public class EditProfileActivity extends AppCompatActivity implements SirImageSelectorInterface {
 

@@ -46,6 +46,8 @@ dependencies {
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.github.navasmdc:MaterialDesign:1.5@aar'
     compile 'jp.wasabeef:picasso-transformations:1.0.5'
+    compile 'com.getbase.android.db:library:0.11.0'
+    compile 'org.chalup.microorm:microorm:0.6.0'
     compile 'com.android.support:gridlayout-v7:23.0.0'
     compile 'com.microsoft.azure.android:azure-storage-android:0.6.0@aar'
 }

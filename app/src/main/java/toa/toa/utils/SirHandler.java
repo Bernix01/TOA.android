@@ -2,7 +2,7 @@
  * Copyright TOA Inc. 2015. 
  */
 
-package toa.toa.utils.TOA;
+package toa.toa.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -18,13 +18,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import toa.toa.Objects.MrComunity;
 import toa.toa.Objects.MrEvent;
 import toa.toa.Objects.MrPlace;
 import toa.toa.Objects.MrUser;
-import toa.toa.utils.RestApi;
-import toa.toa.utils.UtilidadesExtras;
+import toa.toa.agenda.Agenda;
+import toa.toa.utils.misc.SimpleCallbackClass;
+import toa.toa.utils.misc.SirEventsRetriever;
+import toa.toa.utils.misc.SirFriendsRetriever;
+import toa.toa.utils.misc.SirPlacesRetriever;
+import toa.toa.utils.misc.SirSportsListRetriever;
+import toa.toa.utils.misc.SirUserRetrieverClass;
 
 /**
  * Created by programador on 7/17/15.
@@ -34,6 +40,7 @@ public class SirHandler {
     protected static String __hash;
     private MrUser _currentUser = new MrUser();
     private Context mcontext;
+
     /**
      * Crea un nuevo SirHandler, vacío.
      *
@@ -494,5 +501,41 @@ public class SirHandler {
                 retriever.failure(throwable.toString());
             }
         });
+    }
+
+    public void registerEvent(MrEvent event) {
+        JSONObject eventRel = new JSONObject();
+        try {
+            eventRel.put("to", RestApi.getBaseUrl());
+            eventRel.put("type", RestApi.EVENTRELTYPE);
+            eventRel.put("data", new JSONObject("{\n" +
+                    "    \"date\" : \"" + (new Date()).toString() + "\"\n" +
+                    "  }"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RestApi.post("/node/" + _currentUser.get_id() + "/relationships", eventRel, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, org.apache.http.Header[] headers, JSONObject response) {
+                if (statusCode == 201) {
+                    try {
+                        Agenda.saveEvent(response.getJSONObject("metadata").getInt("id"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(mcontext, "Failed to register event, please try again later.", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, org.apache.http.Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Toast.makeText(mcontext, "Failed to register event, please try again later.", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void deleteEvent(MrEvent event) {
+        RestApi._delete();
     }
 }

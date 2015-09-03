@@ -1,3 +1,7 @@
+/*
+ * Copyright TOA Inc. 2015.
+ */
+
 package toa.toa.activities;
 
 import android.content.Intent;
@@ -25,8 +29,8 @@ import toa.toa.Objects.MrUser;
 import toa.toa.ProfileActivity;
 import toa.toa.R;
 import toa.toa.adapters.CollectionPagerTriathlonAdapter;
-import toa.toa.utils.TOA.SirHandler;
-import toa.toa.utils.TOA.SirUserRetrieverClass;
+import toa.toa.utils.SirHandler;
+import toa.toa.utils.misc.SirUserRetrieverClass;
 
 public class TriathlonActivity extends AppCompatActivity {
     private static int __n_id;
