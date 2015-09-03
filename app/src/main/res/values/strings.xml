@@ -70,4 +70,16 @@
     <string name="TOA_IMAGES_PATH">/sdcard/TOA/</string>
     <string name="organiza_txt">Organiza:</string>
 
+    <!--mapas arrays -->
+    <string-array name="nav_drawer_items">
+
+        <item>Lugares</item>
+        <item>Districts</item>
+    </string-array>
+
+
+    <array name="nav_drawer_icons">
+        <item>@drawable/ubication_white</item>
+        <item>@drawable/ubication_white</item>
+    </array>
 </resources>

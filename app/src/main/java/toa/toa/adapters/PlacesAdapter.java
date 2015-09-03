@@ -44,7 +44,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.ViewHolder
         final MrPlace place = places.get(position);
         holder.nametxtv.setText(place.getName());
         holder.organizertxtv.setText(place.getAddress());
-        holder.datetxtv.setText("Lun-Vier: " + place.getWeekTime() + " Sab-Dom: " + place.getWeekendTime());
+        holder.datetxtv.setText("Lun-Vier: " + place.getWeekTime() + "/nSab-Dom: " + place.getWeekendTime());
     }
 
     @Override
@@ -59,13 +59,22 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.ViewHolder
         public final TextView datetxtv;
         public final TextView daytxtv;
 
+
         public ViewHolder(View itemView) {
             super(itemView);
             nametxtv = (TextView) itemView.findViewById(R.id.event_name_txtv);
             daytxtv = (TextView) itemView.findViewById(R.id.event_day_txtv);
             datetxtv = (TextView) itemView.findViewById(R.id.event_date_txtv);
             organizertxtv = (TextView) itemView.findViewById(R.id.event_organizer_txtv);
+
+            nametxtv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
         }
+
 
     }
 
