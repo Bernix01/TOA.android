@@ -19,9 +19,19 @@ public class DamnDatabase extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + Tables.Events + " (" +
-                        Contract.PeopleColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        Contract.PeopleColumns.FIRST_NAME + " TEXT NOT NULL, " +
-                        Contract.PeopleColumns.SECOND_NAME + " TEXT NOT NULL)"
+                        AgendaMan.AgendaCols._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        AgendaMan.AgendaCols.NAME + " TEXT NOT NULL, " +
+                        AgendaMan.AgendaCols.RELID + " INTEGER NOT NULL, )" +
+                        AgendaMan.AgendaCols.DATESTART + " TEXT NOT NULL, " +
+                        AgendaMan.AgendaCols.DATEEND + " TEXT NOT NULL, " +
+                        AgendaMan.AgendaCols.ADDRESS + " TEXT NOT NULL, " +
+                        AgendaMan.AgendaCols.DESCRIPTION + " TEXT NOT NULL, " +
+                        AgendaMan.AgendaCols.CATEGORY + " TEXT, " +
+                        AgendaMan.AgendaCols.ORGANIZADOR + " TEXT NOT NULL, " +
+                        AgendaMan.AgendaCols.X + " FLOAT NOT NULL, " +
+                        AgendaMan.AgendaCols.Y + " FLOAT NOT NULL, " +
+                        AgendaMan.AgendaCols.DISTANCE + " FLOAT, " +
+                        AgendaMan.AgendaCols.PRICE + " TEXT"
         );
     }
 

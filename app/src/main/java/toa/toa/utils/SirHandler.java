@@ -24,7 +24,6 @@ import toa.toa.Objects.MrComunity;
 import toa.toa.Objects.MrEvent;
 import toa.toa.Objects.MrPlace;
 import toa.toa.Objects.MrUser;
-import toa.toa.agenda.Agenda;
 import toa.toa.utils.misc.SimpleCallbackClass;
 import toa.toa.utils.misc.SirEventsRetriever;
 import toa.toa.utils.misc.SirFriendsRetriever;
