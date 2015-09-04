@@ -6,7 +6,6 @@ package toa.toa;
 
 import android.content.Intent;
 import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -46,13 +44,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-        if (Build.VERSION.SDK_INT > 19) {
-            RelativeLayout cnt = (RelativeLayout) findViewById(R.id.container);
-            cnt.setPadding(0, getStatusBarHeight(), 0, getNavigationBarHeight());
-        }
-
         _user = (new SirHandler(getApplicationContext()).getCurrentUser());
         TextView name = (TextView) findViewById(R.id.profile_name_txtv);
         TextView bio = (TextView) findViewById(R.id.profle_bio_txtv);
@@ -68,10 +59,17 @@ public class ProfileActivity extends AppCompatActivity {
         name.setText(_user.get_uname());
         bio.setText(_user.get_bio());
         LinearLayout friendsIcn = (LinearLayout) findViewById(R.id.friendv_cnt);
+        LinearLayout agendaIcn = (LinearLayout) findViewById(R.id.agenda_cnt);
         friendsIcn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), FriendsActivity.class));
+            }
+        });
+        agendaIcn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), AgendaActivity.class));
             }
         });
         Picasso.with(getApplicationContext()).load("http://www.resortvillarosa.it/img/top/sport1.jpg").fit().centerCrop().transform(new BlurTransformation(getApplicationContext(), 15)).into(bg);
@@ -132,6 +130,8 @@ public class ProfileActivity extends AppCompatActivity {
                     public void goIt() {
                         Intent i = new Intent(getApplicationContext(), Splash_Activity.class);
                         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                         startActivity(i);
                         finish();
                     }

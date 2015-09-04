@@ -25,7 +25,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -112,11 +111,6 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
-        if (Build.VERSION.SDK_INT > 19) {
-            RelativeLayout view = (RelativeLayout) findViewById(R.id.cnt);
-            view.setPadding(0, getStatusBarHeight(), 0, getNavigationBarHeight());
-        }
-
         final Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -133,11 +127,11 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
         name.setText(_cuser.get_uname());
         bio.setText(_cuser.get_bio());
         email.setText(_cuser.get_email());
-        Log.e("age", _cuser.get_age() + " ");
+        Log.e("sex", _cuser.get_gender() + " ");
         if (_cuser.get_age() != 0)
             age.setText(String.valueOf(_cuser.get_age()));
         if (_cuser.get_gender() != 0)
-        sex.setSelection(_cuser.get_gender());
+            sex.setSelection(_cuser.get_gender(), true);
         if (!_cuser.get_pimage().isEmpty()) {
             Picasso.with(getApplicationContext()).load(_cuser.get_pimage()).transform(new CropCircleTransformation()).into(pimage_imgv);
         } else {
@@ -222,7 +216,8 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
     }
 
     public void do_the_thing() {
-
+        Log.e("nage", age.getText().toString());
+        Log.e("nsex", sex.getSelectedItemPosition() + " :");
         if (!age.getText().toString().isEmpty())
             _cuser.set_age(Integer.parseInt(age.getText().toString()));
         _cuser.set_bio(bio.getText().toString());

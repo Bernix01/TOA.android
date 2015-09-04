@@ -35,6 +35,7 @@ import toa.toa.utils.misc.SirUserRetrieverClass;
 
 import static toa.toa.utils.UtilidadesExtras.convertDate;
 import static toa.toa.utils.UtilidadesExtras.tryGetFloat;
+import static toa.toa.utils.UtilidadesExtras.tryGetInt;
 import static toa.toa.utils.UtilidadesExtras.tryGetString;
 
 /**
@@ -64,6 +65,7 @@ public class SirHandler {
         _currentUser.set_name(userDetails.getString("name", ""));
         _currentUser.set_uname(userDetails.getString("uname", ""));
         _currentUser.set_pimage(userDetails.getString("pimage", ""));
+        _currentUser.set_age(userDetails.getInt("age", 0));
         __hash = userDetails.getString("hash", "");
     }
 
@@ -142,6 +144,7 @@ public class SirHandler {
         editor.putString("bio", user.get_bio());
         editor.putInt("gender", user.get_gender());
         editor.putString("email", user.get_email());
+        editor.putInt("age", user.get_age());
         editor.putString("pimage", user.get_pimage());
         editor.putString("hash", hash);
         editor.apply();
@@ -161,11 +164,12 @@ public class SirHandler {
                 try {
                     data = response.getJSONObject("data");
                     user.set_email(tryGetString(data, "email"));
-                    user.set_id(UtilidadesExtras.tryGetInt(response.getJSONObject("metadata"), "id"));
+                    user.set_id(tryGetInt(response.getJSONObject("metadata"), "id"));
                     user.set_name(tryGetString(data, "name"));
                     user.set_uname(tryGetString(data, "u_name"));
                     user.set_bio(tryGetString(data, "bio"));
-                    user.set_gender(UtilidadesExtras.tryGetInt(data, "gender"));
+                    user.set_age(tryGetInt(data, "age"));
+                    user.set_gender(tryGetInt(data, "gender"));
                     user.set_pimage(tryGetString(data, "pimageurl"));
 
                     Log.i("getUserById", "sending");
@@ -264,8 +268,8 @@ public class SirHandler {
                                 tryGetString(udata, "u_name"),
                                 tryGetString(udata, "email"),
                                 tryGetString(udata, "bio"),
-                                UtilidadesExtras.tryGetInt(udata, "gender"),
-                                UtilidadesExtras.tryGetInt(udata, "age"),
+                                tryGetInt(udata, "gender"),
+                                tryGetInt(udata, "age"),
                                 tryGetString(udata, "pimageurl"));
                         getUserSports(temp, new SirSportsListRetriever() {
                             @Override
@@ -324,8 +328,8 @@ public class SirHandler {
                                 tryGetString(udata, "u_name"),
                                 tryGetString(udata, "email"),
                                 tryGetString(udata, "bio"),
-                                UtilidadesExtras.tryGetInt(udata, "gender"),
-                                UtilidadesExtras.tryGetInt(udata, "age"),
+                                tryGetInt(udata, "gender"),
+                                tryGetInt(udata, "age"),
                                 tryGetString(udata, "pimageurl"));
                         getUserSports(temp, new SirSportsListRetriever() {
                             @Override

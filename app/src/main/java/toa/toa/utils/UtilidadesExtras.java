@@ -86,7 +86,7 @@ public class UtilidadesExtras {
         return r;
     }
 
-    static int tryGetInt(JSONArray j, int pos) {
+    public static int tryGetInt(JSONArray j, int pos) {
         int r = -1;
         try {
             r = j.getInt(pos);
@@ -96,7 +96,7 @@ public class UtilidadesExtras {
         return r;
     }
 
-    static String tryGetString(JSONArray j, int pos) {
+    public static String tryGetString(JSONArray j, int pos) {
         String r = "";
         try {
             r = j.getString(pos);

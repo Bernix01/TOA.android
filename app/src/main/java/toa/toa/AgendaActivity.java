@@ -1,10 +1,16 @@
+/*
+ * Copyright TOA Inc. 2015.
+ */
+
 package toa.toa;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.malinskiy.superrecyclerview.SuperRecyclerView;
 
 import java.util.ArrayList;
 
@@ -20,10 +26,12 @@ public class AgendaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agenda);
         SirHandler handler = new SirHandler(getApplicationContext());
+        final SuperRecyclerView recyclerView = (SuperRecyclerView) findViewById(R.id.agenda_recycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         handler.getUserEvents(new SirEventsRetriever() {
             @Override
             public void gotIt(ArrayList<MrEvent> events) {
-                ((RecyclerView) findViewById(R.id.agenda_recycler)).setAdapter(new EventsAdapter(events, getApplicationContext()));
+                recyclerView.setAdapter(new EventsAdapter(events, getApplicationContext()));
             }
 
             @Override

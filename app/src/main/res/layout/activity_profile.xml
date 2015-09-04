@@ -95,11 +95,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Amigos"
+                    android:text="Deportistas"
                     android:textSize="17sp" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/agenda_cnt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

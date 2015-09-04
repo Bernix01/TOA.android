@@ -7,10 +7,7 @@ package toa.toa;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatCallback;
 import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -27,6 +24,7 @@ import org.json.JSONObject;
 import toa.toa.Objects.MrUser;
 import toa.toa.utils.RestApi;
 import toa.toa.utils.SirHandler;
+import toa.toa.utils.UtilidadesExtras;
 
 /**
  * Creado por : elelawliet
@@ -68,13 +66,13 @@ public class LoginActivity extends Activity {
                                 SirHandler handler = new SirHandler(getApplicationContext());
                                 JSONArray udata = response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row");
                                 MrUser _cuser = new MrUser();
-                                _cuser.set_id(handler.tryGetInt(udata, 0));
-                                _cuser.set_uname(handler.tryGetString(udata, 1));
-                                _cuser.set_name(handler.tryGetString(udata, 2));
-                                _cuser.set_bio(handler.tryGetString(udata, 3));
-                                _cuser.set_gender(handler.tryGetInt(udata, 4));
-                                _cuser.set_email(handler.tryGetString(udata, 5));
-                                _cuser.set_pimage(handler.tryGetString(udata, 6));
+                                _cuser.set_id(UtilidadesExtras.tryGetInt(udata, 0));
+                                _cuser.set_uname(UtilidadesExtras.tryGetString(udata, 1));
+                                _cuser.set_name(UtilidadesExtras.tryGetString(udata, 2));
+                                _cuser.set_bio(UtilidadesExtras.tryGetString(udata, 3));
+                                _cuser.set_gender(UtilidadesExtras.tryGetInt(udata, 4));
+                                _cuser.set_email(UtilidadesExtras.tryGetString(udata, 5));
+                                _cuser.set_pimage(UtilidadesExtras.tryGetString(udata, 6));
                                 handler.registerCurrentUser(_cuser, _user);
                                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -107,16 +105,6 @@ public class LoginActivity extends Activity {
 
     public Boolean isReady(String u, String p) {
         return !(u.isEmpty() && p.isEmpty());
-    }
-    public void setSupportActionBar(@Nullable Toolbar toolbar) {
-        getDelegate().setSupportActionBar(toolbar);
-    }
-
-    public AppCompatDelegate getDelegate() {
-        if (mDelegate == null) {
-            mDelegate = AppCompatDelegate.create(this, (AppCompatCallback) this);
-        }
-        return mDelegate;
     }
 
     public void dologin() {
