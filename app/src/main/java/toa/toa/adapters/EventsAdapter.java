@@ -6,6 +6,7 @@ package toa.toa.adapters;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import java.util.Calendar;
 
 import toa.toa.Objects.MrEvent;
 import toa.toa.R;
+import toa.toa.map.MapActivity;
 
 public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder> {
 
@@ -26,13 +28,14 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
     public EventsAdapter(ArrayList<MrEvent> comunities, Context contexto) {
         this.events = comunities;
         this.contexto = contexto;
+
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_row_event, parent, false);
-        return new ViewHolder(v);
+        return new ViewHolder(v, contexto);
     }
 
     @Override
@@ -58,13 +61,24 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
         public final TextView datetxtv;
         public final TextView daytxtv;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(final View itemView, final Context contexto) {
             super(itemView);
             nametxtv = (TextView) itemView.findViewById(R.id.event_name_txtv);
             daytxtv = (TextView) itemView.findViewById(R.id.event_day_txtv);
             datetxtv = (TextView) itemView.findViewById(R.id.event_date_txtv);
             organizertxtv = (TextView) itemView.findViewById(R.id.event_organizer_txtv);
+            daytxtv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent mapInt = new Intent(contexto.getApplicationContext(), MapActivity.class);
+                    mapInt.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mapInt.putExtra("events", getOldPosition());
+                    contexto.startActivity(mapInt);
+                }
+            });
+
         }
+
 
     }
 

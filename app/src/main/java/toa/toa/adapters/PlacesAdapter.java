@@ -10,6 +10,7 @@ package toa.toa.adapters;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 
 import toa.toa.Objects.MrPlace;
 import toa.toa.R;
+import toa.toa.map.MapActivity;
 
 public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.ViewHolder> {
 
@@ -36,7 +38,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.ViewHolder
 
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_row_place, parent, false);
 
-        return new ViewHolder(v);
+        return new ViewHolder(v, contexto);
     }
 
     @Override
@@ -60,17 +62,20 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.ViewHolder
         public final TextView daytxtv;
 
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView, final Context contexto) {
             super(itemView);
             nametxtv = (TextView) itemView.findViewById(R.id.event_name_txtv);
             daytxtv = (TextView) itemView.findViewById(R.id.event_day_txtv);
             datetxtv = (TextView) itemView.findViewById(R.id.event_date_txtv);
             organizertxtv = (TextView) itemView.findViewById(R.id.event_organizer_txtv);
 
-            nametxtv.setOnClickListener(new View.OnClickListener() {
+            daytxtv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    Intent mapInt = new Intent(contexto.getApplicationContext(), MapActivity.class);
+                    mapInt.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mapInt.putExtra("places", getOldPosition());
+                    contexto.startActivity(mapInt);
                 }
             });
         }

@@ -24,7 +24,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 
 import toa.toa.R;
@@ -34,16 +33,13 @@ import toa.toa.R;
  */
 public class SchoolsFragment extends Fragment {
 
-    private GoogleMap mMap;
-    private int resultCode;
-    private RecyclerView mRecyclerView;
     SchoolAdapter myAdapter;
     Spinner spinner;
     View myView;
-
-
     ArrayList<ItemData> list = new ArrayList<ItemData>();
-
+    private GoogleMap mMap;
+    private int resultCode;
+    private RecyclerView mRecyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,7 +53,7 @@ public class SchoolsFragment extends Fragment {
         mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         mRecyclerView.setHasFixedSize(true);
-        fetchData();
+        //fetchData();
 
         resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getActivity());
         if (resultCode != ConnectionResult.SUCCESS) {
@@ -71,7 +67,7 @@ public class SchoolsFragment extends Fragment {
         return v;
     }
 
-    public void fetchData() {
+   /* public void fetchData() {
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(
                 "SchoolNames");
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -80,10 +76,10 @@ public class SchoolsFragment extends Fragment {
                 doneFetching(parseObjects);
             }
         });
-    }
+    }*/
 
 
-    public void doneFetching(List<ParseObject> objects) {
+   /* public void doneFetching(List<ParseObject> objects) {
 
 
         for (ParseObject item : objects) {
@@ -109,8 +105,28 @@ public class SchoolsFragment extends Fragment {
         mRecyclerView.setAdapter(myAdapter);
 
 
-    }
+    }*/
 
+    private void addToMap(String latlong, String title) {
+        mMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map)).getMap();
+
+
+        MarkerOptions markerOptions;
+        LatLng position;
+        String lati = latlong.substring(0, latlong.indexOf(",")), longi = latlong.substring(latlong.indexOf(",") + 1, latlong.length());
+
+        markerOptions = new MarkerOptions();
+
+
+        position = new LatLng(Double.parseDouble(lati), Double.parseDouble(longi));
+        markerOptions.position(position);
+        markerOptions.title(title);
+        mMap.addMarker(markerOptions);
+
+        CameraUpdate cameraPosition = CameraUpdateFactory.newLatLngZoom(position, 6.0f);
+        mMap.animateCamera(cameraPosition);
+
+    }
 
     public class SchoolAdapter extends RecyclerView.Adapter<SchoolAdapter.ViewHolder> {
         ArrayList<ItemData> itemsData;
@@ -159,45 +175,10 @@ public class SchoolsFragment extends Fragment {
 
         }
 
-        // inner class to hold a reference to each item of RecyclerView
-        public class ViewHolder extends RecyclerView.ViewHolder {
-
-            public TextView txtViewTitle, block, village;
-            public ImageView imgViewIcon;
-
-            public ViewHolder(View itemLayoutView) {
-                super(itemLayoutView);
-                myView = itemLayoutView;
-                txtViewTitle = (TextView) itemLayoutView.findViewById(R.id.item_title);
-                imgViewIcon = (ImageView) itemLayoutView.findViewById(R.id.item_icon);
-                block = (TextView) itemLayoutView.findViewById(R.id.item_block);
-                village = (TextView) itemLayoutView.findViewById(R.id.item_village);
-
-            }
-        }
-
-
         // Return the size of your itemsData (invoked by the layout manager)
         @Override
         public int getItemCount() {
             return itemsData.size();
-        }
-
-        // inner class to hold a reference to each item of RecyclerView
-        public class ViewHolder extends RecyclerView.ViewHolder {
-
-            public TextView txtViewTitle, block, village;
-            public ImageView imgViewIcon;
-
-            public ViewHolder(View itemLayoutView) {
-                super(itemLayoutView);
-                myView = itemLayoutView;
-                txtViewTitle = (TextView) itemLayoutView.findViewById(R.id.item_title);
-                imgViewIcon = (ImageView) itemLayoutView.findViewById(R.id.item_icon);
-                block = (TextView) itemLayoutView.findViewById(R.id.item_block);
-                village = (TextView) itemLayoutView.findViewById(R.id.item_village);
-
-            }
         }
 
         private void setAnimation(View viewToAnimate, int position) {
@@ -208,29 +189,39 @@ public class SchoolsFragment extends Fragment {
                 lastPosition = position;
             }
         }
-    }
 
+        // inner class to hold a reference to each item of RecyclerView
+       /* public class ViewHolder extends RecyclerView.ViewHolder {
 
-    private void addToMap(String latlong, String title) {
-        mMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map)).getMap();
+            public TextView txtViewTitle, block, village;
+            public ImageView imgViewIcon;
 
+            public ViewHolder(View itemLayoutView) {
+                super(itemLayoutView);
+                myView = itemLayoutView;
+                txtViewTitle = (TextView) itemLayoutView.findViewById(R.id.item_title);
+                imgViewIcon = (ImageView) itemLayoutView.findViewById(R.id.item_icon);
+                block = (TextView) itemLayoutView.findViewById(R.id.item_block);
+                village = (TextView) itemLayoutView.findViewById(R.id.item_village);
 
-        MarkerOptions markerOptions;
-        LatLng position;
-        String lati = latlong.substring(0, latlong.indexOf(",")), longi = latlong.substring(latlong.indexOf(",") + 1, latlong.length());
+            }
+        }*/
 
-        markerOptions = new MarkerOptions();
+        // inner class to hold a reference to each item of RecyclerView
+        public class ViewHolder extends RecyclerView.ViewHolder {
 
+            public TextView txtViewTitle, block, village;
+            public ImageView imgViewIcon;
 
-        position = new LatLng(Double.parseDouble(lati), Double.parseDouble(longi));
-        markerOptions.position(position);
-        markerOptions.title(title);
-        mMap.addMarker(markerOptions);
+            public ViewHolder(View itemLayoutView) {
+                super(itemLayoutView);
+                myView = itemLayoutView;
+                txtViewTitle = (TextView) itemLayoutView.findViewById(R.id.item_title);
+                imgViewIcon = (ImageView) itemLayoutView.findViewById(R.id.item_icon);
+                block = (TextView) itemLayoutView.findViewById(R.id.item_block);
+                village = (TextView) itemLayoutView.findViewById(R.id.item_village);
 
-        CameraUpdate cameraPosition = CameraUpdateFactory.newLatLngZoom(position, 6.0f);
-
-
-        mMap.animateCamera(cameraPosition);
-
+            }
+        }
     }
 }
