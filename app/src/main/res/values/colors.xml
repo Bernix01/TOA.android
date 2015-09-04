@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="my_awesome_color">#009688</color>
-    <color name="my_awesome_darker_color">#00796B</color>
+    <color name="my_awesome_color">#a3008477</color>
+    <color name="my_awesome_darker_color">#005a50</color>
     <color name="submitbg_color">#06c</color>
     <color name="querybg_color">#ff0082f4</color>
     <color name="primary">#129a91</color>
     <color name="primary_dark">#0e6c63</color>
     <color name="primary_light">#B2DFDB</color>
-    <color name="accent">#00b1a1</color>
+    <color name="accent">#0e9e92</color>
 
     <color name="saludColor">#41AB97</color>
     <color name="finanzasColor">#FEC246</color>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--   ~ Copyright TOA Inc. 2015. -->
+<?xml version="1.0" encoding="utf-8"?><!-- ~ Copyright TOA Inc. 2015. -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="toa.toa">
 
@@ -118,7 +118,14 @@
         </activity>
         <activity
             android:name=".activities.ConsejosNutricionalesActivity"
-            android:label="@string/title_activity_consejos_nutricionales">
+            android:label="@string/title_activity_consejos_nutricionales"></activity>
+        <activity
+            android:name=".AgendaActivity"
+            android:label="@string/title_activity_agenda"
+            android:parentActivityName=".ProfileActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="toa.toa.ProfileActivity" />
         </activity>
     </application>
 
