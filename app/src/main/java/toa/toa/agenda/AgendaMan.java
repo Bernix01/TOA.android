@@ -15,11 +15,19 @@ public class AgendaMan {
 
 
     public interface AgendaCols {
+        String _ID = "_id_";
         String NAME = "name";
         String DATESTART = "dates";
         String DATEEND = "datee";
         String RELID = "rel_id";
+        String ORGANIZADOR = "organizer";
+        String ADDRESS = "address";
+        String DESCRIPTION = "descr";
+        String X = "x",
+                Y = "y",
+                PRICE = "price",
+                DISTANCE = "distance";
+        String CATEGORY = "cat";
     }
-
-
+    
 }

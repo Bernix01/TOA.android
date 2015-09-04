@@ -19,18 +19,23 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 import toa.toa.Objects.MrComunity;
 import toa.toa.Objects.MrEvent;
 import toa.toa.Objects.MrPlace;
 import toa.toa.Objects.MrUser;
-import toa.toa.agenda.Agenda;
+import toa.toa.agenda.AgendaMan;
 import toa.toa.utils.misc.SimpleCallbackClass;
 import toa.toa.utils.misc.SirEventsRetriever;
 import toa.toa.utils.misc.SirFriendsRetriever;
 import toa.toa.utils.misc.SirPlacesRetriever;
 import toa.toa.utils.misc.SirSportsListRetriever;
 import toa.toa.utils.misc.SirUserRetrieverClass;
+
+import static toa.toa.utils.UtilidadesExtras.convertDate;
+import static toa.toa.utils.UtilidadesExtras.tryGetFloat;
+import static toa.toa.utils.UtilidadesExtras.tryGetString;
 
 /**
  * Created by programador on 7/17/15.
@@ -127,57 +132,6 @@ public class SirHandler {
         __hash = hash;
     }
 
-    public int tryGetInt(JSONObject j, String name) {
-        int r = -1;
-        try {
-            r = j.getInt(name);
-        } catch (JSONException e) {
-            Log.e("error", e.getMessage());
-        }
-        return r;
-    }
-
-    public float tryGetFloat(JSONObject j, String name) {
-        float r = -1;
-        try {
-            r = (float) (Double.parseDouble(j.getString(name)) * 1.0f);
-        } catch (JSONException e) {
-            Log.e("error", e.getMessage());
-        }
-        return r;
-    }
-
-    public String tryGetString(JSONObject j, String name) {
-        String r = "";
-        try {
-            r = j.getString(name);
-            Log.i("str", r);
-        } catch (JSONException e) {
-            Log.e("error", e.getMessage());
-        }
-        return r;
-    }
-
-    public int tryGetInt(JSONArray j, int pos) {
-        int r = -1;
-        try {
-            r = j.getInt(pos);
-        } catch (JSONException e) {
-            Log.e("error", e.getMessage());
-        }
-        return r;
-    }
-
-    public String tryGetString(JSONArray j, int pos) {
-        String r = "";
-        try {
-            r = j.getString(pos);
-            Log.i("str", r);
-        } catch (JSONException e) {
-            Log.e("error", e.getMessage());
-        }
-        return r;
-    }
 
     public void registerCurrentUser(MrUser user, String hash) {
         SharedPreferences userDetails = mcontext.getSharedPreferences("u_data", Context.MODE_PRIVATE);
@@ -207,11 +161,11 @@ public class SirHandler {
                 try {
                     data = response.getJSONObject("data");
                     user.set_email(tryGetString(data, "email"));
-                    user.set_id(tryGetInt(response.getJSONObject("metadata"), "id"));
+                    user.set_id(UtilidadesExtras.tryGetInt(response.getJSONObject("metadata"), "id"));
                     user.set_name(tryGetString(data, "name"));
                     user.set_uname(tryGetString(data, "u_name"));
                     user.set_bio(tryGetString(data, "bio"));
-                    user.set_gender(tryGetInt(data, "gender"));
+                    user.set_gender(UtilidadesExtras.tryGetInt(data, "gender"));
                     user.set_pimage(tryGetString(data, "pimageurl"));
 
                     Log.i("getUserById", "sending");
@@ -305,7 +259,14 @@ public class SirHandler {
                     final int datos = dataf.length();
                     for (int i = 0; i < datos; i++) {
                         JSONObject udata = dataf.getJSONObject(i).getJSONArray("row").getJSONObject(0);
-                        final MrUser temp = new MrUser(dataf.getJSONObject(i).getJSONArray("row").getInt(1), tryGetString(udata, "name"), tryGetString(udata, "u_name"), tryGetString(udata, "email"), tryGetString(udata, "bio"), tryGetInt(udata, "gender"), tryGetInt(udata, "age"), tryGetString(udata, "pimageurl"));
+                        final MrUser temp = new MrUser(dataf.getJSONObject(i).getJSONArray("row").getInt(1),
+                                tryGetString(udata, "name"),
+                                tryGetString(udata, "u_name"),
+                                tryGetString(udata, "email"),
+                                tryGetString(udata, "bio"),
+                                UtilidadesExtras.tryGetInt(udata, "gender"),
+                                UtilidadesExtras.tryGetInt(udata, "age"),
+                                tryGetString(udata, "pimageurl"));
                         getUserSports(temp, new SirSportsListRetriever() {
                             @Override
                             public void goIt(ArrayList<MrComunity> sports) {
@@ -358,7 +319,14 @@ public class SirHandler {
                     final int datos = dataf.length();
                     for (int i = 0; i < datos; i++) {
                         JSONObject udata = dataf.getJSONObject(i).getJSONArray("row").getJSONObject(0);
-                        final MrUser temp = new MrUser(dataf.getJSONObject(i).getJSONArray("row").getInt(1), tryGetString(udata, "name"), tryGetString(udata, "u_name"), tryGetString(udata, "email"), tryGetString(udata, "bio"), tryGetInt(udata, "gender"), tryGetInt(udata, "age"), tryGetString(udata, "pimageurl"));
+                        final MrUser temp = new MrUser(dataf.getJSONObject(i).getJSONArray("row").getInt(1),
+                                tryGetString(udata, "name"),
+                                tryGetString(udata, "u_name"),
+                                tryGetString(udata, "email"),
+                                tryGetString(udata, "bio"),
+                                UtilidadesExtras.tryGetInt(udata, "gender"),
+                                UtilidadesExtras.tryGetInt(udata, "age"),
+                                tryGetString(udata, "pimageurl"));
                         getUserSports(temp, new SirSportsListRetriever() {
                             @Override
                             public void goIt(ArrayList<MrComunity> sports) {
@@ -472,8 +440,8 @@ public class SirHandler {
                         JSONObject udata = dataf.getJSONObject(i).getJSONArray("row").getJSONObject(0);
                         MrEvent temp = new MrEvent(dataf.getJSONObject(i).getJSONArray("row").getInt(1),
                                 tryGetString(udata, "name"),
-                                UtilidadesExtras.convertDate(tryGetString(udata, "dateStart")),
-                                UtilidadesExtras.convertDate(tryGetString(udata, "dateEnd")),
+                                convertDate(tryGetString(udata, "dateStart")),
+                                convertDate(tryGetString(udata, "dateEnd")),
                                 tryGetString(udata, "organizer"),
                                 tryGetString(udata, "descr"),
                                 tryGetString(udata, "address"),
@@ -519,7 +487,7 @@ public class SirHandler {
             public void onSuccess(int statusCode, org.apache.http.Header[] headers, JSONObject response) {
                 if (statusCode == 201) {
                     try {
-                        Agenda.saveEvent(response.getJSONObject("metadata").getInt("id"));
+                        AgendaMan.saveEvent(response.getJSONObject("metadata").getInt("id"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -535,7 +503,87 @@ public class SirHandler {
         });
     }
 
-    public void deleteEvent(MrEvent event) {
-        RestApi._delete();
+    public void deleteEvent(final MrEvent event) {
+        JSONObject cmd = new JSONObject();
+        JSONArray cmds = new JSONArray();
+        JSONObject subcmd = new JSONObject();
+        try {
+            subcmd.put("statement", "MATCH (n:user)-[r:isGoing]->(a:Event) WHERE id(n)=\"" + _currentUser.get_id() + "\" AND id(a)=\"" + event.getId() + "\" DELETE r RETURN 0");
+            cmds.put(subcmd);
+            cmd.put("statements", cmds);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.d("EventDel", "No longer going to event: " + event.getId());
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.e("error", "code: " + statusCode + " " + throwable.toString());
+            }
+        });
+    }
+
+    public void getUserEvents(final SirEventsRetriever retriever) {
+        JSONObject cmd = new JSONObject();
+        JSONArray cmds = new JSONArray();
+        JSONObject subcmd = new JSONObject();
+        try {
+            subcmd.put("statement", "MATCH (n:user)-[r:isGoing]->(a:Event) WHERE id(n)=\"" + _currentUser.get_id() + "\" RETURN a,id(a)");
+            cmds.put(subcmd);
+            cmd.put("statements", cmds);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    ArrayList<MrEvent> events = new ArrayList<MrEvent>();
+                    JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
+                    int datos = dataf.length();
+                    for (int i = 0; i < datos; i++) {
+                        JSONObject udata = dataf.getJSONObject(i).getJSONArray("row").getJSONObject(0);
+                        MrEvent temp = new MrEvent(dataf.getJSONObject(i).getJSONArray("row").getInt(1),
+                                tryGetString(udata, "name"),
+                                convertDate(tryGetString(udata, "dateStart")),
+                                convertDate(tryGetString(udata, "dateEnd")),
+                                tryGetString(udata, "organizer"),
+                                tryGetString(udata, "descr"),
+                                tryGetString(udata, "address"),
+                                tryGetFloat(udata, "X"),
+                                tryGetFloat(udata, "Y"));
+                        String sportsA = tryGetString(udata, "esports");
+                        if (!Objects.equals(sportsA, "")) {
+                            String[] sports = sportsA.split(",");
+                            for (String sport : sports) {
+                                if (sport.equals("Running") || sport.equals("Ciclismo") || sport.equals("Natación"))
+                                    temp = temp.withDistance(tryGetFloat(udata, "distance"));
+                                if (sport.equals("Triatlón"))
+                                    temp = temp.withCategory(tryGetString(udata, "cat"));
+                            }
+                        }
+                        float price = tryGetFloat(udata, "price");
+                        temp = temp.withPrice((price == 0.0f) ? 0 : price);
+                        events.add(temp);
+                    }
+                    retriever.gotIt(events);
+
+                } catch (JSONException e) {
+                    retriever.failure(e.getLocalizedMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.e("error", "code: " + statusCode + " " + throwable.toString());
+            }
+        });
+
     }
 }

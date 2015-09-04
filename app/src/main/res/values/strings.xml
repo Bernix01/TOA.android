@@ -68,5 +68,6 @@
     <string name="action_addFriend">Agregar amigo</string>
     <string name="TOA_IMAGES_PATH">/sdcard/TOA/</string>
     <string name="organiza_txt">Organiza:</string>
+    <string name="title_activity_agenda">Agenda</string>
 
 </resources>
