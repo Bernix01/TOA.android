@@ -72,8 +72,6 @@ public class ComunityActivity extends AppCompatActivity {
         } else {
             Picasso.with(getApplicationContext()).load(R.drawable.defaultpimage).transform(new CropCircleTransformation()).into(pimage_imgv);
         }
-
-
     }
 
     public int getStatusBarHeight() {

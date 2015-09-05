@@ -14,4 +14,9 @@
     <color name="espiritualColor">#72C68B</color>
     <color name="profesionalColor">#EC6B56</color>
     <color name="materialColor">#462445</color>
+
+    <color name="list_item_title">#3f51b5</color>
+    <color name="list_background">#ffffff</color>
+    <color name="list_background_pressed">#f5f5f5</color>
+    <color name="list_divider">#ffffff</color>
 </resources>

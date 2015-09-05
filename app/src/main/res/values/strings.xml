@@ -12,7 +12,6 @@
     <string name="title_activity_comunity_template">comunity_template</string>
     <string name="title_activity_register">Registrarse</string>
     <string name="title_activity_splash_">Splash_Activity</string>
-    <string name="title_activity_atletismo_sport">CrossFit</string>
 
     <string name="login">Inciar Sesión</string>
     <string name="continuestr_welcome">Desliza para continuar</string>
@@ -51,11 +50,13 @@
     <string name="title_activity_profile">Perfil</string>
     <string name="title_activity_atletismo">AtletismoActivity</string>
     <string name="action_logout">Cerrar sesión</string>
-    <string name="title_activity_cycling">CyclingActivity</string>
-    <string name="title_activity_triathlon">TriathlonActivity</string>
-    <string name="title_activity_swimming">SwimmingActivity</string>
-    <string name="title_activity_footbal">FootbolActivity</string>
-    <string name="title_activity_running">RunningActivity</string>
+
+    <string name="title_activity_atletismo_sport">CrossFit ♥</string>
+    <string name="title_activity_cycling">Cycling ♥</string>
+    <string name="title_activity_triathlon">Triathlon ♥</string>
+    <string name="title_activity_swimming">Swimming ♥</string>
+    <string name="title_activity_footbal">Footbol ♥</string>
+    <string name="title_activity_running">Running ♥</string>
 
     <string-array name="sex_array">
         <item> </item>
@@ -73,4 +74,16 @@
     <string name="title_activity_addfriend_activty">Encuentra personas</string>
     <string name="edit_coms">Editar</string>
 
+    <!--mapas arrays -->
+    <string-array name="nav_drawer_items">
+
+        <item>Lugares</item>
+        <item>Districts</item>
+    </string-array>
+
+
+    <array name="nav_drawer_icons">
+        <item>@drawable/ubication_white</item>
+        <item>@drawable/ubication_white</item>
+    </array>
 </resources>

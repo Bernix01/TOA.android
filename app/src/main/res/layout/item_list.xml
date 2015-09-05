@@ -15,6 +15,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/categoria"
+        android:layout_toLeftOf="@+id/imageView"
+        android:layout_toStartOf="@+id/imageView"
         android:text="Titulo"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -40,7 +42,7 @@
         android:layout_alignParentTop="true"
         android:text="Fecha"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@android:color/black" />
+        android:textColor="@color/primary_dark" />
 
     <!-- Prioridad -->
     <TextView
@@ -55,11 +57,11 @@
 
     <!-- Icono para la fecha -->
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/imageSportConsejo"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_alignEnd="@+id/categoria"
         android:layout_alignRight="@+id/categoria"
         android:layout_alignTop="@+id/titulo"
-        android:src="@drawable/calendario_white" />
+        android:src="@drawable/bike_sport" />
 </RelativeLayout>
