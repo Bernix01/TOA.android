@@ -33,7 +33,7 @@ public class FriendsActivity extends AppCompatActivity {
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.friends_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         SirHandler handler = new SirHandler(getApplicationContext());
-        handler.getUserFriends(handler.getCurrentUser(), new SirFriendsRetriever() {
+        handler.getUserFriends(SirHandler.getCurrentUser(getApplicationContext()), new SirFriendsRetriever() {
             @Override
             public void goIt(ArrayList<MrUser> friends) {
                 recyclerView.setAdapter(new FriendsAdapter(friends, getApplicationContext()));

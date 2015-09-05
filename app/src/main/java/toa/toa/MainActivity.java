@@ -73,12 +73,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SirHandler.initialize(getApplicationContext());
         final TextView name_txtv = (TextView) findViewById(R.id.main_ui_name_txtv);
         final ImageView pimage_imgv = (ImageView) findViewById(R.id.main_ui_pimage_imv);
         SharedPreferences userDetails = getApplicationContext().getSharedPreferences("appData", MODE_PRIVATE);
         int firstTime = userDetails.getInt("firstTme", 1);
-        SirHandler handler = new SirHandler(getApplicationContext());
-        __user = handler.getCurrentUser();
+        __user = SirHandler.getCurrentUser(getApplicationContext());
         if (firstTime != 0) {
             SharedPreferences.Editor editor = userDetails.edit();
             editor.putInt("firstTme", 0);

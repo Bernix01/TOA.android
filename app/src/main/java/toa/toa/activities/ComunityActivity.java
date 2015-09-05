@@ -47,8 +47,7 @@ public class ComunityActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final SirHandler handler = new SirHandler(getApplicationContext());
-        final MrUser currentUser = handler.getCurrentUser();
+        final MrUser currentUser = SirHandler.getCurrentUser(getApplicationContext());
         ViewPager pager = (ViewPager) findViewById(R.id.sportPager);
         pager.setAdapter(new CollectionPagerComunityAdapter(getSupportFragmentManager(), com));
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.sportTabs);
@@ -58,7 +57,6 @@ public class ComunityActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-                i.putExtra("user", handler.getCurrentUser());
                 startActivity(i);
             }
         });
@@ -66,7 +64,6 @@ public class ComunityActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-                i.putExtra("user", handler.getCurrentUser());
                 startActivity(i);
             }
         });

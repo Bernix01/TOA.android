@@ -71,5 +71,6 @@
     <string name="title_activity_agenda">Agenda</string>
     <string name="Empty_view_msg">Nada :(</string>
     <string name="title_activity_addfriend_activty">Encuentra personas</string>
+    <string name="edit_coms">Editar</string>
 
 </resources>

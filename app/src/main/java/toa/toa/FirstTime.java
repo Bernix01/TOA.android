@@ -2,14 +2,12 @@ package toa.toa;
 
 import android.content.Intent;
 import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -21,18 +19,21 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import toa.toa.Objects.MrSport;
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+import toa.toa.Objects.MrComunity;
 import toa.toa.utils.CheckBox;
+import toa.toa.utils.SirHandler;
+import toa.toa.utils.misc.SirSportsListRetriever;
 
 public class FirstTime extends AppCompatActivity {
-    private ArrayList<MrSport> Sports = new ArrayList<MrSport>();
+    private ArrayList<MrComunity> Sports = new ArrayList<MrComunity>();
     private Picasso picasso;
     private adapter adapt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_time2);
-        final int id = getIntent().getIntExtra("nid", 0);
+        final int id = SirHandler.getCurrentUser(getApplicationContext()).get_id();
         if (id == 0) {
             Intent c = new Intent(getApplicationContext(), Splash_Activity.class);
             c.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -40,30 +41,30 @@ public class FirstTime extends AppCompatActivity {
             finish();
         }
         final RecyclerView rclr = (RecyclerView) findViewById(R.id.recycler_firstTime);
-        addObjectToList(new MrSport(R.drawable.deprun, "Running"));
-        addObjectToList(new MrSport(R.drawable.depswi, "Natación"));
-        addObjectToList(new MrSport(R.drawable.depcross, "Crossfit"));
-        addObjectToList(new MrSport(R.drawable.depsoc, "Fútbol"));
-        addObjectToList(new MrSport(R.drawable.depbike, "Ciclismo"));
-        addObjectToList(new MrSport(R.drawable.deptri, "Triatlón"));
-        adapt = new adapter(Sports);
-        if (Build.VERSION.SDK_INT > 19) {
-            RelativeLayout view = (RelativeLayout) findViewById(R.id.opt_container);
-            view.setPadding(0, getStatusBarHeight(), 0, getNavigationBarHeight());
-        }
-        GridLayoutManager gm = new GridLayoutManager(getApplicationContext(),2);
-        rclr.setLayoutManager(gm);
-        rclr.setAdapter(adapt);
-        ButtonFloat contiue = (ButtonFloat) findViewById(R.id.finish_register);
-        contiue.setOnClickListener(new View.OnClickListener() {
+        SirHandler.getAllComs(new SirSportsListRetriever() {
             @Override
-            public void onClick(View v) {
-                Intent a = new Intent(getApplicationContext(), LoadingSplash.class);
-                a.putExtra("nid", id);
-                a.putExtra("SPorts", adapt.getList());
-                a.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(a);
-                finish();
+            public void goIt(ArrayList<MrComunity> sports) {
+                adapt = new adapter(sports);
+
+                GridLayoutManager gm = new GridLayoutManager(getApplicationContext(), 2);
+                rclr.setLayoutManager(gm);
+                rclr.setAdapter(adapt);
+                ButtonFloat contiue = (ButtonFloat) findViewById(R.id.finish_register);
+                contiue.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent a = new Intent(getApplicationContext(), LoadingSplash.class);
+                        a.putExtra("SPorts", adapt.getList());
+                        a.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(a);
+                        finish();
+                    }
+                });
+            }
+
+            @Override
+            public void failure(String error) {
+
             }
         });
     }
@@ -85,35 +86,11 @@ public class FirstTime extends AppCompatActivity {
         }
         return 0;
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_first_time, menu);
-        return true;
-    }
-
-    private void addObjectToList(MrSport sport) {
-        Sports.add(sport);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     public class adapter extends RecyclerView.Adapter<adapter.ViewHolder> {
-        ArrayList<MrSport> list;
-        public adapter(ArrayList<MrSport> list) {
+        ArrayList<MrComunity> list;
+
+        public adapter(ArrayList<MrComunity> list) {
             this.list = list;
         }
 
@@ -125,10 +102,10 @@ public class FirstTime extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final adapter.ViewHolder holder, int position) {
-            final MrSport sport = list.get(position);
-            holder.opt.setCircleColor(getResources().getColor(R.color.primary));
-            holder.opt.setUnCheckColor(getResources().getColor(R.color.primary_dark));
-            Picasso.with(getApplicationContext()).load(sport.getImg()).fit().centerCrop().into(holder.img);
+            final MrComunity sport = list.get(position);
+            holder.opt.setCircleColor(ContextCompat.getColor(getApplicationContext(), R.color.primary));
+            holder.opt.setUnCheckColor(ContextCompat.getColor(getApplicationContext(), R.color.primary_dark));
+            Picasso.with(getApplicationContext()).load(sport.getComunityImg()).fit().centerCrop().transform(new CropCircleTransformation()).into(holder.img);
             holder.cnt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -138,7 +115,7 @@ public class FirstTime extends AppCompatActivity {
             });
         }
 
-        public ArrayList<MrSport> getList() {
+        public ArrayList<MrComunity> getList() {
             return list;
         }
 

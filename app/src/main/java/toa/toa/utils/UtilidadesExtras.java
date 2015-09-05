@@ -5,6 +5,9 @@
 package toa.toa.utils;
 
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Base64;
 import android.util.Log;
 
@@ -55,7 +58,7 @@ public class UtilidadesExtras {
     }
 
 
-    static int tryGetInt(JSONObject j, String name) {
+    public static int tryGetInt(JSONObject j, String name) {
         int r = -1;
         try {
             r = j.getInt(name);
@@ -65,7 +68,7 @@ public class UtilidadesExtras {
         return r;
     }
 
-    static float tryGetFloat(JSONObject j, String name) {
+    public static float tryGetFloat(JSONObject j, String name) {
         float r = -1;
         try {
             r = (float) (Double.parseDouble(j.getString(name)) * 1.0f);
@@ -75,7 +78,14 @@ public class UtilidadesExtras {
         return r;
     }
 
-    static String tryGetString(JSONObject j, String name) {
+    public static boolean isOnline(Context context) {
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+    public static String tryGetString(JSONObject j, String name) {
         String r = "";
         try {
             r = j.getString(name);

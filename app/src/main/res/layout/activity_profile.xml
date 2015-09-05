@@ -154,5 +154,15 @@
             android:clipToPadding="false"
             android:columnWidth="70dp" />
 
+        <TextView
+            android:id="@+id/profile_edit_coms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:text="@string/edit_coms"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
     </RelativeLayout>
 </RelativeLayout>

@@ -122,7 +122,7 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
         email = (EditText) findViewById(R.id.editProf_email_etxt);
         sex = (Spinner) findViewById(R.id.editProf_sex_spinner);
         handler = new SirHandler(getApplicationContext());
-        _cuser = handler.getCurrentUser();
+        _cuser = SirHandler.getCurrentUser(getApplicationContext());
         username.setText(_cuser.get_name());
         name.setText(_cuser.get_uname());
         bio.setText(_cuser.get_bio());

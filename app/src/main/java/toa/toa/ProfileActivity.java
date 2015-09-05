@@ -5,7 +5,6 @@
 package toa.toa;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -33,7 +32,6 @@ import toa.toa.utils.misc.SirSportsListRetriever;
 
 public class ProfileActivity extends AppCompatActivity {
     ImageView bg;
-    private MrUser _user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +42,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        _user = (new SirHandler(getApplicationContext()).getCurrentUser());
+        MrUser _user = (SirHandler.getCurrentUser(getApplicationContext()));
         TextView name = (TextView) findViewById(R.id.profile_name_txtv);
         TextView bio = (TextView) findViewById(R.id.profle_bio_txtv);
         ImageView pic = (ImageView) findViewById(R.id.profile_person_imgv);
@@ -60,6 +58,13 @@ public class ProfileActivity extends AppCompatActivity {
         bio.setText(_user.get_bio());
         LinearLayout friendsIcn = (LinearLayout) findViewById(R.id.friendv_cnt);
         LinearLayout agendaIcn = (LinearLayout) findViewById(R.id.agenda_cnt);
+        TextView editSports = (TextView) findViewById(R.id.profile_edit_coms);
+        editSports.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), FirstTime.class));
+            }
+        });
         friendsIcn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,23 +97,6 @@ public class ProfileActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    public int getStatusBarHeight() {
-        int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
-    }
-
-    public int getNavigationBarHeight() {
-        Resources resources = getApplicationContext().getResources();
-        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            return resources.getDimensionPixelSize(resourceId);
-        }
-        return 0;
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -124,8 +112,7 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), EditProfileActivity.class));
                 return true;
             case R.id.prof_action_logout:
-                SirHandler handler = new SirHandler(getApplicationContext());
-                handler.logout(new SimpleCallbackClass() {
+                SirHandler.logout(new SimpleCallbackClass() {
                     @Override
                     public void goIt() {
                         Intent i = new Intent(getApplicationContext(), Splash_Activity.class);

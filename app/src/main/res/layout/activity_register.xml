@@ -46,6 +46,19 @@
                 app:met_floatingLabelText="@string/reg_nombre_etxt" />
 
             <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/reg_last_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/reg_name"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:hint="@string/reg_apellidos_etxt"
+                android:inputType="textPersonName"
+                android:textSize="14sp"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelText="@string/reg_apellidos_etxt" />
+
+            <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/reg_usr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -53,6 +66,7 @@
                 android:layout_marginTop="10dp"
                 android:ems="10"
                 android:hint="@string/reg_usuario_etxt"
+                android:inputType="text"
                 android:textSize="14sp"
                 app:met_baseColor="#202020"
                 app:met_floatingLabel="normal"
@@ -87,18 +101,6 @@
                 app:met_floatingLabel="normal"
                 app:met_floatingLabelText="@string/reg_email_etxt" />
 
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/reg_last_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/reg_name"
-                android:layout_marginTop="10dp"
-                android:ems="10"
-                android:hint="@string/reg_apellidos_etxt"
-                android:inputType="textPersonName"
-                android:textSize="14sp"
-                app:met_floatingLabel="normal"
-                app:met_floatingLabelText="@string/reg_apellidos_etxt" />
         </RelativeLayout>
 
     <com.dd.CircularProgressButton

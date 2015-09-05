@@ -44,8 +44,8 @@ import static toa.toa.utils.UtilidadesExtras.tryGetString;
 public class SirHandler {
 
     protected static String __hash;
-    private MrUser _currentUser = new MrUser();
-    private Context mcontext;
+    private static MrUser _currentUser;
+    private static Context mcontext;
 
     /**
      * Crea un nuevo SirHandler, vacío.
@@ -53,20 +53,104 @@ public class SirHandler {
      * @param mcontext se necesita para obtener data de las sharedprefs
      */
     public SirHandler(Context mcontext) {
-        this.mcontext = mcontext;
+        SirHandler.mcontext = mcontext;
+        _currentUser = new MrUser();
         setCurrent();
     }
 
-    private void setCurrent() {
+    public static MrUser getCurrentUser(Context mcontext) {
+        SirHandler.mcontext = mcontext;
+        _currentUser = new MrUser();
+        setCurrent();
+        return _currentUser;
+    }
+
+    public static void initialize(Context mcontext) {
+        SirHandler.mcontext = mcontext;
+        _currentUser = new MrUser();
+        setCurrent();
+    }
+
+    public static void getAllComs(final SirSportsListRetriever retriever) {
+
+        JSONObject cmd = new JSONObject();
+        JSONArray cmds = new JSONArray();
+        JSONObject subcmd = new JSONObject();
+        try {
+            subcmd.put("statement", "MATCH (n:Sport) RETURN n.name, n.icnurl, n.bgurl");
+            cmds.put(subcmd);
+            cmd.put("statements", cmds);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                ArrayList<MrComunity> sports = new ArrayList<MrComunity>();
+                try {
+                    JSONArray data = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
+                    int datos = data.length();
+                    for (int i = 0; i < datos; i++)
+                        sports.add(new MrComunity(data.getJSONObject(i).getJSONArray("row").getString(0), data.getJSONObject(i).getJSONArray("row").getString(1), data.getJSONObject(i).getJSONArray("row").getString(2)));
+                    retriever.goIt(sports);
+
+                } catch (JSONException e) {
+                    Log.e("exception", e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.e("error", "code: " + statusCode + " " + throwable.toString());
+                retriever.failure(throwable.toString());
+            }
+        });
+
+    }
+
+    private static void setCurrent() {
         SharedPreferences userDetails = mcontext.getSharedPreferences("u_data", Context.MODE_PRIVATE);
-        _currentUser.set_id(userDetails.getInt("n_id", -1));
-        _currentUser.set_bio(userDetails.getString("bio", ""));
-        _currentUser.set_email(userDetails.getString("email", ""));
-        _currentUser.set_name(userDetails.getString("name", ""));
-        _currentUser.set_uname(userDetails.getString("uname", ""));
-        _currentUser.set_pimage(userDetails.getString("pimage", ""));
-        _currentUser.set_age(userDetails.getInt("age", 0));
+        SirHandler._currentUser.set_id(userDetails.getInt("n_id", -1));
+        SirHandler._currentUser.set_bio(userDetails.getString("bio", ""));
+        SirHandler._currentUser.set_email(userDetails.getString("email", ""));
+        SirHandler._currentUser.set_name(userDetails.getString("name", ""));
+        SirHandler._currentUser.set_uname(userDetails.getString("uname", ""));
+        SirHandler._currentUser.set_pimage(userDetails.getString("pimage", ""));
+        SirHandler._currentUser.set_age(userDetails.getInt("age", 0));
         __hash = userDetails.getString("hash", "");
+    }
+
+    private static void setHash(String hash) {
+        __hash = hash;
+    }
+
+    public static void registerCurrentUser(MrUser user, String hash) {
+        Log.e("register user", "starting up things..");
+        SharedPreferences userDetails = mcontext.getSharedPreferences("u_data", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = userDetails.edit();
+        editor.putInt("n_id", user.get_id());
+        editor.putString("name", user.get_name());
+        editor.putString("uname", user.get_uname());
+        editor.putString("bio", user.get_bio());
+        editor.putInt("gender", user.get_gender());
+        editor.putString("email", user.get_email());
+        editor.putInt("age", user.get_age());
+        editor.putString("pimage", user.get_pimage());
+        editor.putString("hash", hash);
+        editor.apply();
+        Log.i("fetch", "Shared updated successfully");
+        setHash(hash);
+    }
+
+    public static void logout(SimpleCallbackClass callback) {
+        SharedPreferences userDetails = mcontext.getSharedPreferences("u_data", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = userDetails.edit();
+        editor.clear();
+        editor.apply();
+        editor.commit();
+        callback.goIt();
     }
 
     public void fetchUserData(final String hash) {
@@ -86,10 +170,6 @@ public class SirHandler {
             }
         });
 
-    }
-
-    public MrUser getCurrentUser() {
-        return _currentUser;
     }
 
     public void updateUserAsync(MrUser newUser) {
@@ -128,28 +208,6 @@ public class SirHandler {
                 Toast.makeText(mcontext, "Could not update profile :(", Toast.LENGTH_LONG).show();
             }
         });
-    }
-
-    private void setHash(String hash) {
-        __hash = hash;
-    }
-
-
-    public void registerCurrentUser(MrUser user, String hash) {
-        SharedPreferences userDetails = mcontext.getSharedPreferences("u_data", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = userDetails.edit();
-        editor.putInt("n_id", user.get_id());
-        editor.putString("name", user.get_name());
-        editor.putString("uname", user.get_uname());
-        editor.putString("bio", user.get_bio());
-        editor.putInt("gender", user.get_gender());
-        editor.putString("email", user.get_email());
-        editor.putInt("age", user.get_age());
-        editor.putString("pimage", user.get_pimage());
-        editor.putString("hash", hash);
-        editor.apply();
-        Log.i("fetch", "Shared updated successfully");
-        setHash(hash);
     }
 
     public void getUserById(int id, final SirUserRetrieverClass userRetriever) {
@@ -227,15 +285,6 @@ public class SirHandler {
             }
         });
 
-    }
-
-    public void logout(SimpleCallbackClass callback) {
-        SharedPreferences userDetails = mcontext.getSharedPreferences("u_data", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = userDetails.edit();
-        editor.clear();
-        editor.apply();
-        editor.commit();
-        callback.goIt();
     }
 
     public void getUserFriends(MrUser user, final SirFriendsRetriever retriever) {
