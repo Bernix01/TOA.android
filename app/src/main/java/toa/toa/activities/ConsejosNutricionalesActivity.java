@@ -18,7 +18,7 @@ import toa.toa.ProfileActivity;
 import toa.toa.R;
 import toa.toa.fragments.ConsejosNutricionalesFragment;
 import toa.toa.utils.ConsejosNutricionales.Constantes;
-import toa.toa.utils.TOA.SirHandler;
+import toa.toa.utils.SirHandler;
 
 public class ConsejosNutricionalesActivity extends AppCompatActivity {
 
@@ -39,13 +39,12 @@ public class ConsejosNutricionalesActivity extends AppCompatActivity {
             final TextView name_txtv = (TextView) findViewById(R.id.textView8);
             final ImageView pimage_imgv = (ImageView) findViewById(R.id.imageView9);
             final SirHandler handler = new SirHandler(getApplicationContext());
-            final MrUser currentUser = handler.getCurrentUser();
+            final MrUser currentUser = SirHandler.getCurrentUser(getApplicationContext());
             name_txtv.setText(currentUser.get_uname());
             name_txtv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-                    i.putExtra("user", handler.getCurrentUser());
                     startActivity(i);
                 }
             });
@@ -53,7 +52,6 @@ public class ConsejosNutricionalesActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-                    i.putExtra("user", handler.getCurrentUser());
                     startActivity(i);
                 }
             });

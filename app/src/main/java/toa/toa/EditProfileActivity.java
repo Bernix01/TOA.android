@@ -7,7 +7,7 @@ package toa.toa;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -54,6 +54,7 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
     private static final int CHOICE_AVATAR_FROM_CAMERA_CROP = 0;
     private static final int CHOICE_AVATAR_FROM_GALLERY = 1;
     private static final int CHOICE_AVATAR_FROM_CAMERA = 2;
+    private static final int MY_PERMISSION_REQUEST_CODE_READ_EXTERNAL = 42;
     private static String imagePath = "";
     ImageView pimage_imgv;
     private TextView username;
@@ -73,7 +74,7 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
         Bitmap photo = null;
         Uri photoUri = data.getData();
         if (photoUri != null) {
-
+            Log.i("photo :D", photoUri.toString() + " <- ");
             try {
                 photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
                 imagePath = uriToFilename(photoUri);
@@ -92,12 +93,12 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
                 }
             }
         }
-
         return photo;
     }
 
     private String uriToFilename(Uri uri) {
         String path = null;
+
         if (Build.VERSION.SDK_INT < 19) {
             path = RealPathUtil.getRealPathFromURI_API11to18(getApplicationContext(), uri);
         } else {
@@ -140,7 +141,26 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
         pimage_imgv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectImage();
+                if (checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE")
+                        != PackageManager.PERMISSION_GRANTED) {
+
+                    // Should we show an explanation?
+                    if (shouldShowRequestPermissionRationale(
+                            "android.permission.READ_EXTERNAL_STORAGE")) {
+
+                        // Explain to the user why we need to read the contacts
+                    }
+
+                    requestPermissions(new String[]{"android.permission.READ_EXTERNAL_STORAGE"},
+                            MY_PERMISSION_REQUEST_CODE_READ_EXTERNAL);
+
+                    // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                    // app-defined int constant
+
+                    return;
+                } else {
+                    selectImage();
+                }
             }
         });
         //age.setText(MrUser.get_age());
@@ -169,6 +189,15 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
             }
         });
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        if (requestCode == MY_PERMISSION_REQUEST_CODE_READ_EXTERNAL
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            selectImage();
+        }
     }
 
     private void selectImage() {
@@ -232,24 +261,6 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
         }
     }
 
-    public int getStatusBarHeight() {
-        int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
-    }
-
-    public int getNavigationBarHeight() {
-        Resources resources = getApplicationContext().getResources();
-        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            return resources.getDimensionPixelSize(resourceId);
-        }
-        return 0;
-    }
-
     @Override
     public void choiceAvatarFromCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -285,14 +296,24 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == CHOICE_AVATAR_FROM_CAMERA || requestCode == CHOICE_AVATAR_FROM_GALLERY) {
                 Toast.makeText(this, "CHOICE_AVATAR_FROM_CAMERA", Toast.LENGTH_SHORT).show();
+                if (requestCode == CHOICE_AVATAR_FROM_CAMERA) {
+                    Uri uri = Uri.fromFile(new File(cameraFileName));
+                    imagePath = uriToFilename(uri);
+                }
                 Bitmap avatar = getBitmapFromData(data);
-                pimage_imgv.setImageBitmap(avatar);
+                Picasso.with(getApplicationContext()).load(imagePath).fit().centerCrop().transform(new CropCircleTransformation()).into(pimage_imgv);
+                //pimage_imgv.setImageBitmap(avatar);
                 // this bitmap is the finish image
             } else if (requestCode == CHOICE_AVATAR_FROM_CAMERA_CROP) {
                 Intent intent = new Intent("com.android.camera.action.CROP");
-                Uri uri = Uri.fromFile(new File(cameraFileName));
+                /*Log.v("uro",uri.toString()+" ");
+                grantUriPermission(getPackageName(),uri,Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                grantUriPermission(getPackageName(),uri,Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 imagePath = uriToFilename(uri);
-                intent.setDataAndType(uri, "image/*");
+                Log.i("imagePath","setFromCamera");
+                intent.setDataAndType(uri, "image/*");*/
+                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                intent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 startActivityForResult(getCropIntent(intent), CHOICE_AVATAR_FROM_CAMERA);
             }
         }

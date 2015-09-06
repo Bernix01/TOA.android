@@ -109,7 +109,10 @@ public class ProfileActivity extends AppCompatActivity {
 
         switch (id) {
             case R.id.prof_action_edit:
-                startActivity(new Intent(getApplicationContext(), EditProfileActivity.class));
+                Intent intent = new Intent(getApplicationContext(), EditProfileActivity.class);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                startActivity(intent);
                 return true;
             case R.id.prof_action_logout:
                 SirHandler.logout(new SimpleCallbackClass() {
@@ -119,6 +122,7 @@ public class ProfileActivity extends AppCompatActivity {
                         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
                         startActivity(i);
                         finish();
                     }
