@@ -38,7 +38,7 @@
         android:layout_height="100dp"
         android:layout_below="@+id/my_awesome_toolbar"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:elevation="3dp" />
 
     <TextView
@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/profile_person_imgv"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="Nombre"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textStyle="bold" />
@@ -141,7 +141,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="5dp"
             android:text="@string/my_sports"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -161,6 +161,7 @@
             android:layout_alignBaseline="@+id/textView"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
             android:text="@string/edit_coms"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
