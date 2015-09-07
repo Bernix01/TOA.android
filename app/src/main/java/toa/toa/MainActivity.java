@@ -7,6 +7,7 @@ package toa.toa;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -18,39 +19,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.microsoft.windowsazure.messaging.NotificationHub;
+import com.microsoft.windowsazure.notifications.NotificationsManager;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import toa.toa.Objects.MrUser;
 import toa.toa.adapters.CollectionPagerAdapter;
+import toa.toa.utils.NotificationsHandlerT;
 import toa.toa.utils.SirHandler;
 
 public class MainActivity extends AppCompatActivity {
+    private static Boolean isVisible = false;
     private MrUser __user = new MrUser();
-
-
-    public int tryGetInt(JSONObject j, String name) {
-        int r = -1;
-        try {
-            r = j.getInt(name);
-        } catch (JSONException e) {
-            Log.e("error", e.getMessage());
-        }
-        return r;
-    }
-
-    public String tryGetString(JSONObject j, String name) {
-        String r = "";
-        try {
-            r = j.getString(name);
-        } catch (JSONException e) {
-            Log.e("error", e.getMessage());
-        }
-        return r;
-    }
+    private String SENDER_ID = "324550711569";
+    private GoogleCloudMessaging gcm;
+    private NotificationHub hub;
+    private String HubName = "toa.app";
+    private String HubListenConnectionString = "Endpoint=sb://toa-notifiy.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=mUFec72yDO6aiOTSkxR3Kkyo+mHg/BVnb06G3D1f5LM=";
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -62,6 +49,24 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void registerWithNotificationHubs() {
+        new AsyncTask() {
+            @Override
+            protected Object doInBackground(Object... params) {
+                try {
+                    String regid = gcm.register(SENDER_ID);
+                    Log.i("Registered Successfully", "RegId : " +
+                            hub.register(regid).getRegistrationId());
+                } catch (Exception e) {
+                    Log.e("Exception", e.getMessage());
+                    return e;
+                }
+                return null;
+            }
+        }.execute(null, null, null);
     }
 
     @Override
@@ -97,6 +102,12 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        NotificationsHandlerT.mainActivity = this;
+        NotificationsManager.handleNotifications(this, SENDER_ID, NotificationsHandlerT.class);
+        gcm = GoogleCloudMessaging.getInstance(this);
+        hub = new NotificationHub(HubName, HubListenConnectionString, this);
+        registerWithNotificationHubs();
                 ViewPager pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(new CollectionPagerAdapter(getSupportFragmentManager(), __user.get_id()));
                 PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
