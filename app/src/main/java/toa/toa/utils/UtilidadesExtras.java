@@ -62,6 +62,7 @@ public class UtilidadesExtras {
         int r = -1;
         try {
             r = j.getInt(name);
+            Log.i("int", String.valueOf(r));
         } catch (JSONException e) {
             Log.e("error", e.getMessage());
         }
@@ -100,6 +101,7 @@ public class UtilidadesExtras {
         int r = -1;
         try {
             r = j.getInt(pos);
+            Log.i("int", String.valueOf(r));
         } catch (JSONException e) {
             Log.e("error", e.getMessage());
         }

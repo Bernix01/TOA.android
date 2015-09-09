@@ -1,3 +1,7 @@
+/*
+ * Copyright TOA Inc. 2015.
+ */
+
 package toa.toa.utils;
 
 /**
@@ -37,6 +41,23 @@ public class RealPathUtil {
                     filePath = cursor.getString(columnIndex);
                 }
                 cursor.close();
+            } else {
+                try {
+                    int id = Integer.parseInt(wholeID);
+
+                    String[] column = {MediaStore.Images.Media.DATA};
+// where id is equal to
+                    String sel = MediaStore.Images.Media._ID + "=?";
+                    Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                            column, sel, new String[]{wholeID}, null);
+                    int columnIndex = cursor.getColumnIndex(column[0]);
+                    if (cursor.moveToFirst()) {
+                        filePath = cursor.getString(columnIndex);
+                    }
+                    cursor.close();
+                } catch (Exception e) {
+                    Log.e("exception", e.toString());
+                }
             }
         } else {
             filePath = uri.getPath();

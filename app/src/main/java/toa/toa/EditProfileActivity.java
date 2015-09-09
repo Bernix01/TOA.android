@@ -104,7 +104,7 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
         } else {
             path = RealPathUtil.getRealPathFromURI_API19(getApplicationContext(), uri);
         }
-
+        Log.i("PAAATH", path + "  ");
         return path;
     }
 
@@ -296,12 +296,15 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == CHOICE_AVATAR_FROM_CAMERA || requestCode == CHOICE_AVATAR_FROM_GALLERY) {
                 Toast.makeText(this, "CHOICE_AVATAR_FROM_CAMERA", Toast.LENGTH_SHORT).show();
+                Uri uri;
                 if (requestCode == CHOICE_AVATAR_FROM_CAMERA) {
-                    Uri uri = Uri.fromFile(new File(cameraFileName));
+                    uri = Uri.fromFile(new File(cameraFileName));
                     imagePath = uriToFilename(uri);
+                } else {
+                    uri = data.getData();
+                    Bitmap dummy = getBitmapFromData(data);
                 }
-                Bitmap avatar = getBitmapFromData(data);
-                Picasso.with(getApplicationContext()).load(imagePath).fit().centerCrop().transform(new CropCircleTransformation()).into(pimage_imgv);
+                Picasso.with(getApplicationContext()).load(uri).fit().centerCrop().transform(new CropCircleTransformation()).into(pimage_imgv);
                 //pimage_imgv.setImageBitmap(avatar);
                 // this bitmap is the finish image
             } else if (requestCode == CHOICE_AVATAR_FROM_CAMERA_CROP) {
