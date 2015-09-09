@@ -1,3 +1,7 @@
+/*
+ * Copyright TOA Inc. 2015.
+ */
+
 package toa.toa.fragments;
 
 import android.os.Bundle;
@@ -15,8 +19,8 @@ import toa.toa.Objects.MrComunity;
 import toa.toa.Objects.MrEvent;
 import toa.toa.R;
 import toa.toa.adapters.EventsAdapter;
-import toa.toa.utils.TOA.SirEventsRetriever;
-import toa.toa.utils.TOA.SirHandler;
+import toa.toa.utils.SirHandler;
+import toa.toa.utils.misc.SirEventsRetriever;
 
 public class EventsFragment extends android.support.v4.app.Fragment {
     private static final String ARG_PARAM1 = "sport";

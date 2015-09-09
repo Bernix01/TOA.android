@@ -5,7 +5,6 @@
 package toa.toa;
 
 import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,8 +18,8 @@ import java.util.ArrayList;
 
 import toa.toa.Objects.MrUser;
 import toa.toa.adapters.FriendsAdapter;
-import toa.toa.utils.TOA.SirFriendsRetriever;
-import toa.toa.utils.TOA.SirHandler;
+import toa.toa.utils.SirHandler;
+import toa.toa.utils.misc.SirFriendsRetriever;
 
 
 public class FriendsActivity extends AppCompatActivity {
@@ -32,11 +31,9 @@ public class FriendsActivity extends AppCompatActivity {
         setSupportActionBar((Toolbar) findViewById(R.id.my_awesome_toolbar));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.friends_recyclerview);
-        if (Build.VERSION.SDK_INT > 19)
-            findViewById(R.id.cnt).setPadding(0, getStatusBarHeight(), 0, getNavigationBarHeight());
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         SirHandler handler = new SirHandler(getApplicationContext());
-        handler.getUserFriends(handler.getCurrentUser(), new SirFriendsRetriever() {
+        handler.getUserFriends(SirHandler.getCurrentUser(getApplicationContext()), new SirFriendsRetriever() {
             @Override
             public void goIt(ArrayList<MrUser> friends) {
                 recyclerView.setAdapter(new FriendsAdapter(friends, getApplicationContext()));

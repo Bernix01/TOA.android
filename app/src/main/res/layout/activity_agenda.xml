@@ -1,0 +1,30 @@
+<!--
+  ~ Copyright TOA Inc. 2015.
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="toa.toa.AgendaActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_awesome_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#00ffffff"
+        android:minHeight="?android:attr/actionBarSize" />
+
+    <com.malinskiy.superrecyclerview.SuperRecyclerView
+        android:id="@+id/agenda_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_empty="@layout/emptyview"
+        app:layout_moreProgress="@layout/view_more_progress"
+        app:mainLayoutId="@layout/layout_recyclerview_verticalscroll"
+        app:recyclerClipToPadding="false"
+        app:recyclerPadding="0dp"
+        app:scrollbarStyle="insideInset" />
+
+</RelativeLayout>

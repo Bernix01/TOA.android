@@ -63,12 +63,16 @@
         <item>Masculino</item>
         <item>Femenino</item>
     </string-array>
-    <string name="title_activity_friends">FriendsActivity</string>
+    <string name="title_activity_friends">Siguiendo</string>
     <string name="item_row_friend_delete_btn">Dejar de seguir</string>
     <string name="title_activity_consejos_nutricionales">ConsejosNutricionalesActivity</string>
     <string name="action_addFriend">Agregar amigo</string>
     <string name="TOA_IMAGES_PATH">/sdcard/TOA/</string>
     <string name="organiza_txt">Organiza:</string>
+    <string name="title_activity_agenda">Agenda</string>
+    <string name="Empty_view_msg">Nada :(</string>
+    <string name="title_activity_addfriend_activty">Encuentra personas</string>
+    <string name="edit_coms">Editar</string>
 
     <!--mapas arrays -->
     <string-array name="nav_drawer_items">

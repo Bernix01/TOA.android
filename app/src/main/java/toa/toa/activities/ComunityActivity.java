@@ -1,8 +1,11 @@
+/*
+ * Copyright TOA Inc. 2015.
+ */
+
 package toa.toa.activities;
 
 import android.content.Intent;
 import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -23,7 +25,7 @@ import toa.toa.Objects.MrUser;
 import toa.toa.ProfileActivity;
 import toa.toa.R;
 import toa.toa.adapters.CollectionPagerComunityAdapter;
-import toa.toa.utils.TOA.SirHandler;
+import toa.toa.utils.SirHandler;
 
 public class ComunityActivity extends AppCompatActivity {
 
@@ -39,18 +41,13 @@ public class ComunityActivity extends AppCompatActivity {
         sportName.setText(com.getComunityName());
         final TextView name_txtv = (TextView) findViewById(R.id.main_ui_name_txtv);
         final ImageView pimage_imgv = (ImageView) findViewById(R.id.main_ui_pimage_imv);
-        if (Build.VERSION.SDK_INT > 19) {
-            RelativeLayout view = (RelativeLayout) findViewById(R.id.crossfitactivityLayout);
-            view.setPadding(0, getStatusBarHeight(), 0, getNavigationBarHeight());
-        }
         final Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         toolbar.getBackground().setAlpha(0);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final SirHandler handler = new SirHandler(getApplicationContext());
-        final MrUser currentUser = handler.getCurrentUser();
+        final MrUser currentUser = SirHandler.getCurrentUser(getApplicationContext());
         ViewPager pager = (ViewPager) findViewById(R.id.sportPager);
         pager.setAdapter(new CollectionPagerComunityAdapter(getSupportFragmentManager(), com));
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.sportTabs);
@@ -60,7 +57,6 @@ public class ComunityActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-                i.putExtra("user", handler.getCurrentUser());
                 startActivity(i);
             }
         });
@@ -68,7 +64,6 @@ public class ComunityActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-                i.putExtra("user", handler.getCurrentUser());
                 startActivity(i);
             }
         });

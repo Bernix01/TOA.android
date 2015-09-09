@@ -7,13 +7,11 @@ package toa.toa;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.RelativeLayout;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.romainpiel.shimmer.Shimmer;
@@ -26,8 +24,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import toa.toa.Objects.MrSport;
+import toa.toa.Objects.MrComunity;
 import toa.toa.utils.RestApi;
+import toa.toa.utils.SirHandler;
 
 public class LoadingSplash extends AppCompatActivity {
 
@@ -35,16 +34,12 @@ public class LoadingSplash extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading_splash);
-        if (Build.VERSION.SDK_INT > 19) {
-            RelativeLayout view = (RelativeLayout) findViewById(R.id.cnt);
-            view.setPadding(0, getStatusBarHeight(), 0, getNavigationBarHeight());
-        }
         Shimmer shimmer = new Shimmer();
         shimmer.start((ShimmerTextView) findViewById(R.id.shimmer_tv));
         Intent i = getIntent();
         Bundle bnd = i.getExtras();
-        int id = i.getIntExtra("nid", 0);
-        ArrayList<MrSport> lst = bnd.getParcelableArrayList("SPorts");
+        int id = SirHandler.getCurrentUser(getApplicationContext()).get_id();
+        ArrayList<MrComunity> lst = bnd.getParcelableArrayList("SPorts");
         do_finish_reg(lst, id);
     }
 
@@ -66,20 +61,22 @@ public class LoadingSplash extends AppCompatActivity {
         return 0;
     }
 
-    private void do_finish_reg(ArrayList<MrSport> list, final int id) {
+    private void do_finish_reg(ArrayList<MrComunity> list, final int id) {
         JSONObject item_to_send = new JSONObject();
         JSONArray statements = new JSONArray();
         for (int i = 0; i < list.size(); i++) {
-            MrSport bar = list.get(i);
-            if (bar.getIsChecked()) {
+            MrComunity bar = list.get(i);
                 JSONObject foo = new JSONObject();
                 try {
-                    foo.put("statement", "MATCH (a:user),(b:Sport {name:\"" + bar.getName() + "\"}) WHERE id(a)=" + id + " Create (a)-[r:Likes]->(b)");
+                    if (bar.getIsChecked()) {
+                        foo.put("statement", "MATCH (a:user),(b:Sport {name:\"" + bar.getComunityName() + "\"}) WHERE id(a)=" + id + " CREATE UNIQUE (a)-[r:Likes]->(b)");
+                    } else {
+                        foo.put("statement", "MATCH (a:user)-[r:Likes]->(b:Sport {name:\"" + bar.getComunityName() + "\"}) WHERE id(a)=" + id + " DELETE r");
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 statements.put(foo);
-            }
         }
         try {
             item_to_send.put("statements", statements);

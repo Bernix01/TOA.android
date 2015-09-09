@@ -13,13 +13,11 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class RealPathUtil {
     @SuppressLint("NewApi")
     public static String getRealPathFromURI_API19(Context context, Uri uri) {
         Log.i("uri", uri.getPath());
+
         String filePath = "";
         if (DocumentsContract.isDocumentUri(context, uri)) {
             String wholeID = DocumentsContract.getDocumentId(uri);

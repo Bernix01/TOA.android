@@ -2,10 +2,8 @@ package toa.toa;
 
 import android.content.Intent;
 import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.widget.RelativeLayout;
 
 import com.github.paolorotolo.appintro.AppIntro2;
 import com.github.paolorotolo.appintro.AppIntroFragment;
@@ -27,10 +25,6 @@ public class FirstVisit extends AppIntro2 {
         addSlide(new SecondSlide());
         addSlide(new ThirdSlide());
         setDepthAnimation();
-        if (Build.VERSION.SDK_INT > 19) {
-            RelativeLayout r = (RelativeLayout) findViewById(R.id.bottom).getParent();
-            r.setPadding(0, 0, 0, getNavigationBarHeight());
-        }
     }
 
     public int getStatusBarHeight() {

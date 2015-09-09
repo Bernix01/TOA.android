@@ -25,7 +25,7 @@ public class MrComunity implements Parcelable {
     private String comunityName;
     private String comunityImg;
     private String comunityBack;
-
+    private Boolean isChecked = false;
     public MrComunity(String comunityName, String comunityImg, String comunityBack) {
         this.comunityName = comunityName;
         this.comunityImg = comunityImg;
@@ -36,6 +36,7 @@ public class MrComunity implements Parcelable {
         comunityName = in.readString();
         comunityImg = in.readString();
         comunityBack = in.readString();
+        this.isChecked = (in.readInt() != 0);
     }
 
     public String getComunityName() {
@@ -62,6 +63,15 @@ public class MrComunity implements Parcelable {
         this.comunityBack = comunityBack;
     }
 
+    public Boolean getIsChecked() {
+        return isChecked;
+    }
+
+    public MrComunity setIsChecked(Boolean isChecked) {
+        this.isChecked = isChecked;
+        return this;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -72,5 +82,6 @@ public class MrComunity implements Parcelable {
         dest.writeString(comunityName);
         dest.writeString(comunityImg);
         dest.writeString(comunityBack);
+        dest.writeInt(getIsChecked() ? 1 : 0);
     }
 }

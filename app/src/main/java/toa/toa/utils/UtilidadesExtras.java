@@ -5,7 +5,15 @@
 package toa.toa.utils;
 
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Base64;
+import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
@@ -49,9 +57,69 @@ public class UtilidadesExtras {
         return base64EncryptedString;
     }
 
-    public static Date convertDate(String date) {
+
+    public static int tryGetInt(JSONObject j, String name) {
+        int r = -1;
         try {
-            SimpleDateFormat format = new SimpleDateFormat("dd/MMM/yyyy hh:mm", Locale.getDefault());
+            r = j.getInt(name);
+        } catch (JSONException e) {
+            Log.e("error", e.getMessage());
+        }
+        return r;
+    }
+
+    public static float tryGetFloat(JSONObject j, String name) {
+        float r = -1;
+        try {
+            r = (float) (Double.parseDouble(j.getString(name)) * 1.0f);
+        } catch (JSONException e) {
+            Log.e("error", e.getMessage());
+        }
+        return r;
+    }
+
+    public static boolean isOnline(Context context) {
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+    public static String tryGetString(JSONObject j, String name) {
+        String r = "";
+        try {
+            r = j.getString(name);
+            Log.i("str", r);
+        } catch (JSONException e) {
+            Log.e("error", e.getMessage());
+        }
+        return r;
+    }
+
+    public static int tryGetInt(JSONArray j, int pos) {
+        int r = -1;
+        try {
+            r = j.getInt(pos);
+        } catch (JSONException e) {
+            Log.e("error", e.getMessage());
+        }
+        return r;
+    }
+
+    public static String tryGetString(JSONArray j, int pos) {
+        String r = "";
+        try {
+            r = j.getString(pos);
+            Log.i("str", r);
+        } catch (JSONException e) {
+            Log.e("error", e.getMessage());
+        }
+        return r;
+    }
+
+    static Date convertDate(String date) {
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd hh:mm", Locale.getDefault());
             return format.parse(date);
         } catch (Exception e) {
             e.printStackTrace();

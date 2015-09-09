@@ -1,3 +1,7 @@
+/*
+ * Copyright TOA Inc. 2015.
+ */
+
 package toa.toa.utils;
 
 import android.util.Log;
@@ -17,9 +21,14 @@ import java.io.UnsupportedEncodingException;
  * Created by Guillermo on 5/27/2015.
  */
 public class RestApi {
+    public static final String EVENTRELTYPE = "isGoing";
     private static final String BASE_URL = "http://toa-neo4j.cloudapp.net:7474/db/data";
     private static String _authheader = "bmVvNGo6RGVwb3J0aXN0YXMx";
     private static AsyncHttpClient client = new AsyncHttpClient();
+
+    public static String getBaseUrl() {
+        return BASE_URL;
+    }
 
     public static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
         client.addHeader("Authorization", "Basic " + _authheader);

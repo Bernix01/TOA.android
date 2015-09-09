@@ -47,9 +47,6 @@ public class SchoolsFragment extends Fragment {
 
 
         final View v = inflater.inflate(R.layout.fragment_maps, container, false);
-
-        spinner = (Spinner) getActivity().findViewById(R.id.spinner_nav);
-        spinner.setVisibility(View.GONE);
         mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         mRecyclerView.setHasFixedSize(true);

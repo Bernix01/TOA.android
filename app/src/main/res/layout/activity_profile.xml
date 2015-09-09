@@ -95,11 +95,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Amigos"
+                    android:text="Deportistas"
                     android:textSize="17sp" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/agenda_cnt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -152,6 +153,16 @@
             android:layout_marginTop="5dp"
             android:clipToPadding="false"
             android:columnWidth="70dp" />
+
+        <TextView
+            android:id="@+id/profile_edit_coms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:text="@string/edit_coms"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
     </RelativeLayout>
 </RelativeLayout>

@@ -5,9 +5,7 @@
 package toa.toa;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
@@ -17,7 +15,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
@@ -25,14 +22,16 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.apache.http.Header;
-import org.apache.http.entity.StringEntity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-
+import toa.toa.Objects.MrUser;
 import toa.toa.utils.RestApi;
-import toa.toa.utils.TOA.SirHandler;
+import toa.toa.utils.SirHandler;
+import toa.toa.utils.UtilidadesExtras;
+
+import static toa.toa.utils.UtilidadesExtras.tryGetInt;
+import static toa.toa.utils.UtilidadesExtras.tryGetString;
 
 
 public class RegisterActivity extends ActionBarActivity {
@@ -49,16 +48,16 @@ public class RegisterActivity extends ActionBarActivity {
         setSupportActionBar(toolbar);
         btn = (CircularProgressButton) findViewById(R.id.go_register);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if (Build.VERSION.SDK_INT > 19) {
-            RelativeLayout view = (RelativeLayout) findViewById(R.id.conatiner_view);
-            view.setPadding(0, getStatusBarHeight(), 0, getNavigationBarHeight());
-        }
         btn.setIndeterminateProgressMode(true);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.e("Click", "Click");
-                do_the_reg();
+                if (UtilidadesExtras.isOnline(getApplicationContext())) {
+                    do_the_reg();
+                } else {
+                    Toast.makeText(getApplicationContext(), "No network connection :-(", Toast.LENGTH_LONG).show();
+                }
 
             }
         });
@@ -137,13 +136,6 @@ public class RegisterActivity extends ActionBarActivity {
             data.put("pw", Base64.encodeToString((usr.getText().toString() + pw.getText().toString()).getBytes(), Base64.DEFAULT));
             data.put("email", mail.getText().toString());
             data.put("name", usr.getText().toString());
-            StringEntity se;
-            try {
-                se = new StringEntity(data.toString());
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-                return;
-            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -170,32 +162,39 @@ public class RegisterActivity extends ActionBarActivity {
                 Log.e("statuscode", "" + statusCode);
                 try {
                     JSONObject meta = responseBody.getJSONObject("metadata");
-                    final int _id = meta.getInt("id");
-                    RestApi.post("/node/" + _id + "/labels", "\"user\"", new JsonHttpResponseHandler() {
+                    final MrUser user = new MrUser();
+                    JSONObject udata;
+                    udata = responseBody.getJSONObject("data");
+                    user.set_email(tryGetString(udata, "email"));
+                    user.set_id(tryGetInt(responseBody.getJSONObject("metadata"), "id"));
+                    user.set_name(tryGetString(udata, "name"));
+                    user.set_uname(tryGetString(udata, "u_name"));
+                    user.set_bio(tryGetString(udata, "bio"));
+                    user.set_age(tryGetInt(udata, "age"));
+                    user.set_gender(tryGetInt(udata, "gender"));
+                    user.set_pimage(tryGetString(udata, "pimageurl"));
+                    RestApi.post("/node/" + user.get_id() + "/labels", "\"user\"", new JsonHttpResponseHandler() {
 
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject responseBody) {
+                            Log.e("responsebody", responseBody.toString() + "  ");
                             if (statusCode == 204) {
-                                SharedPreferences.Editor editor = getSharedPreferences("u_data", MODE_PRIVATE).edit();
-                                editor.putInt("n_id", _id);
-                                editor.apply();
-                                SirHandler handler = new SirHandler(getApplicationContext());
-                                handler.fetchUserData(Base64.encodeToString((usr.getText().toString() + pw.getText().toString()).getBytes(), Base64.DEFAULT));
-                                btn.setProgress(100);
+                                SirHandler.registerCurrentUser(user, Base64.encodeToString((usr.getText().toString() + pw.getText().toString()).getBytes(), Base64.DEFAULT));
                                 Intent i = new Intent(getApplicationContext(), FirstTime.class);
-                                i.putExtra("nid", _id);
                                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(i);
                                 finish();
+
                             }
                         }
 
                         @Override
                         public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                             btn.setProgress(-1);
+                            Log.e("register error D:", errorResponse.toString() + " ");
                             try {
                                 if (errorResponse.getJSONObject("cause").getString("exception").equals("ConstraintViolationException")) {
-                                    deleteBadNode(_id);
+                                    deleteBadNode(user.get_id());
                                     usr.setError("User already exists");
                                     final Handler handler = new Handler();
                                     handler.postDelayed(new Runnable() {
@@ -235,7 +234,6 @@ public class RegisterActivity extends ActionBarActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
                 Log.e("error", "code: " + statusCode + " " + errorResponse.toString());
             }
         });
