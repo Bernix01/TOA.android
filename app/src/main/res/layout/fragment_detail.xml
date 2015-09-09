@@ -74,6 +74,7 @@
             android:text="Descripción"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@android:color/black" />
+
         <TextView
             android:id="@+id/descripcion"
             android:layout_width="wrap_content"

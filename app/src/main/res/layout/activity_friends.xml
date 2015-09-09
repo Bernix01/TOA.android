@@ -14,9 +14,9 @@
         android:minHeight="?android:attr/actionBarSize" />
 
     <android.support.v7.widget.RecyclerView
-    android:id="@+id/friends_recyclerview"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+        android:id="@+id/friends_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@+id/my_awesome_toolbar"
-    android:scrollbars="vertical" />
+        android:scrollbars="vertical" />
 </RelativeLayout>

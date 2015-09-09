@@ -17,52 +17,52 @@
         android:elevation="1dp">
 
         <ImageView
-        android:id="@+id/profile_bg_imgv"
-        android:layout_width="fill_parent"
+            android:id="@+id/profile_bg_imgv"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_alignBottom="@+id/menuLinearCnt"
             android:layout_alignParentTop="false"
             android:layout_alignTop="@+id/my_awesome_toolbar"
             android:layout_centerHorizontal="true" />
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/my_awesome_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="?attr/actionBarSize" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/my_awesome_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize" />
 
 
-    <ImageView
-        android:id="@+id/profile_person_imgv"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_below="@+id/my_awesome_toolbar"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:elevation="3dp" />
+        <ImageView
+            android:id="@+id/profile_person_imgv"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@+id/my_awesome_toolbar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:elevation="3dp" />
 
-    <TextView
-        android:id="@+id/profile_name_txtv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/profile_person_imgv"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:text="Nombre"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/profile_name_txtv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profile_person_imgv"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="Nombre"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/profle_bio_txtv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/profile_name_txtv"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:text="bio"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textSize="15sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/profle_bio_txtv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profile_name_txtv"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:text="bio"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:id="@+id/menuLinearCnt"
