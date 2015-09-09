@@ -82,4 +82,5 @@
         <item>@drawable/ubication_white</item>
         <item>@drawable/ubication_white</item>
     </array>
+    <string name="title_activity_add_friend">Deportistas que seguir</string>
 </resources>
