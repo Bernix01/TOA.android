@@ -89,7 +89,7 @@
     <string name="title_activity_add_friend">Deportistas que seguir</string>
     <string name="search_hint">Buscar</string>
     <string name="search">Search</string>
-    <string name="unFollow">Dejar de seguir</string>
+    <string name="unFollow">Siguiendo</string>
     <string name="follow">Seguir</string>
     <string name="item_row_friend_frindshipdefaulttxt">Tú</string>
 </resources>
