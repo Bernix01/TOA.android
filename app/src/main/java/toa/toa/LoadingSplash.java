@@ -14,8 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.romainpiel.shimmer.Shimmer;
-import com.romainpiel.shimmer.ShimmerTextView;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -34,8 +32,6 @@ public class LoadingSplash extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading_splash);
-        Shimmer shimmer = new Shimmer();
-        shimmer.start((ShimmerTextView) findViewById(R.id.shimmer_tv));
         Intent i = getIntent();
         Bundle bnd = i.getExtras();
         int id = SirHandler.getCurrentUser(getApplicationContext()).get_id();
