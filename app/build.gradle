@@ -12,8 +12,8 @@ android {
         applicationId "toa.toa"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.1.1"
         renderscriptSupportModeEnabled true
         multiDexEnabled true
     }
@@ -45,6 +45,7 @@ dependencies {
     compile 'com.android.support:support-v4:23.0.1'
     compile 'com.daimajia.swipelayout:library:1.2.0@aar'
     compile 'com.loopj.android:android-async-http:1.4.8'
+    compile 'com.android.support:multidex:1.0.1'
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.github.navasmdc:MaterialDesign:1.5@aar'
     compile 'jp.wasabeef:picasso-transformations:1.0.5'
