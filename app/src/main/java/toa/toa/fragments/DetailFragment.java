@@ -1,3 +1,7 @@
+/*
+ * Copyright TOA Inc. 2015.
+ */
+
 package toa.toa.fragments;
 
 import android.os.Bundle;
@@ -96,27 +100,6 @@ public class DetailFragment extends Fragment {
                 Log.e("cargarAdaptador error", throwable.getMessage());
             }
         });
-        // Realizar petición GET_BY_ID
-        /*VolleySingleton.getInstance(getActivity()).addToRequestQueue(
-                new JsonObjectRequest(
-                        newURL,
-                        null,
-                        new Response.Listener<JSONObject>() {
-
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                // Procesar respuesta Json
-                                procesarRespuesta(response);
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.d(TAG, "Error Volley: " + error.getMessage());
-                            }
-                        }
-                )
-        );*/
     }
     /**
      * Obtiene los datos desde el servidor

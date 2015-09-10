@@ -8,7 +8,6 @@ package toa.toa.utils.misc;
 import java.util.ArrayList;
 
 import toa.toa.Objects.MrComunity;
-import toa.toa.Objects.MrSport;
 
 /**
  * Created by Guillermo on 7/19/2015.
@@ -25,8 +24,4 @@ public class SirSportsListRetriever implements SirSportsListInterface {
 
     }
 
-    @Override
-    public void goEm(ArrayList<MrSport> sports) {
-
-    }
 }

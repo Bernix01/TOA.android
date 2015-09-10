@@ -1,3 +1,7 @@
+/*
+ * Copyright TOA Inc. 2015.
+ */
+
 package toa.toa.fragments;
 
 import android.os.Bundle;
@@ -86,30 +90,6 @@ public class ConsejosNutricionalesFragment extends android.support.v4.app.Fragme
                 Log.e("cargarAdaptador error", throwable.getMessage());
             }
         });
-        /*VolleySingleton.
-                getInstance(getActivity()).
-                addToRequestQueue(
-                        new JsonObjectRequest(
-                                Constantes.GET,
-                                null,
-                                new Response.Listener<JSONObject>() {
-
-                                    @Override
-                                    public void onResponse(JSONObject response) {
-                                        // Procesar la respuesta Json
-                                        procesarRespuesta(response);
-                                    }
-                                },
-                                new Response.ErrorListener() {
-
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        Log.d(TAG, "Error Volley: " + error.getMessage());
-                                    }
-                                }
-
-                        )
-                );*/
     }
 
     /**
