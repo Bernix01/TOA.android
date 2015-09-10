@@ -6,6 +6,7 @@ package toa.toa.adapters;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.support.v7.widget.GridLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -16,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.daimajia.swipe.SwipeLayout;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -25,6 +25,8 @@ import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import toa.toa.Objects.MrComunity;
 import toa.toa.Objects.MrUser;
 import toa.toa.R;
+import toa.toa.utils.SirHandler;
+import toa.toa.utils.misc.SimpleCallbackClass;
 
 /**
  * Created by programador on 7/21/15.
@@ -48,7 +50,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         final MrUser com = comunities.get(position);
         holder.nametxtv.setText(com.get_uname());
         if (!com.get_pimage().isEmpty()) {
@@ -65,10 +67,30 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
                 Toast.makeText(contexto, ":-)", Toast.LENGTH_SHORT).show();
             }
         });
-        holder.swipeLayout.setOnClickListener(new View.OnClickListener() {
+        holder.tagline.setText(com.get_bio());
+        if (com.get_id() != SirHandler.getCurrentUser(contexto).get_id())
+            SirHandler.isFollowing(com, new SimpleCallbackClass() {
             @Override
-            public void onClick(View v) {
-                holder.swipeLayout.toggle();
+            public void gotBool(final Boolean bool) {
+                if (bool) {
+                    holder.friendShip.setText(R.string.unFollow);
+                    holder.friendShip.setBackgroundColor(Color.RED);
+                } else {
+                    holder.friendShip.setText(R.string.follow);
+                    holder.friendShip.setBackgroundColor(contexto.getResources().getColor(R.color.my_awesome_color, contexto.getTheme()));
+                }
+
+                holder.friendShip.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SirHandler.friendShip(com, bool, new SimpleCallbackClass() {
+                            @Override
+                            public void goIt() {
+                                notifyItemChanged(position);
+                            }
+                        });
+                    }
+                });
             }
         });
     }
@@ -91,14 +113,16 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         public TextView nametxtv;
         public ImageView pimage;
         public GridLayout glSports;
-        public SwipeLayout swipeLayout;
+        public TextView friendShip;
+        public TextView tagline;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            swipeLayout = (SwipeLayout) itemView.findViewById(R.id.SwipeLayout);
             nametxtv = (TextView) itemView.findViewById(R.id.friend_name_txtv);
             pimage = (ImageView) itemView.findViewById(R.id.friend_pimage_imv);
             glSports = (GridLayout) itemView.findViewById(R.id.friend_sports_gl);
+            friendShip = (TextView) itemView.findViewById(R.id.item_row_friend_toggleFriendship);
+            tagline = (TextView) itemView.findViewById(R.id.item_row_friend_tagline);
         }
 
     }

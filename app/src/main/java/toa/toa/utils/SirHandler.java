@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.squareup.picasso.Picasso;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -69,6 +70,135 @@ public class SirHandler {
         SirHandler.mcontext = mcontext;
         _currentUser = new MrUser();
         setCurrent();
+    }
+
+    public static void friendShip(MrUser user, boolean bool, final SimpleCallbackClass simpleCallbackClass) {
+
+        String _del = "MATCH (h:user)-[r:Follows]->(n:user) WHERE id(n)=" + user.get_id() + " AND id(h)=" + _currentUser.get_id() + " DELETE r RETURN -1";
+        String _add = "MATCH (n:user),(h:user) WHERE id(n)=" + user.get_id() + " AND id(h)=" + _currentUser.get_id() + " CREATE UNIQUE (h)-[r:Follows]->(n) RETURN 1";
+        JSONObject cmd = new JSONObject();
+        JSONArray cmds = new JSONArray();
+        JSONObject subcmd = new JSONObject();
+        try {
+            subcmd.put("statement", bool ? _del : _add);
+            Log.i("statementFriendship", subcmd.toString() + " ");
+            cmds.put(subcmd);
+            cmd.put("statements", cmds);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.i("friendship", response.toString() + " ");
+                simpleCallbackClass.goIt();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.e("error", "code: " + statusCode + " " + throwable.toString());
+            }
+        });
+    }
+
+    public static void searchPeople(String query, final SirFriendsRetriever retriever) {
+        // =~ "\S*eg+\S*"
+        JSONObject cmd = new JSONObject();
+        JSONArray cmds = new JSONArray();
+        JSONObject subcmd = new JSONObject();
+        try {
+            subcmd.put("statement", "MATCH (n:user),(h:user {name: \'" + _currentUser.get_name() + "\'}) WHERE n.name=~ \".*" + query + ".*\"  OR n.u_name=~ \".*" + query + ".*\" RETURN n, id(n)");
+            cmds.put(subcmd);
+            cmd.put("statements", cmds);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                Log.e("response", response.toString());
+                try {
+                    final ArrayList<MrUser> friends = new ArrayList<MrUser>();
+                    JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
+                    Log.e("respuesta", response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row").toString());
+                    final int datos = dataf.length();
+                    for (int i = 0; i < datos; i++) {
+                        JSONObject udata = dataf.getJSONObject(i).getJSONArray("row").getJSONObject(0);
+                        final MrUser temp = new MrUser(dataf.getJSONObject(i).getJSONArray("row").getInt(1),
+                                tryGetString(udata, "name"),
+                                tryGetString(udata, "u_name"),
+                                tryGetString(udata, "email"),
+                                tryGetString(udata, "bio"),
+                                tryGetInt(udata, "gender"),
+                                tryGetInt(udata, "age"),
+                                tryGetString(udata, "pimageurl"));
+                        getUserSports(temp, new SirSportsListRetriever() {
+                            @Override
+                            public void goIt(ArrayList<MrComunity> sports) {
+                                MrUser finalU = temp.withSports(sports);
+                                friends.add(finalU);
+                                if (friends.size() == datos)
+                                    retriever.goIt(friends);
+                            }
+
+                            @Override
+                            public void failure(String error) {
+                                super.failure(error);
+                            }
+                        });
+                    }
+                } catch (JSONException e) {
+                    Log.e("exception", e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.e("error", "code: " + statusCode + " " + throwable.toString());
+            }
+        });
+    }
+
+    public static void isFollowing(final MrUser user, final SimpleCallbackClass simpleCallback) {
+
+        JSONObject cmd = new JSONObject();
+        JSONArray cmds = new JSONArray();
+        JSONObject subcmd = new JSONObject();
+        try {
+            subcmd.put("statement", "MATCH (n:user {name: '" + _currentUser.get_name() + "'})-[Follows]->(h:user {name: '" + user.get_name() + "'}) RETURN h.name");
+            Log.d("statementFollow", subcmd.getString("statement"));
+            cmds.put(subcmd);
+            cmd.put("statements", cmds);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                Log.e("response", response.toString());
+                try {
+                    JSONArray array = response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row");
+                    String dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row").getString(0);
+                    simpleCallback.gotBool(dataf.equals(user.get_name()));
+                } catch (JSONException e) {
+                    Log.e("exception", e.getMessage());
+                    simpleCallback.gotBool(false);
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.e("error", "code: " + statusCode + " " + throwable.toString());
+            }
+        });
     }
 
     public static void getAllComs(final SirSportsListRetriever retriever) {
@@ -153,6 +283,44 @@ public class SirHandler {
         callback.goIt();
     }
 
+    public static void getUserSports(final MrUser user, final SirSportsListRetriever sportsListRetriever) {
+        JSONObject cmd = new JSONObject();
+        JSONArray cmds = new JSONArray();
+        JSONObject subcmd = new JSONObject();
+        try {
+            subcmd.put("statement", "MATCH (a:user)-[r:Likes]-(n:Sport) WHERE id(a)=" + user.get_id() + " return n.name, n.icnurl, n.bgurl");
+            cmds.put(subcmd);
+            cmd.put("statements", cmds);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                ArrayList<MrComunity> sports = new ArrayList<MrComunity>();
+                try {
+                    JSONArray data = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
+                    int datos = data.length();
+                    for (int i = 0; i < datos; i++)
+                        sports.add(new MrComunity(data.getJSONObject(i).getJSONArray("row").getString(0), data.getJSONObject(i).getJSONArray("row").getString(1), data.getJSONObject(i).getJSONArray("row").getString(2)));
+                    sportsListRetriever.goIt(sports);
+
+                } catch (JSONException e) {
+                    Log.e("exception", e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.e("error", "code: " + statusCode + " " + throwable.toString());
+                sportsListRetriever.failure(throwable.toString());
+            }
+        });
+
+    }
+
     public void fetchUserData(final String hash) {
         SharedPreferences userDetails = mcontext.getSharedPreferences("u_data", Context.MODE_PRIVATE);
         final int _id = userDetails.getInt("n_id", -1);
@@ -161,6 +329,7 @@ public class SirHandler {
             public void goIt(MrUser user) {
                 Log.i("fetch", "Current updated successfully");
                 _currentUser = user;
+                Picasso.with(mcontext).invalidate(user.get_pimage());
                 registerCurrentUser(_currentUser, hash);
             }
 
@@ -247,44 +416,6 @@ public class SirHandler {
                 //TODO handle network error
             }
         });
-    }
-
-    public void getUserSports(final MrUser user, final SirSportsListRetriever sportsListRetriever) {
-        JSONObject cmd = new JSONObject();
-        JSONArray cmds = new JSONArray();
-        JSONObject subcmd = new JSONObject();
-        try {
-            subcmd.put("statement", "MATCH (a:user)-[r:Likes]-(n:Sport) WHERE id(a)=" + user.get_id() + " return n.name, n.icnurl, n.bgurl");
-            cmds.put(subcmd);
-            cmd.put("statements", cmds);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                ArrayList<MrComunity> sports = new ArrayList<MrComunity>();
-                try {
-                    JSONArray data = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
-                    int datos = data.length();
-                    for (int i = 0; i < datos; i++)
-                        sports.add(new MrComunity(data.getJSONObject(i).getJSONArray("row").getString(0), data.getJSONObject(i).getJSONArray("row").getString(1), data.getJSONObject(i).getJSONArray("row").getString(2)));
-                    sportsListRetriever.goIt(sports);
-
-                } catch (JSONException e) {
-                    Log.e("exception", e.getMessage());
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.e("error", "code: " + statusCode + " " + throwable.toString());
-                sportsListRetriever.failure(throwable.toString());
-            }
-        });
-
     }
 
     public void getUserFriends(MrUser user, final SirFriendsRetriever retriever) {
@@ -432,6 +563,10 @@ public class SirHandler {
                     JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
                     Log.e("respuesta", response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row").toString());
                     int datos = dataf.length();
+                    if (datos == 0) {
+                        retriever.gotIt(places);
+                        return;
+                    }
                     for (int i = 0; i < datos; i++) {
                         JSONObject udata = dataf.getJSONObject(i).getJSONArray("row").getJSONObject(0);
                         places.add(new MrPlace(dataf.getJSONObject(i).getJSONArray("row").getInt(1),
@@ -453,14 +588,14 @@ public class SirHandler {
                     retriever.gotIt(places);
 
                 } catch (JSONException e) {
-                    Log.e("exception", e.getMessage());
+                    Log.e("exceptionPlace", e.getMessage());
                     retriever.failure(e.getLocalizedMessage());
                 }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.e("error", "code: " + statusCode + " " + throwable.toString());
+                Log.e("errorPlace", "code: " + statusCode + " " + throwable.toString());
                 //  retriever.failure(throwable.toString());
             }
         });
@@ -525,6 +660,7 @@ public class SirHandler {
     }
 
     public void registerEvent(MrEvent event) {
+        //TODO CYPHER IT! SH*T!
         JSONObject eventRel = new JSONObject();
         try {
             eventRel.put("to", RestApi.getBaseUrl());

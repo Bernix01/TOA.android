@@ -2,51 +2,24 @@
   ~ Copyright TOA Inc. 2015.
   -->
 
-<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/SwipeLayout"
+    android:id="@+id/surface"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <!-- Bottom View Start-->
-    <RelativeLayout
-        android:id="@+id/bottom_wrapper"
-        android:layout_width="90dp"
-        android:layout_height="match_parent"
-        android:background="#66ddff00"
-        android:orientation="vertical"
-        android:weightSum="1">
-        <!--What you want to show-->
-
-        <TextView
-            android:id="@+id/textView15"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/item_row_friend_delete_btn"
-            android:textAlignment="center"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textSize="23sp" />
-
-    </RelativeLayout>
-    <!-- Bottom View End-->
-
-    <!-- Surface View Start -->
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/surface"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#838383"
-        android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp">
+    android:layout_height="100dp"
+    android:layout_marginBottom="3dp"
+    android:background="#838383"
+    android:orientation="horizontal">
 
         <TextView
             android:id="@+id/friend_name_txtv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
+            android:layout_alignTop="@+id/friend_pimage_imv"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
             android:layout_toRightOf="@+id/friend_pimage_imv"
+            android:gravity="center_vertical"
             android:text="Name"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -54,22 +27,54 @@
             android:id="@+id/friend_sports_gl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="5dp"
             android:animateLayoutChanges="true"
             app:columnCount="3"
             app:rowCount="3" />
 
         <ImageView
             android:id="@+id/friend_pimage_imv"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="false"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:layout_weight="1" />
-    </RelativeLayout>
-    <!-- Surface View End -->
-</com.daimajia.swipe.SwipeLayout>
+
+    <TextView
+        android:id="@+id/item_row_friend_toggleFriendship"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/my_awesome_color"
+        android:paddingBottom="3dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="3dp"
+        android:text="@string/item_row_friend_frindshipdefaulttxt"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="13dp" />
+
+    <TextView
+        android:id="@+id/item_row_friend_tagline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/friend_name_txtv"
+        android:layout_alignStart="@+id/friend_name_txtv"
+        android:layout_below="@+id/friend_name_txtv"
+        android:layout_marginRight="15dp"
+        android:layout_toLeftOf="@+id/friend_sports_gl"
+        android:maxLines="2"
+        android:text="Small Text"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+</RelativeLayout>

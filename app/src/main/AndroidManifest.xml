@@ -112,6 +112,13 @@
             android:name=".FriendsActivity"
             android:label="@string/title_activity_friends"
             android:parentActivityName=".ProfileActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="toa.toa.ProfileActivity" />
@@ -138,7 +145,15 @@
         <activity
             android:name=".AddfriendActivty"
             android:label="@string/title_activity_addfriend_activty"
+            android:launchMode="singleTask"
             android:parentActivityName=".FriendsActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="toa.toa.FriendsActivity" />

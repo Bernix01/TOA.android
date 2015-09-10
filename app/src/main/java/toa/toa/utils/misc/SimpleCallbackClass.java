@@ -12,4 +12,9 @@ public class SimpleCallbackClass implements SimpleCallbackInterface {
     public void goIt() {
 
     }
+
+    @Override
+    public void gotBool(Boolean bool) {
+
+    }
 }

@@ -10,4 +10,5 @@ package toa.toa.utils.misc;
 public interface SimpleCallbackInterface {
     void goIt();
 
+    void gotBool(Boolean bool);
 }
