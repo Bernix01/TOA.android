@@ -17,8 +17,7 @@
         android:layout_height="100dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="4dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/depbike" />
+        android:scaleType="centerCrop" />
 
     <TextView
         android:id="@+id/nutritionSportName"

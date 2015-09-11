@@ -18,9 +18,11 @@ public class FirstSlide extends Fragment {
     private int resID = R.drawable.intro1;
     private int resImgCenter = R.drawable.introicono1;
     private String msg = "HOla";
+
     public FirstSlide() {
         // Required empty public constructor
     }
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.

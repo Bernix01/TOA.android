@@ -25,10 +25,10 @@ import toa.toa.utils.misc.SirEventsRetriever;
 public class EventsFragment extends android.support.v4.app.Fragment {
     private static final String ARG_PARAM1 = "sport";
     private MrComunity com;
+
     public EventsFragment() {
         // Required empty public constructor
     }
-
 
 
     @Override

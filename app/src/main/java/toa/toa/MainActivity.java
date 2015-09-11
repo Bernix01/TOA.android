@@ -108,18 +108,18 @@ public class MainActivity extends AppCompatActivity {
         gcm = GoogleCloudMessaging.getInstance(this);
         hub = new NotificationHub(HubName, HubListenConnectionString, this);
         registerWithNotificationHubs();
-                ViewPager pager = (ViewPager) findViewById(R.id.pager);
+        ViewPager pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(new CollectionPagerAdapter(getSupportFragmentManager(), __user.get_id()));
-                PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-                tabs.setViewPager(pager);
+        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        tabs.setViewPager(pager);
         name_txtv.setText(__user.get_uname());
-                name_txtv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-                        startActivity(i);
-                    }
-                });
+        name_txtv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+                startActivity(i);
+            }
+        });
         pimage_imgv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,9 +129,9 @@ public class MainActivity extends AppCompatActivity {
         });
         if (!__user.get_pimage().isEmpty()) {
             Picasso.with(getApplicationContext()).load(__user.get_pimage()).transform(new CropCircleTransformation()).into(pimage_imgv);
-                } else {
-                    Picasso.with(getApplicationContext()).load(R.drawable.defaultpimage).transform(new CropCircleTransformation()).into(pimage_imgv);
-                }
+        } else {
+            Picasso.with(getApplicationContext()).load(R.drawable.defaultpimage).transform(new CropCircleTransformation()).into(pimage_imgv);
+        }
     }
 
     public int getStatusBarHeight() {
@@ -154,6 +154,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-            super.onBackPressed();
+        super.onBackPressed();
     }
 }

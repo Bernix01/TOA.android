@@ -55,20 +55,20 @@ public class SirHandler {
      */
     public SirHandler(Context mcontext) {
         SirHandler.mcontext = mcontext;
-        _currentUser = new MrUser();
+        SirHandler._currentUser = new MrUser();
         setCurrent();
     }
 
     public static MrUser getCurrentUser(Context mcontext) {
         SirHandler.mcontext = mcontext;
-        _currentUser = new MrUser();
+        SirHandler._currentUser = new MrUser();
         setCurrent();
-        return _currentUser;
+        return SirHandler._currentUser;
     }
 
     public static void initialize(Context mcontext) {
         SirHandler.mcontext = mcontext;
-        _currentUser = new MrUser();
+        SirHandler._currentUser = new MrUser();
         setCurrent();
     }
 
@@ -225,7 +225,6 @@ public class SirHandler {
                     for (int i = 0; i < datos; i++)
                         sports.add(new MrComunity(data.getJSONObject(i).getJSONArray("row").getString(0), data.getJSONObject(i).getJSONArray("row").getString(1), data.getJSONObject(i).getJSONArray("row").getString(2)));
                     retriever.goIt(sports);
-
                 } catch (JSONException e) {
                     Log.e("exception", e.getMessage());
                 }
@@ -279,7 +278,6 @@ public class SirHandler {
         SharedPreferences.Editor editor = userDetails.edit();
         editor.clear();
         editor.apply();
-        editor.commit();
         callback.goIt();
     }
 
@@ -327,8 +325,9 @@ public class SirHandler {
         getUserById(_id, new SirUserRetrieverClass() {
             @Override
             public void goIt(MrUser user) {
-                Log.i("fetch", "Current updated successfully");
-                _currentUser = user;
+                Log.i("fetch", "gotIt");
+                SirHandler._currentUser = user;
+                Log.i("fetch", "pimage: " + user.get_pimage());
                 Picasso.with(mcontext).invalidate(user.get_pimage());
                 registerCurrentUser(_currentUser, hash);
             }
@@ -342,7 +341,7 @@ public class SirHandler {
     }
 
     public void updateUserAsync(MrUser newUser) {
-        _currentUser = newUser;
+        SirHandler._currentUser = newUser;
         updateRemoteData();
         fetchUserData(__hash);
     }
@@ -350,14 +349,14 @@ public class SirHandler {
     private void updateRemoteData() {
         JSONObject user = new JSONObject();
         try {
-            user.put("email", _currentUser.get_email());
-            user.put("name", _currentUser.get_name());
-            user.put("u_name", _currentUser.get_uname());
-            user.put("bio", _currentUser.get_bio());
-            user.put("gender", _currentUser.get_gender());
-            user.put("age", _currentUser.get_age());
-            user.put("pimageurl", _currentUser.get_pimage());
-            user.put("pw", __hash);
+            user.put("email", SirHandler._currentUser.get_email());
+            user.put("name", SirHandler._currentUser.get_name());
+            user.put("u_name", SirHandler._currentUser.get_uname());
+            user.put("bio", SirHandler._currentUser.get_bio());
+            user.put("gender", SirHandler._currentUser.get_gender());
+            user.put("age", SirHandler._currentUser.get_age());
+            user.put("pimageurl", SirHandler._currentUser.get_pimage());
+            user.put("pw", __hash.trim() + "\n");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -366,7 +365,7 @@ public class SirHandler {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        RestApi.put("/node/" + _currentUser.get_id() + "/properties", user, new JsonHttpResponseHandler() {
+        RestApi.put("/node/" + SirHandler._currentUser.get_id() + "/properties", user, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Toast.makeText(mcontext, "Profile updated successfully", Toast.LENGTH_LONG).show();

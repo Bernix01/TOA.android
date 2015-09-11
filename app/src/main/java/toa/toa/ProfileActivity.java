@@ -79,12 +79,13 @@ public class ProfileActivity extends AppCompatActivity {
         });
         Picasso.with(getApplicationContext()).load("http://www.resortvillarosa.it/img/top/sport1.jpg").fit().centerCrop().transform(new BlurTransformation(getApplicationContext(), 15)).into(bg);
         SirHandler handler = new SirHandler(getApplicationContext());
-        handler.getUserSports(_user, new SirSportsListRetriever() {
+        SirHandler.getUserSports(_user, new SirSportsListRetriever() {
             @Override
             public void goIt(ArrayList<MrComunity> sports) {
                 ProfileSportsAdapter adapter = new ProfileSportsAdapter(sports, getApplicationContext());
                 sportsrecycler.setAdapter(adapter);
             }
+
             @Override
             public void failure(String error) {
                 Log.e("profile_sports_error", error);
@@ -103,6 +104,7 @@ public class ProfileActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_profile, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

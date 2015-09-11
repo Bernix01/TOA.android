@@ -62,17 +62,17 @@ public class LoadingSplash extends AppCompatActivity {
         JSONArray statements = new JSONArray();
         for (int i = 0; i < list.size(); i++) {
             MrComunity bar = list.get(i);
-                JSONObject foo = new JSONObject();
-                try {
-                    if (bar.getIsChecked()) {
-                        foo.put("statement", "MATCH (a:user),(b:Sport {name:\"" + bar.getComunityName() + "\"}) WHERE id(a)=" + id + " CREATE UNIQUE (a)-[r:Likes]->(b)");
-                    } else {
-                        foo.put("statement", "MATCH (a:user)-[r:Likes]->(b:Sport {name:\"" + bar.getComunityName() + "\"}) WHERE id(a)=" + id + " DELETE r");
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+            JSONObject foo = new JSONObject();
+            try {
+                if (bar.getIsChecked()) {
+                    foo.put("statement", "MATCH (a:user),(b:Sport {name:\"" + bar.getComunityName() + "\"}) WHERE id(a)=" + id + " CREATE UNIQUE (a)-[r:Likes]->(b)");
+                } else {
+                    foo.put("statement", "MATCH (a:user)-[r:Likes]->(b:Sport {name:\"" + bar.getComunityName() + "\"}) WHERE id(a)=" + id + " DELETE r");
                 }
-                statements.put(foo);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            statements.put(foo);
         }
         try {
             item_to_send.put("statements", statements);

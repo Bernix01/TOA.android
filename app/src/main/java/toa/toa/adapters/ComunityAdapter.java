@@ -55,7 +55,7 @@ public class ComunityAdapter extends RecyclerView.Adapter<ComunityAdapter.ViewHo
         Picasso.with(contexto).load(com.getComunityImg()).into(holder.comunityImg);
         Log.d("comunitiBack", com.getComunityBack() + " ");
         if (!com.getComunityBack().isEmpty())
-        Picasso.with(contexto).load(com.getComunityBack()).fit().centerCrop().transform(new BlurTransformation(contexto, 10)).into(holder.comunityBack);
+            Picasso.with(contexto).load(com.getComunityBack()).fit().centerCrop().transform(new BlurTransformation(contexto, 10)).into(holder.comunityBack);
         holder.content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

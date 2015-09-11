@@ -32,7 +32,7 @@ public class ComunityActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_crossfit);
+        setContentView(R.layout.activity_comuity);
         final MrComunity com = getIntent().getParcelableExtra("sport");
         final TextView sportName = (TextView) findViewById(R.id.sport_name_txtv);
         final ImageView sportImage = (ImageView) findViewById(R.id.sport_imgv);

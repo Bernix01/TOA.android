@@ -10,11 +10,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.gc.materialdesign.views.ButtonFloat;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -29,6 +29,7 @@ public class FirstTime extends AppCompatActivity {
     private ArrayList<MrComunity> Sports = new ArrayList<MrComunity>();
     private Picasso picasso;
     private adapter adapt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +50,7 @@ public class FirstTime extends AppCompatActivity {
                 GridLayoutManager gm = new GridLayoutManager(getApplicationContext(), 2);
                 rclr.setLayoutManager(gm);
                 rclr.setAdapter(adapt);
-                ButtonFloat contiue = (ButtonFloat) findViewById(R.id.finish_register);
+                Button contiue = (Button) findViewById(R.id.finish_register);
                 contiue.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -129,6 +130,7 @@ public class FirstTime extends AppCompatActivity {
             RelativeLayout cnt;
             ImageView img;
             TextView title;
+
             public ViewHolder(View itemView) {
                 super(itemView);
                 opt = (CheckBox) itemView.findViewById(R.id.option);

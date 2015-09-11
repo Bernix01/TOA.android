@@ -45,7 +45,6 @@ public class RestApi {
         StringEntity se = null;
         try {
             se = new StringEntity(data.toString(), "UTF-8");
-            Log.e("json", se.toString());
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             Log.e("error stringEntity", e.getMessage());

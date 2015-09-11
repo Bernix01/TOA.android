@@ -68,9 +68,25 @@ public class CheckBox extends View {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
+    /**
+     * ????????? dp ??? ??? px(??)
+     */
+    public static int dip2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
+    /**
+     * ????????? px(??) ??? ??? dp
+     */
+    public static int px2dip(Context context, float pxValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (pxValue / scale + 0.5f);
+    }
 
     /**
      * ???
+     *
      * @param context
      */
     private void init(Context context) {
@@ -97,26 +113,29 @@ public class CheckBox extends View {
 
     /**
      * ????????
+     *
+     * @return
+     */
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    /**
+     * ????????
+     *
      * @param checked
      */
-    public void setChecked(boolean checked){
+    public void setChecked(boolean checked) {
         if (isChecked && !checked) {
             hideCorrect();
-        } else if(!isChecked && checked) {
+        } else if (!isChecked && checked) {
             showCheck();
         }
     }
 
     /**
-     * ????????
-     * @return
-     */
-    public boolean isChecked(){
-        return isChecked;
-    }
-
-    /**
      * ??????
+     *
      * @param w
      * @param h
      * @param oldw
@@ -125,7 +144,7 @@ public class CheckBox extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        height = width = Math.min(w - getPaddingLeft() - getPaddingRight(),h - getPaddingBottom() - getPaddingTop());
+        height = width = Math.min(w - getPaddingLeft() - getPaddingRight(), h - getPaddingBottom() - getPaddingTop());
         cx = w / 2;
         cy = h / 2;
 
@@ -136,7 +155,7 @@ public class CheckBox extends View {
         points[2] = r * 5f / 6f + getPaddingLeft();
         points[3] = r + r / 3f + getPaddingTop();
 
-        points[4] = r * 1.5f +getPaddingLeft();
+        points[4] = r * 1.5f + getPaddingLeft();
         points[5] = r - r / 3f + getPaddingTop();
         radius = (int) (height * 0.125f);
     }
@@ -144,47 +163,49 @@ public class CheckBox extends View {
     @Override
     protected void onDraw(Canvas canvas) {
 
-        float f = (radius -height * 0.125f) / (height * 0.5f); //????
-        mCirclePaint.setColor(evaluate(f,unCheckColor,circleColor));
+        float f = (radius - height * 0.125f) / (height * 0.5f); //????
+        mCirclePaint.setColor(evaluate(f, unCheckColor, circleColor));
         canvas.drawCircle(cx, cy, radius, mCirclePaint); //??
 
         //???
-        if(correctProgress>0) {
-            if(correctProgress<1/3f) {
+        if (correctProgress > 0) {
+            if (correctProgress < 1 / 3f) {
                 float x = points[0] + (points[2] - points[0]) * correctProgress;
                 float y = points[1] + (points[3] - points[1]) * correctProgress;
                 canvas.drawLine(points[0], points[1], x, y, mCorrectPaint);
-            }else {
+            } else {
                 float x = points[2] + (points[4] - points[2]) * correctProgress;
                 float y = points[3] + (points[5] - points[3]) * correctProgress;
                 canvas.drawLine(points[0], points[1], points[2], points[3], mCorrectPaint);
-                canvas.drawLine(points[2], points[3], x,y, mCorrectPaint);
+                canvas.drawLine(points[2], points[3], x, y, mCorrectPaint);
             }
         }
     }
 
-
     /**
      * ??????
+     *
      * @param color
      */
-    public void setCircleColor(int color){
+    public void setCircleColor(int color) {
         circleColor = color;
     }
 
     /**
      * ???????
+     *
      * @param color
      */
-    public void setCorrectColor(int color){
+    public void setCorrectColor(int color) {
         mCorrectPaint.setColor(color);
     }
 
     /**
      * ?????????
+     *
      * @param color
      */
-    public void setUnCheckColor(int color){
+    public void setUnCheckColor(int color) {
         unCheckColor = color;
     }
 
@@ -240,7 +261,6 @@ public class CheckBox extends View {
             return true;
         }
     }*/
-
     private void showUnChecked() {
         if (isAnim) {
             return;
@@ -258,8 +278,8 @@ public class CheckBox extends View {
                 if (value >= 1) {
                     isChecked = false;
                     isAnim = false;
-                    if(listener!=null){
-                        listener.onCheckedChanged(CheckBox.this,false);
+                    if (listener != null) {
+                        listener.onCheckedChanged(CheckBox.this, false);
                     }
                 }
                 invalidate();
@@ -283,8 +303,8 @@ public class CheckBox extends View {
                 if (value >= 1) {
                     isChecked = true;
                     isAnim = false;
-                    if(listener!=null){
-                        listener.onCheckedChanged(CheckBox.this,true);
+                    if (listener != null) {
+                        listener.onCheckedChanged(CheckBox.this, true);
                     }
                     showCorrect();
                 }
@@ -307,12 +327,13 @@ public class CheckBox extends View {
                 float value = (float) animation.getAnimatedValue(); // 0f ~ 1f
                 correctProgress = value;
                 invalidate();
-                if(value>=1){
+                if (value >= 1) {
                     isAnim = false;
                 }
             }
         });
     }
+
     private void hideCorrect() {
         if (isAnim) {
             return;
@@ -325,35 +346,21 @@ public class CheckBox extends View {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float value = (float) animation.getAnimatedValue(); // 0f ~ 1f
-                correctProgress = 1-value;
+                correctProgress = 1 - value;
                 invalidate();
-                if(value>=1){
+                if (value >= 1) {
                     isAnim = false;
                     showUnChecked();
                 }
             }
         });
     }
-    public void setOnCheckedChangeListener(OnCheckedChangeListener listener){
+
+    public void setOnCheckedChangeListener(OnCheckedChangeListener listener) {
         this.listener = listener;
     }
-    public interface OnCheckedChangeListener{
+
+    public interface OnCheckedChangeListener {
         void onCheckedChanged(View buttonView, boolean isChecked);
-    }
-
-    /**
-     * ????????? dp ??? ??? px(??)
-     */
-    public static int dip2px(Context context, float dpValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
-    }
-
-    /**
-     * ????????? px(??) ??? ??? dp
-     */
-    public static int px2dip(Context context, float pxValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (pxValue / scale + 0.5f);
     }
 }

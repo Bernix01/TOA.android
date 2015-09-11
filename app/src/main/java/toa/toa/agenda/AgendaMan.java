@@ -29,5 +29,5 @@ public class AgendaMan {
                 DISTANCE = "distance";
         String CATEGORY = "cat";
     }
-    
+
 }

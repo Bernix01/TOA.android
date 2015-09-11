@@ -70,29 +70,29 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         holder.tagline.setText(com.get_bio());
         if (com.get_id() != SirHandler.getCurrentUser(contexto).get_id())
             SirHandler.isFollowing(com, new SimpleCallbackClass() {
-            @Override
-            public void gotBool(final Boolean bool) {
-                if (bool) {
-                    holder.friendShip.setText(R.string.unFollow);
-                    holder.friendShip.setBackgroundColor(Color.RED);
-                } else {
-                    holder.friendShip.setText(R.string.follow);
-                    holder.friendShip.setBackgroundColor(contexto.getResources().getColor(R.color.my_awesome_color, contexto.getTheme()));
-                }
-
-                holder.friendShip.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        SirHandler.friendShip(com, bool, new SimpleCallbackClass() {
-                            @Override
-                            public void goIt() {
-                                notifyItemChanged(position);
-                            }
-                        });
+                @Override
+                public void gotBool(final Boolean bool) {
+                    if (bool) {
+                        holder.friendShip.setText(R.string.unFollow);
+                        holder.friendShip.setBackgroundColor(Color.RED);
+                    } else {
+                        holder.friendShip.setText(R.string.follow);
+                        holder.friendShip.setBackgroundColor(contexto.getResources().getColor(R.color.my_awesome_color, contexto.getTheme()));
                     }
-                });
-            }
-        });
+
+                    holder.friendShip.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            SirHandler.friendShip(com, bool, new SimpleCallbackClass() {
+                                @Override
+                                public void goIt() {
+                                    notifyItemChanged(position);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
     }
 
     private ImageView addImgv(MrComunity comunity) {

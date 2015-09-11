@@ -37,12 +37,14 @@ public class FriendsActivity extends AppCompatActivity {
             public void goIt(ArrayList<MrUser> friends) {
                 recyclerView.setAdapter(new FriendsAdapter(friends, getApplicationContext()));
             }
+
             @Override
             public void failure(String error) {
                 super.failure(error);
             }
         });
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

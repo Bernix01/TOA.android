@@ -28,9 +28,9 @@ public class Splash_Activity extends Activity {
                 startActivity(i);
             }
         });
-        if(Build.VERSION.SDK_INT > 19 ){
+        if (Build.VERSION.SDK_INT > 19) {
             RelativeLayout upperv = (RelativeLayout) findViewById(R.id.top_view);
-            upperv.setPadding(0,getStatusBarHeight(),0,getNavigationBarHeight());
+            upperv.setPadding(0, getStatusBarHeight(), 0, getNavigationBarHeight());
         }
 
         login_btn.setOnClickListener(new View.OnClickListener() {
@@ -44,6 +44,7 @@ public class Splash_Activity extends Activity {
 
 
     }
+
     public int getStatusBarHeight() {
         int result = 0;
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
@@ -52,6 +53,7 @@ public class Splash_Activity extends Activity {
         }
         return result;
     }
+
     public int getNavigationBarHeight() {
         Resources resources = getApplicationContext().getResources();
         int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");

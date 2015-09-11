@@ -29,8 +29,7 @@
         <ImageView
             android:id="@+id/sport_imgv"
             android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/crossfit_sport" />
+            android:layout_height="100dp" />
 
         <TextView
             android:id="@+id/sport_name_txtv"

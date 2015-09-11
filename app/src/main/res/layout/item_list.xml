@@ -62,6 +62,5 @@
         android:layout_height="60dp"
         android:layout_alignEnd="@+id/categoria"
         android:layout_alignRight="@+id/categoria"
-        android:layout_alignTop="@+id/titulo"
-        android:src="@drawable/bike_sport" />
+        android:layout_alignTop="@+id/titulo" />
 </RelativeLayout>

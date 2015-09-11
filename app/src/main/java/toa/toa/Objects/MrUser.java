@@ -47,6 +47,7 @@ public class MrUser implements Parcelable {
     public MrUser() {
 
     }
+
     public MrUser(Parcel in) {
 
         _bio = in.readString();

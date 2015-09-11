@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -22,9 +21,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Arrays;
-
-import toa.toa.Objects.MrConsejo;
 import toa.toa.R;
 import toa.toa.adapters.MetaAdapter;
 
@@ -43,7 +39,7 @@ public class ConsejosNutricionalesFragment extends android.support.v4.app.Fragme
     private RecyclerView.LayoutManager lManager;
 
 
-    private Gson gson = new Gson();
+    // private Gson gson = new Gson();
 
     public ConsejosNutricionalesFragment() {
     }
@@ -108,9 +104,9 @@ public class ConsejosNutricionalesFragment extends android.support.v4.app.Fragme
                     // Obtener array "metas" Json
                     JSONArray mensaje = response.getJSONArray("consejo");
                     // Parsear con Gson
-                    MrConsejo[] metas = gson.fromJson(mensaje.toString(), MrConsejo[].class);
+                    // MrConsejo[] metas = gson.fromJson(mensaje.toString(), MrConsejo[].class);
                     // Inicializar adaptador
-                    adapter = new MetaAdapter(Arrays.asList(metas), getActivity());
+                    // adapter = new MetaAdapter(Arrays.asList(metas), getActivity());
                     // Setear adaptador a la lista
                     lista.setAdapter(adapter);
                     break;

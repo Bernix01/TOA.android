@@ -18,6 +18,7 @@ public class SecondSlide extends Fragment {
     private int resID = R.drawable.intro2;
     private int resImgCenter = R.drawable.introicono2;
     private String msg;
+
     public SecondSlide() {
         // Required empty public constructor
     }

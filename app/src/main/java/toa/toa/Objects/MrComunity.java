@@ -26,6 +26,7 @@ public class MrComunity implements Parcelable {
     private String comunityImg;
     private String comunityBack;
     private Boolean isChecked = false;
+
     public MrComunity(String comunityName, String comunityImg, String comunityBack) {
         this.comunityName = comunityName;
         this.comunityImg = comunityImg;

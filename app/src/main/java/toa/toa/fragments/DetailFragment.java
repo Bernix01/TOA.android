@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -23,9 +22,10 @@ import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import toa.toa.Objects.MrConsejo;
 import toa.toa.R;
 import toa.toa.utils.ConsejosNutricionales.Constantes;
+
+//import com.google.gson.Gson;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -48,7 +48,7 @@ public class DetailFragment extends Fragment {
     private TextView categoria;
     private ImageButton editButton;
     private String extra;
-    private Gson gson = new Gson();
+    // private Gson gson = new Gson();
 
     public DetailFragment() {
     }
@@ -123,7 +123,7 @@ public class DetailFragment extends Fragment {
                     JSONObject object = response.getJSONObject("meta");
 
                     //Parsear objeto
-                    MrConsejo meta = gson.fromJson(object.toString(), MrConsejo.class);
+                  /* MrConsejo meta = gson.fromJson(object.toString(), MrConsejo.class);
 
                     // Asignar color del fondo
                     switch (meta.getCategoria()) {
@@ -149,7 +149,7 @@ public class DetailFragment extends Fragment {
                     descripcion.setText(meta.getDescripcion());
                     autor.setText(meta.getAutor());
                     fechaLim.setText(meta.getFechaLim());
-                    categoria.setText(meta.getCategoria());
+                    categoria.setText(meta.getCategoria());*/
                     break;
 
                 case "2":
