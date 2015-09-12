@@ -141,23 +141,27 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
         pimage_imgv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE")
-                        != PackageManager.PERMISSION_GRANTED) {
+                if (Build.VERSION.SDK_INT >= 23) {
+                    if (checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE")
+                            != PackageManager.PERMISSION_GRANTED) {
 
-                    // Should we show an explanation?
-                    if (shouldShowRequestPermissionRationale(
-                            "android.permission.READ_EXTERNAL_STORAGE")) {
+                        // Should we show an explanation?
+                        if (shouldShowRequestPermissionRationale(
+                                "android.permission.READ_EXTERNAL_STORAGE")) {
 
-                        // Explain to the user why we need to read the contacts
+                            // Explain to the user why we need to read the contacts
+                        }
+
+                        requestPermissions(new String[]{"android.permission.READ_EXTERNAL_STORAGE"},
+                                MY_PERMISSION_REQUEST_CODE_READ_EXTERNAL);
+
+                        // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                        // app-defined int constant
+
+                        return;
+                    } else {
+                        selectImage();
                     }
-
-                    requestPermissions(new String[]{"android.permission.READ_EXTERNAL_STORAGE"},
-                            MY_PERMISSION_REQUEST_CODE_READ_EXTERNAL);
-
-                    // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                    // app-defined int constant
-
-                    return;
                 } else {
                     selectImage();
                 }

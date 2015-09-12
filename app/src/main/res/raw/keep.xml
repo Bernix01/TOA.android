@@ -19,6 +19,7 @@
 @layout/comunity_row.xml,
 @layout/emptyview.xml,
 @layout/event_row_item.xml,
+@layout/abc_screen_simple,
 @layout/fragment_blank.xml,
 @layout/fragment_consejos_nutricionales.xml,
 @layout/fragment_detail.xml,

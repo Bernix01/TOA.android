@@ -37,9 +37,7 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
-
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         MrUser _user = (SirHandler.getCurrentUser(getApplicationContext()));
