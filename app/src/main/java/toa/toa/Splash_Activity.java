@@ -3,11 +3,9 @@ package toa.toa;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class Splash_Activity extends Activity {
@@ -28,10 +26,6 @@ public class Splash_Activity extends Activity {
                 startActivity(i);
             }
         });
-        if (Build.VERSION.SDK_INT > 19) {
-            RelativeLayout upperv = (RelativeLayout) findViewById(R.id.top_view);
-            upperv.setPadding(0, getStatusBarHeight(), 0, getNavigationBarHeight());
-        }
 
         login_btn.setOnClickListener(new View.OnClickListener() {
             @Override

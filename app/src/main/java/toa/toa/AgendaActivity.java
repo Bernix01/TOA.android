@@ -7,6 +7,7 @@ package toa.toa;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -25,6 +26,8 @@ public class AgendaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agenda);
+        setSupportActionBar((Toolbar) findViewById(R.id.my_awesome_toolbar));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         SirHandler handler = new SirHandler(getApplicationContext());
         final SuperRecyclerView recyclerView = (SuperRecyclerView) findViewById(R.id.agenda_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));

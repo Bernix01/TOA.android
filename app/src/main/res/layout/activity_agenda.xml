@@ -20,6 +20,7 @@
         android:id="@+id/agenda_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/my_awesome_toolbar"
         app:layout_empty="@layout/emptyview"
         app:layout_moreProgress="@layout/view_more_progress"
         app:mainLayoutId="@layout/layout_recyclerview_verticalscroll"

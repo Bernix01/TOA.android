@@ -20,7 +20,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Objects;
 
 import toa.toa.Objects.MrComunity;
 import toa.toa.Objects.MrEvent;
@@ -747,7 +746,7 @@ public class SirHandler {
                                 tryGetFloat(udata, "X"),
                                 tryGetFloat(udata, "Y"));
                         String sportsA = tryGetString(udata, "esports");
-                        if (!Objects.equals(sportsA, "")) {
+                        if (!sportsA.isEmpty()) {
                             String[] sports = sportsA.split(",");
                             for (String sport : sports) {
                                 if (sport.equals("Running") || sport.equals("Ciclismo") || sport.equals("Natación"))
