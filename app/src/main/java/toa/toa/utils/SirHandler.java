@@ -356,7 +356,7 @@ public class SirHandler {
             user.put("gender", SirHandler._currentUser.get_gender());
             user.put("age", SirHandler._currentUser.get_age());
             user.put("pimageurl", SirHandler._currentUser.get_pimage());
-            user.put("pw", __hash.trim() + "\n");
+            user.put("pw", (__hash.trim() + "\n").trim());
         } catch (JSONException e) {
             e.printStackTrace();
         }
