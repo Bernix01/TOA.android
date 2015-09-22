@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="my_awesome_color">#a3008477</color>
+    <color name="my_awesome_color">#01b1a0</color>
     <color name="my_awesome_darker_color">#005a50</color>
     <color name="submitbg_color">#06c</color>
     <color name="querybg_color">#ff0082f4</color>

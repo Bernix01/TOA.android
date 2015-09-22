@@ -11,11 +11,11 @@ import android.support.v7.app.AppCompatDelegate;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -37,8 +37,8 @@ import static toa.toa.utils.UtilidadesExtras.tryGetString;
  * Hora: 1:53.
  */
 public class LoginActivity extends Activity {
-    MaterialEditText user;
-    MaterialEditText password;
+    EditText user;
+    EditText password;
     CircularProgressButton sigIn;
     private AppCompatDelegate mDelegate;
 
@@ -46,8 +46,8 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        user = (MaterialEditText) findViewById(R.id.user_etxt);
-        password = (MaterialEditText) findViewById(R.id.pw_etxt);
+        user = (EditText) findViewById(R.id.user_etxt);
+        password = (EditText) findViewById(R.id.pw_etxt);
         sigIn = (CircularProgressButton) findViewById(R.id.bttn_sigIn);
         sigIn.setIndeterminateProgressMode(true);
         sigIn.setOnClickListener(new View.OnClickListener() {

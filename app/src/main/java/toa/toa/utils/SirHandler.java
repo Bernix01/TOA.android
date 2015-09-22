@@ -720,7 +720,7 @@ public class SirHandler {
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
         try {
-            subcmd.put("statement", "MATCH (n:user)-[r:isGoing]->(a:Event) WHERE id(n)=\"" + _currentUser.get_id() + "\" RETURN a,id(a)");
+            subcmd.put("statement", "MATCH (n:user)-[r:isGoing]->(a:Event) WHERE id(n)=" + _currentUser.get_id() + " RETURN a,id(a)");
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {

@@ -28,6 +28,7 @@ public class AgendaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_agenda);
         setSupportActionBar((Toolbar) findViewById(R.id.my_awesome_toolbar));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        int a = 0 + 1;
         SirHandler handler = new SirHandler(getApplicationContext());
         final SuperRecyclerView recyclerView = (SuperRecyclerView) findViewById(R.id.agenda_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
