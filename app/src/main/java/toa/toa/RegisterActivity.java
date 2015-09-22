@@ -15,11 +15,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.apache.http.Header;
 import org.json.JSONException;
@@ -37,7 +37,7 @@ import static toa.toa.utils.UtilidadesExtras.tryGetString;
 public class RegisterActivity extends ActionBarActivity {
 
     CircularProgressButton btn;
-    MaterialEditText name, surname, usr, pw, mail;
+    EditText name, surname, usr, pw, mail;
     Boolean isDoingReg = false;
 
     @Override
@@ -99,11 +99,11 @@ public class RegisterActivity extends ActionBarActivity {
     }
 
     public boolean isFormReady() {
-        name = (MaterialEditText) findViewById(R.id.reg_name);
-        usr = (MaterialEditText) findViewById(R.id.reg_usr);
-        surname = (MaterialEditText) findViewById(R.id.reg_last_name);
-        pw = (MaterialEditText) findViewById(R.id.reg_pw);
-        mail = (MaterialEditText) findViewById(R.id.reg_email);
+        name = (EditText) findViewById(R.id.reg_name);
+        usr = (EditText) findViewById(R.id.reg_usr);
+        surname = (EditText) findViewById(R.id.reg_last_name);
+        pw = (EditText) findViewById(R.id.reg_pw);
+        mail = (EditText) findViewById(R.id.reg_email);
         return (!name.getText().toString().equals("") & !usr.getText().toString().equals("") & !pw.getText().toString().equals("") & !mail.getText().toString().equals(""));
     }
 

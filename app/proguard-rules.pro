@@ -15,73 +15,82 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
--dontpreverify
--optimizationpasses 5
--dontusemixedcaseclassnames
--dontskipnonpubliclibraryclasses
--dontskipnonpubliclibraryclassmembers
--optimizations !code/simplification/arithmetic
--repackageclasses ''
--allowaccessmodification
--keepattributes *Annotation*
--libraryjars src\libs
--keep class android.support.v7.** { *; }
--keep class !android.support.v7.internal.view.menu.**,** {*;}
--dontwarn
--ignorewarnings
--dontshrink
--keep class com.malinskiy.superrecyclerview.** { *; }
--keep interface android.support.v7.** { *; }
--keep public class com.google.android.gms.* { public *; }
--keep public class * extends android.app.Activity
--keep public class * extends android.support.v7.app.AppCompatActivity
--keep public class * extends android.app.Application
--keep public class * extends android.app.Service
--keep public class * extends android.content.BroadcastReceiver
--keep public class * extends android.content.ContentProvider
--keep class org.apache.http.** { *; }
--keep class !android.support.v7.internal.view.menu.**,android.support.** {*;}
--keepclassmembers class **.R$* {
-    public static <fields>;
-}
+-keep class toa.toa.** { *; }
+-dontobfuscate
 -keep public class android.support.v7.widget.** { *; }
 -keep public class android.support.v7.internal.widget.** { *; }
 -keep public class android.support.v7.internal.view.menu.** { *; }
+-keep class !android.support.v7.internal.view.menu.**,** {*;}
 
 -keep public class * extends android.support.v4.view.ActionProvider {
     public <init>(android.content.Context);
 }
--keep public class * extends android.preference.Preference
--keep public class * extends android.view.View {
-    public <init>(android.content.Context);
-    public <init>(android.content.Context, android.util.AttributeSet);
-    public <init>(android.content.Context, android.util.AttributeSet, int);
+-keepattributes InnerClasses
+
+-keep class **.R
+-keep class **.R$* {
+    <fields>;
 }
+-dontwarn
+-ignorewarnings
+-dontshrink
+
 -keepclasseswithmembers class * {
     public <init>(android.content.Context, android.util.AttributeSet);
-}
--keep public class * extends android.view.View {
-    public <init>(android.content.Context);
-    public <init>(android.content.Context, android.util.AttributeSet);
-    public <init>(android.content.Context, android.util.AttributeSet, int);
-    public void set*(...);
-    public void get*(...);
 }
 
 -keepclasseswithmembers class * {
     public <init>(android.content.Context, android.util.AttributeSet, int);
 }
--keepclassmembers class * extends android.content.Context {
-    public void *(android.view.View);
-    public void *(android.view.MenuItem);
+
+-keepclasseswithmembernames class * {
+    native <methods>;
 }
--keepclassmembers class * implements android.os.Parcelable {
-    static android.os.Parcelable$Creator CREATOR;
+
+-keepclassmembers class * extends android.app.Activity {
+   public void *(android.view.View);
 }
--keep class * implements android.os.Parcelable {
-  public static final android.os.Parcelable$Creator *;
-}
+
 -keepclassmembers enum * {
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
+
+-keepclassmembers class * {
+   public void *(android.view.View);
+}
+
+-keepclassmembers class * extends android.app.Activity {
+   public void *(android.view.View);
+}
+
+-keepclasseswithmembers class * extends android.app.Activity {
+    public <init>(android.content.Context);
+}
+
+-keep class * implements android.os.Parcelable {
+  public static final android.os.Parcelable$Creator *;
+}
+
+-keepclassmembers class * extends android.content.Context {
+   public void get*(...);
+   public void set*(...);
+   public void on*(...);
+}
+
+-keepclassmembers class * implements android.os.Parcelable {
+    static android.os.Parcelable$Creator CREATOR;
+}
+
+-keepclassmembers class **.R$* {
+    public static <fields>;
+}
+
+-keep class android.support.v4.app.** { *; }
+-keep interface android.support.v4.app.** { *; }
+
+-keep class android.support.v7.app.** { *; }
+-keep interface android.support.v7.app.** { *; }
+
+-keep class android.support.v13.app.** { *; }
+-keep interface android.support.v13.app.** { *; }

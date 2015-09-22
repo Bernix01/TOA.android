@@ -7,6 +7,7 @@ package toa.toa.adapters;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.os.Build;
 import android.support.v7.widget.GridLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -77,7 +78,11 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
                         holder.friendShip.setBackgroundColor(Color.RED);
                     } else {
                         holder.friendShip.setText(R.string.follow);
-                        holder.friendShip.setBackgroundColor(contexto.getResources().getColor(R.color.my_awesome_color, contexto.getTheme()));
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            holder.friendShip.setBackgroundColor(contexto.getResources().getColor(R.color.my_awesome_color, contexto.getTheme()));
+                        } else {
+                            holder.friendShip.setBackgroundColor(contexto.getResources().getColor(R.color.my_awesome_color));
+                        }
                     }
 
                     holder.friendShip.setOnClickListener(new View.OnClickListener() {

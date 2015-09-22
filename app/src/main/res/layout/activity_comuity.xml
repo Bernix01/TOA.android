@@ -28,8 +28,8 @@
 
         <ImageView
             android:id="@+id/sport_imgv"
-            android:layout_width="100dp"
-            android:layout_height="100dp" />
+            android:layout_width="70dp"
+            android:layout_height="70dp" />
 
         <TextView
             android:id="@+id/sport_name_txtv"
@@ -39,14 +39,6 @@
             android:textColor="#ffffff"
             android:textSize="30sp" />
 
-        <TextView
-            android:id="@+id/spot_tagline_txtv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:padding="8dp"
-            android:text=""
-            android:textAppearance="?android:attr/textAppearanceSmall" />
     </LinearLayout>
 
 
@@ -93,7 +85,6 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="3dp"
-            android:text="Wilmer Vera"
             android:textSize="18sp" />
     </RelativeLayout>
 
