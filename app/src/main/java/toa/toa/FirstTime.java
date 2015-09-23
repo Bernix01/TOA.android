@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,8 +47,8 @@ public class FirstTime extends AppCompatActivity {
             public void goIt(ArrayList<MrComunity> sports) {
                 adapt = new adapter(sports);
 
-                GridLayoutManager gm = new GridLayoutManager(getApplicationContext(), 2);
-                rclr.setLayoutManager(gm);
+
+                rclr.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 rclr.setAdapter(adapt);
                 FloatingActionButton contiue = (FloatingActionButton) findViewById(R.id.finish_register);
                 contiue.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +106,8 @@ public class FirstTime extends AppCompatActivity {
             final MrComunity sport = list.get(position);
             holder.opt.setCircleColor(ContextCompat.getColor(getApplicationContext(), R.color.primary));
             holder.opt.setUnCheckColor(ContextCompat.getColor(getApplicationContext(), R.color.primary_dark));
-            Picasso.with(getApplicationContext()).load(sport.getComunityImg()).fit().centerCrop().transform(new CropCircleTransformation()).into(holder.img);
+            Picasso.with(getApplicationContext()).load(sport.getComunityImgAlt()).fit().centerCrop().transform(new CropCircleTransformation()).into(holder.img);
+            holder.name.setText(sport.getComunityName());
             holder.cnt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -129,12 +130,13 @@ public class FirstTime extends AppCompatActivity {
             CheckBox opt;
             RelativeLayout cnt;
             ImageView img;
-            TextView title;
+            TextView name;
 
             public ViewHolder(View itemView) {
                 super(itemView);
                 opt = (CheckBox) itemView.findViewById(R.id.option);
                 img = (ImageView) itemView.findViewById(R.id.img_item_preference);
+                name = (TextView) itemView.findViewById(R.id.item_preference_sport_name);
                 cnt = (RelativeLayout) itemView.findViewById(R.id.opt_container);
             }
         }
