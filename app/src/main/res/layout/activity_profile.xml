@@ -13,7 +13,6 @@
         android:id="@+id/topcnt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#242424"
         android:elevation="1dp">
 
         <ImageView
@@ -39,7 +38,7 @@
             android:layout_below="@+id/my_awesome_toolbar"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:elevation="3dp" />
+            android:elevation="1dp" />
 
         <TextView
             android:id="@+id/profile_name_txtv"
@@ -131,7 +130,6 @@
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/topcnt"
         android:layout_centerHorizontal="true"
-        android:background="#242424"
         android:elevation="1dp">
 
         <TextView

@@ -39,7 +39,7 @@ public class ProfileSportsAdapter extends RecyclerView.Adapter<ProfileSportsAdap
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final MrComunity com = comunities.get(position);
         holder.comunityname.setText(com.getComunityName());
-        Picasso.with(contexto).load(com.getComunityImg()).into(holder.comunityIcn);
+        Picasso.with(contexto).load(com.getComunityImgAlt()).into(holder.comunityIcn);
     }
 
     @Override

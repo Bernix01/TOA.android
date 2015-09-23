@@ -3,32 +3,23 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mainActivityLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent">
+    android:background="@android:color/transparent"
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_awesome_toolbar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
         android:background="?attr/colorPrimary"
-        android:minHeight="?android:attr/actionBarSize" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignBottom="@+id/my_awesome_toolbar"
-        android:gravity="right">
-
-        <ImageView
-            android:id="@+id/main_ui_pimage_imv"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dp"
-            android:layout_toRightOf="@+id/main_ui_name_txtv" />
+        android:gravity="right"
+        android:minHeight="?android:attr/actionBarSize">
 
         <TextView
             android:id="@+id/main_ui_name_txtv"
@@ -39,35 +30,32 @@
             android:text=""
             android:textColor="@android:color/white"
             android:textSize="18sp" />
-    </RelativeLayout>
+        <ImageView
+            android:id="@+id/main_ui_pimage_imv"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@+id/main_ui_name_txtv" />
+
+    </android.support.v7.widget.Toolbar>
 
 
     <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/linearLayout3"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/tabLayout"
         android:layout_below="@+id/my_awesome_toolbar" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout3"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:orientation="horizontal">
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentTop="false"
+        android:background="?attr/colorPrimary" />
 
-        <com.astuetz.PagerSlidingTabStrip
-            android:id="@+id/tabs"
-            android:layout_width="fill_parent"
-            android:layout_height="60dip"
-            android:background="?attr/colorPrimary"
-            android:foregroundGravity="center_vertical|center_horizontal"
-            app:pstsDividerColor="#eaeaea"
-            app:pstsIndicatorColor="@android:color/white"
-            app:pstsIndicatorHeight="3dp"
-            app:pstsShouldExpand="true" />
-    </LinearLayout>
 
 </RelativeLayout>

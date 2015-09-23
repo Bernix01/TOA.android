@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,7 +19,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.astuetz.PagerSlidingTabStrip;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.microsoft.windowsazure.messaging.NotificationHub;
 import com.microsoft.windowsazure.notifications.NotificationsManager;
@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private GoogleCloudMessaging gcm;
     private NotificationHub hub;
     private String HubName = "toa.app";
+    private TabLayout tabLayout;
     private String HubListenConnectionString = "Endpoint=sb://toa-notifiy.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=mUFec72yDO6aiOTSkxR3Kkyo+mHg/BVnb06G3D1f5LM=";
 
     @Override
@@ -101,16 +102,19 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setLogo(R.mipmap.ic_launcher);
         getSupportActionBar().setTitle("");
-
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        ViewPager pager = (ViewPager) findViewById(R.id.pager);
+        CollectionPagerAdapter adapter = new CollectionPagerAdapter(getSupportFragmentManager(), __user.get_id());
+        pager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(pager);
+        tabLayout.getTabAt(0).setIcon(adapter.iconsTOA[0]);
+        tabLayout.getTabAt(1).setIcon(adapter.iconsTOA[1]);
+        tabLayout.getTabAt(2).setIcon(adapter.iconsTOA[2]);
         NotificationsHandlerT.mainActivity = this;
         NotificationsManager.handleNotifications(this, SENDER_ID, NotificationsHandlerT.class);
         gcm = GoogleCloudMessaging.getInstance(this);
         hub = new NotificationHub(HubName, HubListenConnectionString, this);
         registerWithNotificationHubs();
-        ViewPager pager = (ViewPager) findViewById(R.id.pager);
-        pager.setAdapter(new CollectionPagerAdapter(getSupportFragmentManager(), __user.get_id()));
-        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-        tabs.setViewPager(pager);
         final TextView name_txtv = (TextView) findViewById(R.id.main_ui_name_txtv);
         final ImageView pimage_imgv = (ImageView) findViewById(R.id.main_ui_pimage_imv);
         name_txtv.setText(__user.get_uname());

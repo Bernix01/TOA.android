@@ -8,8 +8,9 @@
     android:id="@+id/surface"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:layout_marginBottom="3dp"
-    android:background="#838383"
+    android:layout_margin="3dp"
+    android:background="#ffffff"
+    android:elevation="1dp"
     android:orientation="horizontal">
 
         <TextView
@@ -49,18 +50,15 @@
 
     <TextView
         android:id="@+id/item_row_friend_toggleFriendship"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
         android:background="@color/my_awesome_color"
-        android:paddingBottom="3dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:paddingTop="3dp"
+        android:gravity="center"
         android:text="@string/item_row_friend_frindshipdefaulttxt"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textSize="13sp" />

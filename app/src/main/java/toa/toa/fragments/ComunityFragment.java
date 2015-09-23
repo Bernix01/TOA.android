@@ -56,7 +56,7 @@ public class ComunityFragment extends android.support.v4.app.Fragment {
         JSONObject subcmd = new JSONObject();
         Log.e("idgetdata", id + "");
         try {
-            subcmd.put("statement", "MATCH (a:user)-[r:Likes]-(n:Sport) WHERE id(a)=" + id + " return n.name, n.icnurl, n.bgurl");
+            subcmd.put("statement", "MATCH (a:user)-[r:Likes]-(n:Sport) WHERE id(a)=" + id + " return n.name, n.icnurl, n.bgurl, n.icnurl_alt");
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {
@@ -72,7 +72,7 @@ public class ComunityFragment extends android.support.v4.app.Fragment {
                     Log.e("respuesta", response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row").toString());
                     int datos = data.length();
                     for (int i = 0; i < datos; i++)
-                        mrComunityArrayList.add(new MrComunity(data.getJSONObject(i).getJSONArray("row").getString(0), data.getJSONObject(i).getJSONArray("row").getString(1), data.getJSONObject(i).getJSONArray("row").getString(2)));
+                        mrComunityArrayList.add(new MrComunity(data.getJSONObject(i).getJSONArray("row").getString(0), data.getJSONObject(i).getJSONArray("row").getString(1), data.getJSONObject(i).getJSONArray("row").getString(2), data.getJSONObject(i).getJSONArray("row").getString(3)));
 
 
                     recyclerComunities.setAdapter(new ComunityAdapter(mrComunityArrayList, R.layout.comunity_row, contexto));

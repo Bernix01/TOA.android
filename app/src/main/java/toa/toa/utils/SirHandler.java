@@ -205,7 +205,7 @@ public class SirHandler {
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
         try {
-            subcmd.put("statement", "MATCH (n:Sport) RETURN n.name, n.icnurl, n.bgurl");
+            subcmd.put("statement", "MATCH (n:Sport) RETURN n.name, n.icnurl, n.bgurl, n.icnurl_alt");
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {
@@ -221,7 +221,7 @@ public class SirHandler {
                     JSONArray data = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
                     int datos = data.length();
                     for (int i = 0; i < datos; i++)
-                        sports.add(new MrComunity(data.getJSONObject(i).getJSONArray("row").getString(0), data.getJSONObject(i).getJSONArray("row").getString(1), data.getJSONObject(i).getJSONArray("row").getString(2)));
+                        sports.add(new MrComunity(data.getJSONObject(i).getJSONArray("row").getString(0), data.getJSONObject(i).getJSONArray("row").getString(1), data.getJSONObject(i).getJSONArray("row").getString(2), data.getJSONObject(i).getJSONArray("row").getString(3)));
                     retriever.goIt(sports);
                 } catch (JSONException e) {
                     Log.e("exception", e.getMessage());
@@ -284,7 +284,7 @@ public class SirHandler {
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
         try {
-            subcmd.put("statement", "MATCH (a:user)-[r:Likes]-(n:Sport) WHERE id(a)=" + user.get_id() + " return n.name, n.icnurl, n.bgurl");
+            subcmd.put("statement", "MATCH (a:user)-[r:Likes]-(n:Sport) WHERE id(a)=" + user.get_id() + " return n.name, n.icnurl, n.bgurl, n.icnurl_alt");
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {
@@ -300,7 +300,7 @@ public class SirHandler {
                     JSONArray data = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
                     int datos = data.length();
                     for (int i = 0; i < datos; i++)
-                        sports.add(new MrComunity(data.getJSONObject(i).getJSONArray("row").getString(0), data.getJSONObject(i).getJSONArray("row").getString(1), data.getJSONObject(i).getJSONArray("row").getString(2)));
+                        sports.add(new MrComunity(data.getJSONObject(i).getJSONArray("row").getString(0), data.getJSONObject(i).getJSONArray("row").getString(1), data.getJSONObject(i).getJSONArray("row").getString(2), data.getJSONObject(i).getJSONArray("row").getString(3)));
                     sportsListRetriever.goIt(sports);
 
                 } catch (JSONException e) {

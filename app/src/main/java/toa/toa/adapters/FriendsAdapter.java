@@ -103,8 +103,12 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
     private ImageView addImgv(MrComunity comunity) {
         ImageView imv = new ImageView(contexto);
         Resources r = contexto.getResources();
-        int wh = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 25, r.getDisplayMetrics()));
-        Picasso.with(contexto).load(comunity.getComunityImg()).resize(wh, wh).into(imv);
+        int wh = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, r.getDisplayMetrics()));
+        Picasso.with(contexto).load(comunity.getComunityImgAlt()).resize(wh, wh).into(imv);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            imv.setElevation(1);
+        }
         return imv;
     }
 

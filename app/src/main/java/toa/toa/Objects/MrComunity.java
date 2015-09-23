@@ -25,12 +25,14 @@ public class MrComunity implements Parcelable {
     private String comunityName;
     private String comunityImg;
     private String comunityBack;
+    private String comunityImgAlt;
     private Boolean isChecked = false;
 
-    public MrComunity(String comunityName, String comunityImg, String comunityBack) {
+    public MrComunity(String comunityName, String comunityImg, String comunityBack, String comunityImgAlt) {
         this.comunityName = comunityName;
         this.comunityImg = comunityImg;
         this.comunityBack = comunityBack;
+        this.comunityImgAlt = comunityImgAlt;
     }
 
     protected MrComunity(Parcel in) {
@@ -44,24 +46,18 @@ public class MrComunity implements Parcelable {
         return comunityName;
     }
 
-    public void setComunityName(String comunityName) {
-        this.comunityName = comunityName;
-    }
 
     public String getComunityImg() {
         return comunityImg;
     }
 
-    public void setComunityImg(String comunityImg) {
-        this.comunityImg = comunityImg;
-    }
 
     public String getComunityBack() {
         return comunityBack;
     }
 
-    public void setComunityBack(String comunityBack) {
-        this.comunityBack = comunityBack;
+    public String getComunityImgAlt() {
+        return comunityImgAlt;
     }
 
     public Boolean getIsChecked() {
