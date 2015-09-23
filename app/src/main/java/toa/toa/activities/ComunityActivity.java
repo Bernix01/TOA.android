@@ -4,35 +4,38 @@
 
 package toa.toa.activities;
 
-import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.astuetz.PagerSlidingTabStrip;
 import com.squareup.picasso.Picasso;
 
-import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+import jp.wasabeef.picasso.transformations.BlurTransformation;
 import toa.toa.Objects.MrComunity;
 import toa.toa.Objects.MrUser;
-import toa.toa.ProfileActivity;
 import toa.toa.R;
 import toa.toa.adapters.CollectionPagerComunityAdapter;
 import toa.toa.utils.SirHandler;
 
 public class ComunityActivity extends AppCompatActivity {
+    TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comuity);
+
+
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+
+
+
         final MrComunity com = getIntent().getParcelableExtra("sport");
         final TextView sportName = (TextView) findViewById(R.id.sport_name_txtv);
         final ImageView sportImage = (ImageView) findViewById(R.id.sport_imgv);
@@ -42,54 +45,21 @@ public class ComunityActivity extends AppCompatActivity {
         final TextView name_txtv = (TextView) findViewById(R.id.main_ui_name_txtv);
         final ImageView pimage_imgv = (ImageView) findViewById(R.id.main_ui_pimage_imv);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
-        toolbar.getBackground().setAlpha(0);
+        final ImageView hback = (ImageView) findViewById(R.id.himgbackcom);
+        if (!com.getComunityBack().isEmpty())
+            Picasso.with(getApplicationContext()).load(com.getComunityBack()).fit().centerCrop().transform(new BlurTransformation(getApplicationContext(), 10)).into(hback);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         final MrUser currentUser = SirHandler.getCurrentUser(getApplicationContext());
         ViewPager pager = (ViewPager) findViewById(R.id.sportPager);
         pager.setAdapter(new CollectionPagerComunityAdapter(getSupportFragmentManager(), com));
-        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.sportTabs);
-        tabs.setViewPager(pager);
-        name_txtv.setText(currentUser.get_uname());
-        name_txtv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-                startActivity(i);
-            }
-        });
-        pimage_imgv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-                startActivity(i);
-            }
-        });
-        if (!currentUser.get_pimage().isEmpty()) {
-            Picasso.with(getApplicationContext()).load(currentUser.get_pimage()).transform(new CropCircleTransformation()).into(pimage_imgv);
-        } else {
-            Picasso.with(getApplicationContext()).load(R.drawable.defaultpimage).transform(new CropCircleTransformation()).into(pimage_imgv);
-        }
-    }
-
-    public int getStatusBarHeight() {
-        int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
-    }
-
-    public int getNavigationBarHeight() {
-        Resources resources = getApplicationContext().getResources();
-        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            return resources.getDimensionPixelSize(resourceId);
-        }
-        return 0;
+        tabLayout.setupWithViewPager(pager);
+        tabLayout.getTabAt(0).setIcon(R.drawable.menbers_icon);
+        tabLayout.getTabAt(1).setIcon(R.drawable.comunidades_white);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ubication_white);
+        tabLayout.getTabAt(3).setIcon(R.drawable.calendario_white);
+        tabLayout.setBackgroundColor(getColor(android.R.color.transparent));
     }
 
     @Override

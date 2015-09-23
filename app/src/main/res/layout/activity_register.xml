@@ -51,13 +51,13 @@
             android:id="@+id/reg_last_name_cnt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/reg_name_cnt">
+            android:layout_below="@+id/reg_name_cnt"
+            android:layout_marginTop="10dp">
 
             <EditText
                 android:id="@+id/reg_last_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:ems="10"
                 android:hint="@string/reg_apellidos_etxt"
                 android:inputType="textPersonName"
@@ -67,13 +67,13 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/reg_last_name_cnt">
+            android:layout_below="@+id/reg_last_name_cnt"
+            android:layout_marginTop="10dp">
 
             <EditText
                 android:id="@+id/reg_usr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:ems="10"
                 android:hint="@string/reg_usuario_etxt"
                 android:inputType="text"
@@ -84,14 +84,14 @@
             android:id="@+id/reg_pw_cnt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/reg_last_name_cnt">
+            android:layout_below="@+id/reg_last_name_cnt"
+            android:layout_marginTop="10dp">
 
             <EditText
                 android:id="@+id/reg_pw"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/reg_usr"
-                android:layout_marginTop="10dp"
                 android:ems="10"
                 android:inputType="textPassword"
                 android:textSize="14sp" />
@@ -101,14 +101,14 @@
             android:id="@+id/reg_email_cnt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/reg_pw_cnt">
+            android:layout_below="@+id/reg_pw_cnt"
+            android:layout_marginTop="10dp">
 
             <EditText
                 android:id="@+id/reg_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/reg_pw"
-                android:layout_marginTop="10dp"
                 android:ems="10"
                 android:hint="@string/reg_email_etxt"
                 android:inputType="textEmailAddress"

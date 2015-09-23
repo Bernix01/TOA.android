@@ -21,7 +21,6 @@ import android.widget.Toast;
 import com.dd.CircularProgressButton;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -158,7 +157,7 @@ public class RegisterActivity extends ActionBarActivity {
         }
         RestApi.post("/node/", data, new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject responseBody) {
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject responseBody) {
                 Log.e("statuscode", "" + statusCode);
                 try {
                     JSONObject meta = responseBody.getJSONObject("metadata");
@@ -176,7 +175,7 @@ public class RegisterActivity extends ActionBarActivity {
                     RestApi.post("/node/" + user.get_id() + "/labels", "\"user\"", new JsonHttpResponseHandler() {
 
                         @Override
-                        public void onSuccess(int statusCode, Header[] headers, JSONObject responseBody) {
+                        public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject responseBody) {
                             Log.e("responsebody", responseBody.toString() + "  ");
                             if (statusCode == 204) {
                                 SirHandler.registerCurrentUser(user, Base64.encodeToString((usr.getText().toString() + pw.getText().toString()).getBytes(), Base64.DEFAULT));
@@ -189,7 +188,7 @@ public class RegisterActivity extends ActionBarActivity {
                         }
 
                         @Override
-                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                        public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, JSONObject errorResponse) {
                             btn.setProgress(-1);
                             Log.e("register error D:", errorResponse.toString() + " ");
                             try {
@@ -218,22 +217,20 @@ public class RegisterActivity extends ActionBarActivity {
             private void deleteBadNode(int id) {
                 RestApi._delete(id, new JsonHttpResponseHandler() {
                     @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        super.onSuccess(statusCode, headers, response);
+                    public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                         isDoingReg = false;
                         Log.e("delete", "deleted");
                     }
 
                     @Override
-                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                        super.onFailure(statusCode, headers, throwable, errorResponse);
+                    public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, JSONObject errorResponse) {
                         Log.e("delete", "oh oh");
                     }
                 });
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.e("error", "code: " + statusCode + " " + errorResponse.toString());
             }
         });

@@ -77,10 +77,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         SirHandler.initialize(getApplicationContext());
-        final TextView name_txtv = (TextView) findViewById(R.id.main_ui_name_txtv);
-        final ImageView pimage_imgv = (ImageView) findViewById(R.id.main_ui_pimage_imv);
         SharedPreferences userDetails = getApplicationContext().getSharedPreferences("appData", MODE_PRIVATE);
         int firstTime = userDetails.getInt("firstTme", 1);
         __user = SirHandler.getCurrentUser(getApplicationContext());
@@ -98,10 +95,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(Splash);
             finish();
         }
+        setContentView(R.layout.activity_main);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setLogo(R.mipmap.ic_launcher);
+        getSupportActionBar().setTitle("");
 
         NotificationsHandlerT.mainActivity = this;
         NotificationsManager.handleNotifications(this, SENDER_ID, NotificationsHandlerT.class);
@@ -112,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
         pager.setAdapter(new CollectionPagerAdapter(getSupportFragmentManager(), __user.get_id()));
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabs.setViewPager(pager);
+        final TextView name_txtv = (TextView) findViewById(R.id.main_ui_name_txtv);
+        final ImageView pimage_imgv = (ImageView) findViewById(R.id.main_ui_pimage_imv);
         name_txtv.setText(__user.get_uname());
         name_txtv.setOnClickListener(new View.OnClickListener() {
             @Override

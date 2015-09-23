@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
 
-import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -66,7 +65,7 @@ public class ComunityFragment extends android.support.v4.app.Fragment {
         RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                 Log.e("response", response.toString());
                 try {
                     JSONArray data = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
@@ -83,7 +82,7 @@ public class ComunityFragment extends android.support.v4.app.Fragment {
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
                 Log.e("error", "code: " + statusCode + " " + throwable.toString());
             }
         });

@@ -18,7 +18,6 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -90,12 +89,12 @@ public class DetailFragment extends Fragment {
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(Constantes.GET_BY_ID + "?idMeta=" + extra, new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                 procesarRespuesta(response);
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
                 Log.e("cargarAdaptador error", responseString);
                 Log.e("cargarAdaptador error", throwable.getMessage());
             }

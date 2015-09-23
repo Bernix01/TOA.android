@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -76,12 +75,12 @@ public class ConsejosNutricionalesFragment extends android.support.v4.app.Fragme
         AsyncHttpClient client = new AsyncHttpClient();
         client.get("http://www.mundotoa.co/api/obtener_consejo.php", new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                 procesarRespuesta(response);
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
                 Log.e("cargarAdaptador error", responseString);
                 Log.e("cargarAdaptador error", throwable.getMessage());
             }

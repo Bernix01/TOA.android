@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.dd.CircularProgressButton;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -83,7 +82,7 @@ public class LoginActivity extends Activity {
             cmd.put("statements", statements);
             RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
                 @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                     try {
                         Log.i("got it!", statusCode + " " + response + "  " + _user);
                         sigIn.setProgress(100);
@@ -109,12 +108,12 @@ public class LoginActivity extends Activity {
                 }
 
                 @Override
-                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
                     Log.e("error", "code: " + statusCode + " " + throwable.toString());
                 }
 
                 @Override
-                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, JSONObject errorResponse) {
                     Log.e("error", throwable.getMessage() + "  " + errorResponse.toString());
                 }
             });

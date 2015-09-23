@@ -15,7 +15,6 @@ import android.view.MenuItem;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -78,7 +77,7 @@ public class LoadingSplash extends AppCompatActivity {
             item_to_send.put("statements", statements);
             RestApi.post("/transaction/commit", item_to_send, new JsonHttpResponseHandler() {
                 @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                     Log.e("error", response.toString());
                     try {
 
@@ -102,7 +101,7 @@ public class LoadingSplash extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, JSONObject errorResponse) {
                     Log.e("registered", "failure error... " + errorResponse.toString());
 
                 }

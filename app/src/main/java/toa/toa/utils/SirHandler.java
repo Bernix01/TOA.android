@@ -13,7 +13,6 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.squareup.picasso.Picasso;
 
-import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -88,17 +87,17 @@ public class SirHandler {
         }
 
         RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
-
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                 Log.i("friendship", response.toString() + " ");
                 simpleCallbackClass.goIt();
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
                 Log.e("error", "code: " + statusCode + " " + throwable.toString());
             }
+
         });
     }
 
@@ -118,7 +117,7 @@ public class SirHandler {
         RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
 
                 Log.e("response", response.toString());
                 try {
@@ -157,7 +156,7 @@ public class SirHandler {
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
                 Log.e("error", "code: " + statusCode + " " + throwable.toString());
             }
         });
@@ -180,7 +179,7 @@ public class SirHandler {
         RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
 
                 Log.e("response", response.toString());
                 try {
@@ -194,7 +193,7 @@ public class SirHandler {
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
                 Log.e("error", "code: " + statusCode + " " + throwable.toString());
             }
         });
@@ -216,7 +215,7 @@ public class SirHandler {
         RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                 ArrayList<MrComunity> sports = new ArrayList<MrComunity>();
                 try {
                     JSONArray data = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
@@ -230,7 +229,7 @@ public class SirHandler {
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
                 Log.e("error", "code: " + statusCode + " " + throwable.toString());
                 retriever.failure(throwable.toString());
             }
@@ -295,7 +294,7 @@ public class SirHandler {
         RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                 ArrayList<MrComunity> sports = new ArrayList<MrComunity>();
                 try {
                     JSONArray data = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
@@ -310,7 +309,7 @@ public class SirHandler {
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
                 Log.e("error", "code: " + statusCode + " " + throwable.toString());
                 sportsListRetriever.failure(throwable.toString());
             }
@@ -366,12 +365,12 @@ public class SirHandler {
         }
         RestApi.put("/node/" + SirHandler._currentUser.get_id() + "/properties", user, new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                 Toast.makeText(mcontext, "Profile updated successfully", Toast.LENGTH_LONG).show();
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
                 Toast.makeText(mcontext, "Could not update profile :(", Toast.LENGTH_LONG).show();
             }
         });
@@ -382,7 +381,7 @@ public class SirHandler {
         final MrUser user = new MrUser();
         RestApi.get("/node/" + id, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                 Log.i("getUserById", "got something");
                 JSONObject data;
                 new JSONObject();
@@ -410,7 +409,7 @@ public class SirHandler {
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
                 //TODO handle network error
             }
         });
@@ -432,7 +431,7 @@ public class SirHandler {
         RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                 Log.e("response", response.toString());
                 try {
                     final ArrayList<MrUser> friends = new ArrayList<MrUser>();
@@ -471,7 +470,7 @@ public class SirHandler {
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
                 Log.e("error", "code: " + statusCode + " " + throwable.toString());
                 retriever.failure(throwable.toString());
             }
@@ -494,7 +493,7 @@ public class SirHandler {
         RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                 try {
                     final ArrayList<MrUser> friends = new ArrayList<MrUser>();
                     JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
@@ -531,7 +530,7 @@ public class SirHandler {
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
                 Log.e("error", "code: " + statusCode + " " + throwable.toString());
                 retriever.failure(throwable.toString());
             }
@@ -554,7 +553,7 @@ public class SirHandler {
         RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                 Log.e("response", response.toString());
                 try {
                     ArrayList<MrPlace> places = new ArrayList<MrPlace>();
@@ -592,7 +591,7 @@ public class SirHandler {
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
                 Log.e("errorPlace", "code: " + statusCode + " " + throwable.toString());
                 //  retriever.failure(throwable.toString());
             }
@@ -616,7 +615,7 @@ public class SirHandler {
         RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                 Log.i("resonse", response.toString());
                 try {
                     ArrayList<MrEvent> events = new ArrayList<MrEvent>();
@@ -650,7 +649,7 @@ public class SirHandler {
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
                 Log.e("error", "code: " + statusCode + " " + throwable.toString());
                 retriever.failure(throwable.toString());
             }
@@ -671,7 +670,7 @@ public class SirHandler {
         }
         RestApi.post("/node/" + _currentUser.get_id() + "/relationships", eventRel, new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, org.apache.http.Header[] headers, JSONObject response) {
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                 if (statusCode == 201) {
                     try {
                         AgendaMan.saveEvent(response.getJSONObject("metadata").getInt("id"));
@@ -684,7 +683,7 @@ public class SirHandler {
             }
 
             @Override
-            public void onFailure(int statusCode, org.apache.http.Header[] headers, Throwable throwable, JSONObject errorResponse) {
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Toast.makeText(mcontext, "Failed to register event, please try again later.", Toast.LENGTH_LONG).show();
             }
         });
@@ -704,12 +703,12 @@ public class SirHandler {
         RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                 Log.d("EventDel", "No longer going to event: " + event.getId());
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
                 Log.e("error", "code: " + statusCode + " " + throwable.toString());
             }
         });
@@ -729,7 +728,7 @@ public class SirHandler {
         RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                 try {
                     ArrayList<MrEvent> events = new ArrayList<MrEvent>();
                     JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
@@ -767,7 +766,7 @@ public class SirHandler {
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
                 Log.e("error", "code: " + statusCode + " " + throwable.toString());
             }
         });

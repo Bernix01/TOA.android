@@ -13,7 +13,7 @@
         android:id="@+id/my_awesome_toolbar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="#00ffffff"
+        android:background="?attr/colorPrimary"
         android:minHeight="?android:attr/actionBarSize" />
 
     <RelativeLayout
@@ -36,7 +36,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="3dp"
-            android:text="Guillermo Bernal"
+            android:text=""
+            android:textColor="@android:color/white"
             android:textSize="18sp" />
     </RelativeLayout>
 
@@ -61,9 +62,10 @@
             android:id="@+id/tabs"
             android:layout_width="fill_parent"
             android:layout_height="60dip"
+            android:background="?attr/colorPrimary"
             android:foregroundGravity="center_vertical|center_horizontal"
-            app:pstsDividerColor="@android:color/white"
-            app:pstsIndicatorColor="@color/my_awesome_color"
+            app:pstsDividerColor="#eaeaea"
+            app:pstsIndicatorColor="@android:color/white"
             app:pstsIndicatorHeight="3dp"
             app:pstsShouldExpand="true" />
     </LinearLayout>

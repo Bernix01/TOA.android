@@ -6,16 +6,22 @@ apply plugin: 'com.android.application'
 
 android {
     signingConfigs {
+        release {
+            keyAlias 'TOA.Android'
+            keyPassword 'Zrbf3V84uL8hfJSy'
+            storeFile file('D:/DATA/Projects/Toa/TOA.android/TOA.jks')
+            storePassword 'Zrbf3V84uL8hfJSy'
+        }
     }
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
-    useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "toa.toa"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 4
-        versionName "1.1.2"
+        versionCode 5
+        versionName "1.2"
+        renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
         multiDexEnabled true
     }
@@ -23,12 +29,14 @@ android {
         release {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             minifyEnabled true
+            shrinkResources true
+            signingConfig signingConfigs.release
         }
         debug {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             minifyEnabled true
+            shrinkResources true
         }
-
     }
     dexOptions {
         javaMaxHeapSize "4g"
@@ -50,7 +58,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.0.1'
     compile 'com.github.paolorotolo:appintro:3.2.0'
     compile 'com.android.support:support-v4:23.0.1'
-    compile 'com.loopj.android:android-async-http:1.4.8'
+    compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'jp.wasabeef:picasso-transformations:1.0.5'
     compile 'com.getbase.android.db:library:0.11.0'
     compile 'com.android.support:gridlayout-v7:23.0.1'

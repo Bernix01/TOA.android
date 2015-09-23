@@ -3,6 +3,7 @@ package toa.toa;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -10,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -50,7 +50,7 @@ public class FirstTime extends AppCompatActivity {
                 GridLayoutManager gm = new GridLayoutManager(getApplicationContext(), 2);
                 rclr.setLayoutManager(gm);
                 rclr.setAdapter(adapt);
-                Button contiue = (Button) findViewById(R.id.finish_register);
+                FloatingActionButton contiue = (FloatingActionButton) findViewById(R.id.finish_register);
                 contiue.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

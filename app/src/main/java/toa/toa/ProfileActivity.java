@@ -119,10 +119,7 @@ public class ProfileActivity extends AppCompatActivity {
                     @Override
                     public void goIt() {
                         Intent i = new Intent(getApplicationContext(), Splash_Activity.class);
-                        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(i);
                         finish();
                     }
