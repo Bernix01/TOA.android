@@ -40,7 +40,7 @@ public class NotificationsHandlerT extends NotificationsHandler {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(ctx)
-                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setSmallIcon(R.drawable.notif)
                         .setContentTitle("Notification Hub Demo")
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(msg))

@@ -18,7 +18,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import toa.toa.Objects.MrComunity;
 import toa.toa.Objects.MrEvent;
@@ -299,10 +298,15 @@ public class SirHandler {
                 try {
                     JSONArray data = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
                     int datos = data.length();
-                    for (int i = 0; i < datos; i++)
-                        sports.add(new MrComunity(data.getJSONObject(i).getJSONArray("row").getString(0), data.getJSONObject(i).getJSONArray("row").getString(1), data.getJSONObject(i).getJSONArray("row").getString(2), data.getJSONObject(i).getJSONArray("row").getString(3)));
+                    ArrayList<String> sportsl = new ArrayList<String>();
+                    for (int a = 0; a < datos; a++) {
+                        JSONObject i = data.getJSONObject(a);
+                        sports.add(new MrComunity(i.getJSONArray("row").getString(0), i.getJSONArray("row").getString(1), i.getJSONArray("row").getString(2), i.getJSONArray("row").getString(3)));
+                        sportsl.add(i.getJSONArray("row").getString(0));
+                    }
                     sportsListRetriever.goIt(sports);
-
+                    sportsl.add("android");
+                    sportsListRetriever.gotString(sportsl);
                 } catch (JSONException e) {
                     Log.e("exception", e.getMessage());
                 }
@@ -657,23 +661,26 @@ public class SirHandler {
     }
 
     public void registerEvent(MrEvent event) {
-        //TODO CYPHER IT! SH*T!
-        JSONObject eventRel = new JSONObject();
+        JSONObject cmd = new JSONObject();
+        JSONArray cmds = new JSONArray();
+        JSONObject subcmd = new JSONObject();
         try {
-            eventRel.put("to", RestApi.getBaseUrl());
-            eventRel.put("type", RestApi.EVENTRELTYPE);
-            eventRel.put("data", new JSONObject("{\n" +
-                    "    \"date\" : \"" + (new Date()).toString() + "\"\n" +
-                    "  }"));
+            subcmd.put("statement", "MATCH (n:user),(a:Event) WHERE id(a)=" + event.getId() + " AND id(n)=" + _currentUser.get_id() + " CREATE UNIQUE (n)-[r:isGoing]->(a) RETURN id(r),r");
+            cmds.put(subcmd);
+            cmd.put("statements", cmds);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        RestApi.post("/node/" + _currentUser.get_id() + "/relationships", eventRel, new JsonHttpResponseHandler() {
+
+        RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                 if (statusCode == 201) {
                     try {
-                        AgendaMan.saveEvent(response.getJSONObject("metadata").getInt("id"));
+
+                        JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
+                        JSONObject udata = dataf.getJSONObject(0).getJSONArray("row").getJSONObject(1);
+                        AgendaMan.saveEvent(dataf.getJSONObject(0).getJSONArray("row").getInt(0));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

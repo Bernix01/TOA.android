@@ -13,6 +13,7 @@
         android:id="@+id/topcnt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
         android:elevation="1dp">
 
         <ImageView
@@ -28,7 +29,8 @@
             android:id="@+id/my_awesome_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="?attr/actionBarSize" />
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark" />
 
 
         <ImageView
@@ -49,6 +51,7 @@
             android:layout_marginTop="10dp"
             android:text="Nombre"
             android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/white"
             android:textStyle="bold" />
 
         <TextView
@@ -60,6 +63,7 @@
             android:layout_marginTop="5dp"
             android:text="bio"
             android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@android:color/white"
             android:textSize="15sp"
             android:textStyle="bold" />
 
@@ -95,6 +99,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="Deportistas"
+                    android:textColor="@android:color/white"
                     android:textSize="17sp" />
             </LinearLayout>
 
@@ -118,6 +123,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="Agenda"
+                    android:textColor="@android:color/white"
                     android:textSize="17sp" />
             </LinearLayout>
         </LinearLayout>
@@ -141,7 +147,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:text="@string/my_sports"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="?attr/colorPrimary" />
 
         <toa.toa.utils.AutofitRecyclerView
             android:id="@+id/profile_sports_recycler"
@@ -161,7 +168,8 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:text="@string/edit_coms"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="?attr/colorPrimaryDark" />
 
     </RelativeLayout>
 </RelativeLayout>

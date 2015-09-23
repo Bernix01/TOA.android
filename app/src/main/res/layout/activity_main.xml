@@ -3,6 +3,7 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mainActivityLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,14 +13,18 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_awesome_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="?attr/actionBarSize"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="0dp"
         android:layout_marginTop="0dp"
         android:background="?attr/colorPrimary"
         android:gravity="right"
-        android:minHeight="?android:attr/actionBarSize">
+        android:minHeight="?android:attr/actionBarSize" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
 
         <TextView
             android:id="@+id/main_ui_name_txtv"
@@ -27,20 +32,19 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="3dp"
+            android:layout_toLeftOf="@+id/main_ui_pimage_imv"
             android:text=""
             android:textColor="@android:color/white"
             android:textSize="18sp" />
+
         <ImageView
             android:id="@+id/main_ui_pimage_imv"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="43dp"
+            android:layout_height="43dp"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="5dp"
-            android:layout_toRightOf="@+id/main_ui_name_txtv" />
-
-    </android.support.v7.widget.Toolbar>
-
-
+            android:layout_marginRight="5dp" />
+    </RelativeLayout>
     <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/pager"
         android:layout_width="match_parent"
@@ -55,7 +59,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="false"
         android:layout_alignParentTop="false"
-        android:background="?attr/colorPrimary" />
+        android:background="?attr/colorPrimary"
+        app:tabPadding="5dp" />
 
 
 </RelativeLayout>

@@ -24,4 +24,9 @@ public class SirSportsListRetriever implements SirSportsListInterface {
 
     }
 
+    @Override
+    public void gotString(ArrayList<String> list) {
+
+    }
+
 }

@@ -24,11 +24,14 @@ import com.microsoft.windowsazure.messaging.NotificationHub;
 import com.microsoft.windowsazure.notifications.NotificationsManager;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import toa.toa.Objects.MrUser;
 import toa.toa.adapters.CollectionPagerAdapter;
 import toa.toa.utils.NotificationsHandlerT;
 import toa.toa.utils.SirHandler;
+import toa.toa.utils.misc.SirSportsListRetriever;
 
 public class MainActivity extends AppCompatActivity {
     private static Boolean isVisible = false;
@@ -53,14 +56,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @SuppressWarnings("unchecked")
-    private void registerWithNotificationHubs() {
+    private void registerWithNotificationHubs(final String[] tags) {
         new AsyncTask() {
             @Override
             protected Object doInBackground(Object... params) {
                 try {
                     String regid = gcm.register(SENDER_ID);
                     Log.i("Registered Successfully", "RegId : " +
-                            hub.register(regid).getRegistrationId());
+                            hub.register(regid, tags).getRegistrationId());
                 } catch (Exception e) {
                     Log.e("Exception", e.getMessage());
                     return e;
@@ -97,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
         setContentView(R.layout.activity_main);
+
         final Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -110,14 +114,14 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(0).setIcon(adapter.iconsTOA[0]);
         tabLayout.getTabAt(1).setIcon(adapter.iconsTOA[1]);
         tabLayout.getTabAt(2).setIcon(adapter.iconsTOA[2]);
-        NotificationsHandlerT.mainActivity = this;
-        NotificationsManager.handleNotifications(this, SENDER_ID, NotificationsHandlerT.class);
-        gcm = GoogleCloudMessaging.getInstance(this);
-        hub = new NotificationHub(HubName, HubListenConnectionString, this);
-        registerWithNotificationHubs();
         final TextView name_txtv = (TextView) findViewById(R.id.main_ui_name_txtv);
         final ImageView pimage_imgv = (ImageView) findViewById(R.id.main_ui_pimage_imv);
-        name_txtv.setText(__user.get_uname());
+        if (!__user.get_pimage().isEmpty()) {
+            Picasso.with(getApplicationContext()).load(__user.get_pimage()).transform(new CropCircleTransformation()).into(pimage_imgv);
+        } else {
+            Picasso.with(getApplicationContext()).load(R.drawable.defaultpimage).transform(new CropCircleTransformation()).into(pimage_imgv);
+        }
+        name_txtv.setText(__user.get_uname().split(" ")[0]);
         name_txtv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,11 +136,19 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        if (!__user.get_pimage().isEmpty()) {
-            Picasso.with(getApplicationContext()).load(__user.get_pimage()).transform(new CropCircleTransformation()).into(pimage_imgv);
-        } else {
-            Picasso.with(getApplicationContext()).load(R.drawable.defaultpimage).transform(new CropCircleTransformation()).into(pimage_imgv);
-        }
+
+
+        NotificationsHandlerT.mainActivity = this;
+        NotificationsManager.handleNotifications(this, SENDER_ID, NotificationsHandlerT.class);
+        gcm = GoogleCloudMessaging.getInstance(this);
+        hub = new NotificationHub(HubName, HubListenConnectionString, this);
+        SirHandler.getUserSports(__user, new SirSportsListRetriever() {
+            @Override
+            public void gotString(ArrayList<String> list) {
+                String[] a = new String[list.size()];
+                registerWithNotificationHubs(list.toArray(a));
+            }
+        });
     }
 
     public int getStatusBarHeight() {

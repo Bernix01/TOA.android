@@ -57,9 +57,9 @@ public class ComunityActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(pager);
         tabLayout.getTabAt(0).setIcon(R.drawable.menbers_icon);
         tabLayout.getTabAt(1).setIcon(R.drawable.comunidades_white);
-        tabLayout.getTabAt(2).setIcon(R.drawable.ubication_white);
-        tabLayout.getTabAt(3).setIcon(R.drawable.calendario_white);
-        tabLayout.setBackgroundColor(getColor(android.R.color.transparent));
+        tabLayout.getTabAt(2).setIcon(R.drawable.calendario_white);
+        tabLayout.getTabAt(3).setIcon(R.drawable.ubication_white);
+        tabLayout.setBackgroundColor(getResources().getColor(android.R.color.transparent));
     }
 
     @Override

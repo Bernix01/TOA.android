@@ -23,5 +23,6 @@ public interface SirSportsListInterface {
      */
     void failure(String error);
 
+    void gotString(ArrayList<String> list);
 
 }
