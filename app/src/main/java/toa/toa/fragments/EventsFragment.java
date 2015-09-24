@@ -15,7 +15,7 @@ import com.malinskiy.superrecyclerview.SuperRecyclerView;
 
 import java.util.ArrayList;
 
-import toa.toa.Objects.MrComunity;
+import toa.toa.Objects.MrCommunity;
 import toa.toa.Objects.MrEvent;
 import toa.toa.R;
 import toa.toa.adapters.EventsAdapter;
@@ -24,7 +24,7 @@ import toa.toa.utils.misc.SirEventsRetriever;
 
 public class EventsFragment extends android.support.v4.app.Fragment {
     private static final String ARG_PARAM1 = "sport";
-    private MrComunity com;
+    private MrCommunity com;
 
     public EventsFragment() {
         // Required empty public constructor

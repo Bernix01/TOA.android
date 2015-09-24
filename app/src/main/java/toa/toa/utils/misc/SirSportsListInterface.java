@@ -6,7 +6,7 @@ package toa.toa.utils.misc;
 
 import java.util.ArrayList;
 
-import toa.toa.Objects.MrComunity;
+import toa.toa.Objects.MrCommunity;
 
 /**
  * Created by Guillermo on 7/19/2015.
@@ -16,7 +16,7 @@ public interface SirSportsListInterface {
     /**
      * @param comunities
      */
-    void goIt(ArrayList<MrComunity> comunities);
+    void goIt(ArrayList<MrCommunity> comunities);
 
     /**
      * @param error

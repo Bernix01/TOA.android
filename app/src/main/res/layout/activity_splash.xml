@@ -2,7 +2,6 @@
     android:id="@+id/top_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bkg_inicio"
     android:fitsSystemWindows="true">
 
     <ImageView

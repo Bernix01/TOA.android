@@ -19,7 +19,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import toa.toa.Objects.MrComunity;
+import cz.msebera.android.httpclient.Header;
+import toa.toa.Objects.MrCommunity;
 import toa.toa.Objects.MrEvent;
 import toa.toa.Objects.MrPlace;
 import toa.toa.Objects.MrUser;
@@ -136,7 +137,7 @@ public class SirHandler {
                                 tryGetString(udata, "pimageurl"));
                         getUserSports(temp, new SirSportsListRetriever() {
                             @Override
-                            public void goIt(ArrayList<MrComunity> sports) {
+                            public void goIt(ArrayList<MrCommunity> sports) {
                                 MrUser finalU = temp.withSports(sports);
                                 friends.add(finalU);
                                 if (friends.size() == datos)
@@ -215,12 +216,12 @@ public class SirHandler {
 
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
-                ArrayList<MrComunity> sports = new ArrayList<MrComunity>();
+                ArrayList<MrCommunity> sports = new ArrayList<MrCommunity>();
                 try {
                     JSONArray data = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
                     int datos = data.length();
                     for (int i = 0; i < datos; i++)
-                        sports.add(new MrComunity(data.getJSONObject(i).getJSONArray("row").getString(0), data.getJSONObject(i).getJSONArray("row").getString(1), data.getJSONObject(i).getJSONArray("row").getString(2), data.getJSONObject(i).getJSONArray("row").getString(3)));
+                        sports.add(new MrCommunity(data.getJSONObject(i).getJSONArray("row").getString(0), data.getJSONObject(i).getJSONArray("row").getString(1), data.getJSONObject(i).getJSONArray("row").getString(2), data.getJSONObject(i).getJSONArray("row").getString(3)));
                     retriever.goIt(sports);
                 } catch (JSONException e) {
                     Log.e("exception", e.getMessage());
@@ -294,14 +295,14 @@ public class SirHandler {
 
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
-                ArrayList<MrComunity> sports = new ArrayList<MrComunity>();
+                ArrayList<MrCommunity> sports = new ArrayList<MrCommunity>();
                 try {
                     JSONArray data = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
                     int datos = data.length();
                     ArrayList<String> sportsl = new ArrayList<String>();
                     for (int a = 0; a < datos; a++) {
                         JSONObject i = data.getJSONObject(a);
-                        sports.add(new MrComunity(i.getJSONArray("row").getString(0), i.getJSONArray("row").getString(1), i.getJSONArray("row").getString(2), i.getJSONArray("row").getString(3)));
+                        sports.add(new MrCommunity(i.getJSONArray("row").getString(0), i.getJSONArray("row").getString(1), i.getJSONArray("row").getString(2), i.getJSONArray("row").getString(3)));
                         sportsl.add(i.getJSONArray("row").getString(0));
                     }
                     sportsListRetriever.goIt(sports);
@@ -321,9 +322,8 @@ public class SirHandler {
 
     }
 
-    public void fetchUserData(final String hash) {
-        SharedPreferences userDetails = mcontext.getSharedPreferences("u_data", Context.MODE_PRIVATE);
-        final int _id = userDetails.getInt("n_id", -1);
+    protected static void fetchUserData(final String hash) {
+        final int _id = SirHandler._currentUser.get_id();
         getUserById(_id, new SirUserRetrieverClass() {
             @Override
             public void goIt(MrUser user) {
@@ -342,13 +342,13 @@ public class SirHandler {
 
     }
 
-    public void updateUserAsync(MrUser newUser) {
+    public static void updateUserAsync(MrUser newUser) {
         SirHandler._currentUser = newUser;
         updateRemoteData();
         fetchUserData(__hash);
     }
 
-    private void updateRemoteData() {
+    protected static void updateRemoteData() {
         JSONObject user = new JSONObject();
         try {
             user.put("email", SirHandler._currentUser.get_email());
@@ -358,7 +358,7 @@ public class SirHandler {
             user.put("gender", SirHandler._currentUser.get_gender());
             user.put("age", SirHandler._currentUser.get_age());
             user.put("pimageurl", SirHandler._currentUser.get_pimage());
-            user.put("pw", (__hash.trim() + "\n").trim());
+            user.put("pw", __hash.trim());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -380,7 +380,7 @@ public class SirHandler {
         });
     }
 
-    public void getUserById(int id, final SirUserRetrieverClass userRetriever) {
+    protected static void getUserById(int id, final SirUserRetrieverClass userRetriever) {
         Log.i("getUserById", "start");
         final MrUser user = new MrUser();
         RestApi.get("/node/" + id, new RequestParams(), new JsonHttpResponseHandler() {
@@ -410,6 +410,12 @@ public class SirHandler {
                     //TODO handle error
                 }
 
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                userRetriever.failure(errorResponse.toString());
+                Log.e("error getbyid", errorResponse.toString());
             }
 
             @Override
@@ -454,7 +460,7 @@ public class SirHandler {
                                 tryGetString(udata, "pimageurl"));
                         getUserSports(temp, new SirSportsListRetriever() {
                             @Override
-                            public void goIt(ArrayList<MrComunity> sports) {
+                            public void goIt(ArrayList<MrCommunity> sports) {
                                 MrUser finalU = temp.withSports(sports);
                                 friends.add(finalU);
                                 if (friends.size() == datos)
@@ -481,7 +487,7 @@ public class SirHandler {
         });
     }
 
-    public void getSportMembers(MrComunity comunity, final SirFriendsRetriever retriever) {
+    public void getSportMembers(MrCommunity comunity, final SirFriendsRetriever retriever) {
 
         JSONObject cmd = new JSONObject();
         JSONArray cmds = new JSONArray();
@@ -514,7 +520,7 @@ public class SirHandler {
                                 tryGetString(udata, "pimageurl"));
                         getUserSports(temp, new SirSportsListRetriever() {
                             @Override
-                            public void goIt(ArrayList<MrComunity> sports) {
+                            public void goIt(ArrayList<MrCommunity> sports) {
                                 MrUser finalU = temp.withSports(sports);
                                 friends.add(finalU);
                                 if (friends.size() == datos)
@@ -541,7 +547,7 @@ public class SirHandler {
         });
     }
 
-    public void getPlaces(MrComunity com, final SirPlacesRetriever retriever) {
+    public void getPlaces(MrCommunity com, final SirPlacesRetriever retriever) {
 
         JSONObject cmd = new JSONObject();
         JSONArray cmds = new JSONArray();
@@ -609,7 +615,6 @@ public class SirHandler {
         JSONObject subcmd = new JSONObject();
         try {
             subcmd.put("statement", "MATCH (n:Event)-[r:ABOUT]->(a:Sport) WHERE a.name=\"" + com + "\" RETURN n,id(n)");
-            Log.i("statement", "MATCH (n:Event)-[r:isAbout]->(a:Sport) WHERE a.name=\"" + com + "\" RETURN n,id(n)");
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {
@@ -660,7 +665,7 @@ public class SirHandler {
         });
     }
 
-    public void registerEvent(MrEvent event) {
+    public void registerEvent(MrEvent event, final Context context) {
         JSONObject cmd = new JSONObject();
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
@@ -680,7 +685,7 @@ public class SirHandler {
 
                         JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
                         JSONObject udata = dataf.getJSONObject(0).getJSONArray("row").getJSONObject(1);
-                        AgendaMan.saveEvent(dataf.getJSONObject(0).getJSONArray("row").getInt(0));
+                        AgendaMan.saveEvent(dataf.getJSONObject(0).getJSONArray("row").getInt(0), context);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

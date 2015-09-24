@@ -7,11 +7,11 @@ package toa.toa;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatDelegate;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
@@ -22,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import toa.toa.Objects.MrUser;
+import toa.toa.utils.RecoverPWActivity;
 import toa.toa.utils.RestApi;
 import toa.toa.utils.SirHandler;
 import toa.toa.utils.UtilidadesExtras;
@@ -36,16 +37,31 @@ import static toa.toa.utils.UtilidadesExtras.tryGetString;
  * Hora: 1:53.
  */
 public class LoginActivity extends Activity {
-    EditText user;
-    EditText password;
-    CircularProgressButton sigIn;
-    private AppCompatDelegate mDelegate;
+    private EditText user;
+    private EditText password;
+    private TextView go_reg;
+    private TextView go_forgotten;
+    private CircularProgressButton sigIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         user = (EditText) findViewById(R.id.user_etxt);
+        go_reg = (TextView) findViewById(R.id.go_register);
+        go_reg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
+            }
+        });
+        go_forgotten = (TextView) findViewById(R.id.go_forgotten);
+        go_forgotten.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), RecoverPWActivity.class));
+            }
+        });
         password = (EditText) findViewById(R.id.pw_etxt);
         sigIn = (CircularProgressButton) findViewById(R.id.bttn_sigIn);
         sigIn.setIndeterminateProgressMode(true);
@@ -77,7 +93,7 @@ public class LoginActivity extends Activity {
         final JSONArray statements = new JSONArray();
         try {
             JSONObject subcmd = new JSONObject();
-            subcmd.put("statement", "MATCH (n:user) WHERE n.pw=\"" + _user + "\" RETURN id(n), n.u_name, n.name, n.bio, n.gender, n.email, n.pimageurl");
+            subcmd.put("statement", "MATCH (n:user) WHERE n.pw=\"" + _user.trim() + "\" RETURN id(n), n.u_name, n.name, n.bio, n.gender, n.email, n.pimageurl");
             statements.put(subcmd);
             cmd.put("statements", statements);
             RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {

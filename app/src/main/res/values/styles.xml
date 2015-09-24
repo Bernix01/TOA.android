@@ -41,11 +41,15 @@
         <item name="android:orientation">horizontal</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">#ff414141</item>
+        <item name="android:background">#fff</item>
         <item name="android:padding">10dp</item>
         <item name="android:layout_marginTop">10dp</item>
         <item name="android:elevation" tools:targetApi="21">1dp</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
 </resources>

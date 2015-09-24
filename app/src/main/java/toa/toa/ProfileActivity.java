@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 import jp.wasabeef.picasso.transformations.BlurTransformation;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
-import toa.toa.Objects.MrComunity;
+import toa.toa.Objects.MrCommunity;
 import toa.toa.Objects.MrUser;
 import toa.toa.adapters.ProfileSportsAdapter;
 import toa.toa.utils.SirHandler;
@@ -79,7 +79,7 @@ public class ProfileActivity extends AppCompatActivity {
         SirHandler handler = new SirHandler(getApplicationContext());
         SirHandler.getUserSports(_user, new SirSportsListRetriever() {
             @Override
-            public void goIt(ArrayList<MrComunity> sports) {
+            public void goIt(ArrayList<MrCommunity> sports) {
                 ProfileSportsAdapter adapter = new ProfileSportsAdapter(sports, getApplicationContext());
                 sportsrecycler.setAdapter(adapter);
             }
@@ -118,7 +118,7 @@ public class ProfileActivity extends AppCompatActivity {
                 SirHandler.logout(new SimpleCallbackClass() {
                     @Override
                     public void goIt() {
-                        Intent i = new Intent(getApplicationContext(), Splash_Activity.class);
+                        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(i);
                         finish();

@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import toa.toa.Objects.MrComunity;
+import toa.toa.Objects.MrCommunity;
 import toa.toa.R;
 import toa.toa.fragments.EventsFragment;
 import toa.toa.fragments.MembersFragment;
@@ -22,9 +22,9 @@ public class CollectionPagerComunityAdapter extends FragmentStatePagerAdapter {
 
     private final int[] iconsTOA = {R.drawable.comunidades_white, R.drawable.ubication_white, R.drawable.calendario_white, R.drawable.shop_white};
     private String[] titles = {"Comunidades", "bllablabla", "balblalbalba", ":V"};
-    private MrComunity com;
+    private MrCommunity com;
 
-    public CollectionPagerComunityAdapter(FragmentManager fm, MrComunity com) {
+    public CollectionPagerComunityAdapter(FragmentManager fm, MrCommunity com) {
         super(fm);
         this.com = com;
     }

@@ -7,7 +7,7 @@ package toa.toa.utils.misc;
 
 import java.util.ArrayList;
 
-import toa.toa.Objects.MrComunity;
+import toa.toa.Objects.MrCommunity;
 
 /**
  * Created by Guillermo on 7/19/2015.
@@ -15,7 +15,7 @@ import toa.toa.Objects.MrComunity;
 public class SirSportsListRetriever implements SirSportsListInterface {
 
     @Override
-    public void goIt(ArrayList<MrComunity> sports) {
+    public void goIt(ArrayList<MrCommunity> sports) {
 
     }
 

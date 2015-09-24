@@ -12,7 +12,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import toa.toa.Objects.MrComunity;
+import toa.toa.Objects.MrCommunity;
 import toa.toa.R;
 
 /**
@@ -21,9 +21,9 @@ import toa.toa.R;
 public class ProfileSportsAdapter extends RecyclerView.Adapter<ProfileSportsAdapter.ViewHolder> {
 
     private static Context contexto;
-    private ArrayList<MrComunity> comunities;
+    private ArrayList<MrCommunity> comunities;
 
-    public ProfileSportsAdapter(ArrayList<MrComunity> comunities, Context contexto) {
+    public ProfileSportsAdapter(ArrayList<MrCommunity> comunities, Context contexto) {
         this.comunities = comunities;
         ProfileSportsAdapter.contexto = contexto;
     }
@@ -37,7 +37,7 @@ public class ProfileSportsAdapter extends RecyclerView.Adapter<ProfileSportsAdap
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final MrComunity com = comunities.get(position);
+        final MrCommunity com = comunities.get(position);
         holder.comunityname.setText(com.getComunityName());
         Picasso.with(contexto).load(com.getComunityImgAlt()).into(holder.comunityIcn);
     }

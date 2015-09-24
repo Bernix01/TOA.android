@@ -19,8 +19,8 @@ android {
         applicationId "toa.toa"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 5
-        versionName "1.2"
+        versionCode 6
+        versionName "1.2.1"
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
     }
@@ -36,9 +36,6 @@ android {
             minifyEnabled true
             shrinkResources true
         }
-    }
-    dexOptions {
-        javaMaxHeapSize "4g"
     }
 }
 configurations {

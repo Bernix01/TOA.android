@@ -6,7 +6,6 @@ package toa.toa;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -20,16 +19,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.microsoft.windowsazure.messaging.NotificationHub;
 import com.microsoft.windowsazure.notifications.NotificationsManager;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
+import cz.msebera.android.httpclient.Header;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import toa.toa.Objects.MrUser;
 import toa.toa.adapters.CollectionPagerAdapter;
 import toa.toa.utils.NotificationsHandlerT;
+import toa.toa.utils.RestApi;
 import toa.toa.utils.SirHandler;
 import toa.toa.utils.misc.SirSportsListRetriever;
 
@@ -93,11 +99,13 @@ public class MainActivity extends AppCompatActivity {
             firstVisit.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(firstVisit);
             finish();
+            return;
         } else if (__user.get_id() == -1) {
-            Intent Splash = new Intent(getApplicationContext(), Splash_Activity.class);
+            Intent Splash = new Intent(getApplicationContext(), RegisterActivity.class);
             Splash.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(Splash);
             finish();
+            return;
         }
         setContentView(R.layout.activity_main);
 
@@ -114,6 +122,23 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(0).setIcon(adapter.iconsTOA[0]);
         tabLayout.getTabAt(1).setIcon(adapter.iconsTOA[1]);
         tabLayout.getTabAt(2).setIcon(adapter.iconsTOA[2]);
+        obtenerConsejoTOA();
+        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                Log.i("postition scrolled", position + " " + positionOffsetPixels);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.i("page selected", position + " ");
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                Log.i("state", String.valueOf(state));
+            }
+        });
         final TextView name_txtv = (TextView) findViewById(R.id.main_ui_name_txtv);
         final ImageView pimage_imgv = (ImageView) findViewById(R.id.main_ui_pimage_imv);
         if (!__user.get_pimage().isEmpty()) {
@@ -151,23 +176,29 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public int getStatusBarHeight() {
-        int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
+    private void obtenerConsejoTOA() {
+        RestApi.get("/node/58", new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    JSONObject data = response.getJSONObject("data");
+                    TextView txt = (TextView) findViewById(R.id.consejo_txt);
+                    TextView aut = (TextView) findViewById(R.id.consejo_autor);
+                    txt.setText(data.getString("cnst"));
+                    aut.setText(data.getString("cnstxt"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.e("error", statusCode + throwable.getLocalizedMessage());
+                Log.e("error2", responseString);
+            }
+        });
     }
 
-    public int getNavigationBarHeight() {
-        Resources resources = getApplicationContext().getResources();
-        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            return resources.getDimensionPixelSize(resourceId);
-        }
-        return 0;
-    }
 
     @Override
     public void onBackPressed() {

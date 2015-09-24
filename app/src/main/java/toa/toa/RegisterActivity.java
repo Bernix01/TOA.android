@@ -9,13 +9,13 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
@@ -38,15 +38,20 @@ public class RegisterActivity extends ActionBarActivity {
     CircularProgressButton btn;
     EditText name, surname, usr, pw, mail;
     Boolean isDoingReg = false;
+    private TextView go_log;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
-        setSupportActionBar(toolbar);
+        go_log = (TextView) findViewById(R.id.go_login);
+        go_log.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            }
+        });
         btn = (CircularProgressButton) findViewById(R.id.go_register);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         btn.setIndeterminateProgressMode(true);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override

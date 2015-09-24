@@ -4,12 +4,16 @@
 
 package toa.toa.agenda;
 
+import android.app.AlarmManager;
+import android.content.Context;
+
 /**
  * Created by gbern on 8/13/2015.
  */
 public class AgendaMan {
 
-    public static void saveEvent(int id) {
+    public static void saveEvent(int id, Context mcontext) {
+        AlarmManager am = (AlarmManager) mcontext.getSystemService(Context.ALARM_SERVICE);
 
     }
 

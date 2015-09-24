@@ -16,7 +16,7 @@ import com.malinskiy.superrecyclerview.SuperRecyclerView;
 
 import java.util.ArrayList;
 
-import toa.toa.Objects.MrComunity;
+import toa.toa.Objects.MrCommunity;
 import toa.toa.Objects.MrUser;
 import toa.toa.R;
 import toa.toa.adapters.FriendsAdapter;
@@ -36,7 +36,7 @@ public class MembersFragment extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Bundle bundle = this.getArguments();
-        MrComunity com = bundle.getParcelable("sport");
+        MrCommunity com = bundle.getParcelable("sport");
         View root = inflater.inflate(R.layout.comunity_layout, container, false);
         recyclerComunities = (SuperRecyclerView) root.findViewById(R.id.my_recycler_comunity_view);
         recyclerComunities.setLayoutManager(new LinearLayoutManager(getActivity()));

@@ -15,7 +15,7 @@ import com.malinskiy.superrecyclerview.SuperRecyclerView;
 
 import java.util.ArrayList;
 
-import toa.toa.Objects.MrComunity;
+import toa.toa.Objects.MrCommunity;
 import toa.toa.Objects.MrPlace;
 import toa.toa.R;
 import toa.toa.adapters.PlacesAdapter;
@@ -24,7 +24,7 @@ import toa.toa.utils.misc.SirPlacesRetriever;
 
 public class PlacesFragment extends android.support.v4.app.Fragment {
     private static final String ARG_PARAM1 = "sport";
-    private MrComunity com;
+    private MrCommunity com;
 
     public PlacesFragment() {
         // Required empty public constructor

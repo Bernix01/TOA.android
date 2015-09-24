@@ -14,7 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize" />
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark" />
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -37,39 +38,26 @@
                     android:layout_weight="1"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/editProf_name_txtv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Nombre"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
 
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
                     <EditText
                         android:id="@+id/editProf_name_etxtv"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_below="@+id/editProf_name_txtv" />
+                        android:hint="@string/hint_name" />
+                    </android.support.design.widget.TextInputLayout>
 
-                    <TextView
-                        android:id="@+id/textView6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_below="@+id/editProf_name_etxtv"
-                        android:layout_marginTop="10dp"
-                        android:text="Bio"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
-
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
                     <EditText
                         android:id="@+id/editProf_bio_etxt"
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="70dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_below="@+id/textView6" />
+                        android:hint="@string/hint_bio" />
+                    </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -157,19 +145,18 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textView10"
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="E-mail"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:layout_height="wrap_content">
 
                 <EditText
                     android:id="@+id/editProf_email_etxt"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
+                    android:hint="@string/hint_email"
                     android:inputType="textEmailAddress" />
+                </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
         </LinearLayout>

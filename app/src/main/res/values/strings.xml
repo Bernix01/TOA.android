@@ -72,7 +72,7 @@
     <string name="title_activity_agenda">Agenda</string>
     <string name="Empty_view_msg">Nada :(</string>
     <string name="title_activity_addfriend_activty">Encuentra personas</string>
-    <string name="edit_coms">Editar</string>
+    <string name="edit_coms">editar</string>
 
     <!--mapas arrays -->
     <string-array name="nav_drawer_items">
@@ -92,4 +92,10 @@
     <string name="unFollow">-</string>
     <string name="follow">+</string>
     <string name="item_row_friend_frindshipdefaulttxt">Tú</string>
+    <string name="hint_email">E-mail</string>
+    <string name="hint_bio">Bio</string>
+    <string name="hint_name">Nombre</string>
+    <string name="hint_pw">Contraseña</string>
+    <string name="title_activity_recover_pw">Recuperar contraseña</string>
+    <string name="hint_recover_email">Ingresa el correo</string>
 </resources>

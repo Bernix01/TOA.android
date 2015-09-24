@@ -10,8 +10,9 @@
         android:id="@+id/my_awesome_toolbar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="#00ffffff"
-        android:minHeight="?android:attr/actionBarSize" />
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/friends_recyclerview"

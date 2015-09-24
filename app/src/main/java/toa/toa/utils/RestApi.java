@@ -22,7 +22,9 @@ import cz.msebera.android.httpclient.entity.BasicHttpEntity;
 public class RestApi {
     public static final String EVENTRELTYPE = "isGoing";
     private static final String BASE_URL = "http://toa-neo4j.cloudapp.net:7474/db/data";
+    private static final String BASE_URL_PW = "http://mundotoa.co/api/lost.php";
     private static String _authheader = "bmVvNGo6RGVwb3J0aXN0YXMx";
+    private static String _recoverAuth = "cmFkbWluOlRPQQ==";
     private static AsyncHttpClient client = new AsyncHttpClient();
 
     public static String getBaseUrl() {
@@ -72,4 +74,14 @@ public class RestApi {
         Log.e("done", "done");
         client.post(null, getAbsoluteUrl(url), se, "aplication/json", responseHandler);
     }
+
+    protected static void recoverPw(int Key, String email, AsyncHttpResponseHandler handler) {
+        client.addHeader("Authorization", "Basic " + _recoverAuth);
+        RequestParams params = new RequestParams();
+        params.put("key", Key);
+        params.put("email", email);
+        Log.e("params", params.toString());
+        client.get(null, BASE_URL_PW, params, handler);
+    }
+
 }

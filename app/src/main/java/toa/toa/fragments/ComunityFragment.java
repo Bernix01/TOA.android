@@ -15,18 +15,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
-import toa.toa.Objects.MrComunity;
+import toa.toa.Objects.List;
+import toa.toa.Objects.MrCommunity;
 import toa.toa.R;
 import toa.toa.adapters.ComunityAdapter;
 import toa.toa.utils.RestApi;
+import toa.toa.utils.UtilidadesExtras;
 
 /**
  * Created by Junior on 18/06/2015.
  */
 public class ComunityFragment extends android.support.v4.app.Fragment {
-    ArrayList<MrComunity> mrComunityArrayList = new ArrayList<MrComunity>();
+    List mrCommunityArrayList = new List();
     private int id;
     private SuperRecyclerView recyclerComunities;
 
@@ -41,7 +41,14 @@ public class ComunityFragment extends android.support.v4.app.Fragment {
         recyclerComunities = (SuperRecyclerView) root.findViewById(R.id.my_recycler_comunity_view);
         recyclerComunities.setLayoutManager(new LinearLayoutManager(getActivity()));
         final Context contexto = getActivity().getApplicationContext();
-        getData(contexto, id);
+        if (savedInstanceState != null) {
+            Log.e("restored", "restored coms");
+            mrCommunityArrayList = savedInstanceState.getParcelable("data");
+            if (UtilidadesExtras.isOnline(contexto))
+                recyclerComunities.setAdapter(new ComunityAdapter(mrCommunityArrayList, R.layout.comunity_row, contexto));
+        } else {
+            getData(contexto, id);
+        }
         return root;
     }
 
@@ -72,10 +79,10 @@ public class ComunityFragment extends android.support.v4.app.Fragment {
                     Log.e("respuesta", response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row").toString());
                     int datos = data.length();
                     for (int i = 0; i < datos; i++)
-                        mrComunityArrayList.add(new MrComunity(data.getJSONObject(i).getJSONArray("row").getString(0), data.getJSONObject(i).getJSONArray("row").getString(1), data.getJSONObject(i).getJSONArray("row").getString(2), data.getJSONObject(i).getJSONArray("row").getString(3)));
+                        mrCommunityArrayList.add(new MrCommunity(data.getJSONObject(i).getJSONArray("row").getString(0), data.getJSONObject(i).getJSONArray("row").getString(1), data.getJSONObject(i).getJSONArray("row").getString(2), data.getJSONObject(i).getJSONArray("row").getString(3)));
 
 
-                    recyclerComunities.setAdapter(new ComunityAdapter(mrComunityArrayList, R.layout.comunity_row, contexto));
+                    recyclerComunities.setAdapter(new ComunityAdapter(mrCommunityArrayList, R.layout.comunity_row, contexto));
                 } catch (JSONException e) {
                     Log.e("exception", e.getMessage());
                 }
@@ -87,5 +94,12 @@ public class ComunityFragment extends android.support.v4.app.Fragment {
             }
         });
 
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("data", mrCommunityArrayList);
+        Log.e("saver", "saved");
     }
 }
