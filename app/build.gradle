@@ -19,8 +19,8 @@ android {
         applicationId "toa.toa"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 6
-        versionName "1.2.1"
+        versionCode 7
+        versionName "1.2.2"
         renderscriptTargetApi 23
         renderscriptSupportModeEnabled true
     }

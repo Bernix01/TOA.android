@@ -131,8 +131,6 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
         Log.e("sex", _cuser.get_gender() + " ");
         if (_cuser.get_age() != 0)
             age.setText(String.valueOf(_cuser.get_age()));
-        if (_cuser.get_gender() != 0)
-            sex.setSelection(_cuser.get_gender(), true);
         if (!_cuser.get_pimage().isEmpty()) {
             Picasso.with(getApplicationContext()).load(_cuser.get_pimage()).transform(new CropCircleTransformation()).into(pimage_imgv);
         } else {
@@ -174,17 +172,11 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 // Apply the adapter to the spinner
         sex.setAdapter(adapter);
+        sex.setSelection(_cuser.get_gender());
         sex.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
-                        _cuser.set_gender(-1);
-                        break;
-                    default:
                         _cuser.set_gender(position);
-                        break;
-                }
             }
 
             @Override
@@ -261,7 +253,7 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
             UpdateProfile task = new UpdateProfile();
             task.execute();
         } else {
-            handler.updateUserAsync(_cuser);
+            SirHandler.updateUserAsync(_cuser);
         }
     }
 
@@ -360,7 +352,7 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
 
         @Override
         protected void onPostExecute(String result) {
-            handler.updateUserAsync(_cuser);
+            SirHandler.updateUserAsync(_cuser);
         }
     }
 }

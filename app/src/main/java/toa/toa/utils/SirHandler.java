@@ -245,6 +245,7 @@ public class SirHandler {
         SirHandler._currentUser.set_name(userDetails.getString("name", ""));
         SirHandler._currentUser.set_uname(userDetails.getString("uname", ""));
         SirHandler._currentUser.set_pimage(userDetails.getString("pimage", ""));
+        SirHandler._currentUser.set_gender(userDetails.getInt("gender", 0));
         SirHandler._currentUser.set_age(userDetails.getInt("age", 0));
         __hash = userDetails.getString("hash", "");
     }
@@ -431,7 +432,7 @@ public class SirHandler {
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
         try {
-            subcmd.put("statement", "MATCH (a:user)-[r:Follows]-(n:user) WHERE id(a)=" + user.get_id() + " return n, id(n)");
+            subcmd.put("statement", "MATCH (a:user)-[r:Follows]->(n:user) WHERE id(a)=" + user.get_id() + " return n, id(n)");
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {

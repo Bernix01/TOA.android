@@ -52,7 +52,8 @@ public class LoginActivity extends Activity {
         go_reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
+                Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
+                startActivity(i);
             }
         });
         go_forgotten = (TextView) findViewById(R.id.go_forgotten);
