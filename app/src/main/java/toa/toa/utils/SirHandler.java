@@ -68,6 +68,21 @@ public class SirHandler {
         SirHandler.mcontext = mcontext;
         SirHandler._currentUser = new MrUser();
         setCurrent();
+        checkForEvents();
+    }
+
+    private static void checkForEvents() {
+        getUserEvents(new SirEventsRetriever() {
+            @Override
+            public void gotIt(ArrayList<MrEvent> events) {
+
+            }
+
+            @Override
+            public void failure(String err) {
+
+            }
+        });
     }
 
     public static void friendShip(MrUser user, boolean bool, final SimpleCallbackClass simpleCallbackClass) {
@@ -425,6 +440,125 @@ public class SirHandler {
         });
     }
 
+    public static void registerEvent(MrEvent event, final Context context) {
+        JSONObject cmd = new JSONObject();
+        JSONArray cmds = new JSONArray();
+        JSONObject subcmd = new JSONObject();
+        try {
+            subcmd.put("statement", "MATCH (n:user),(a:Event) WHERE id(a)=" + event.getId() + " AND id(n)=" + _currentUser.get_id() + " CREATE UNIQUE (n)-[r:isGoing]->(a) RETURN id(r),r");
+            cmds.put(subcmd);
+            cmd.put("statements", cmds);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
+                if (statusCode == 201) {
+                    try {
+
+                        JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
+                        AgendaMan.saveEvent(dataf.getJSONObject(0).getJSONArray("row").getInt(0), context);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(mcontext, "Failed to register event, please try again later.", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Toast.makeText(mcontext, "Failed to register event, please try again later.", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public static void deleteEvent(final MrEvent event) {
+        JSONObject cmd = new JSONObject();
+        JSONArray cmds = new JSONArray();
+        JSONObject subcmd = new JSONObject();
+        try {
+            subcmd.put("statement", "MATCH (n:user)-[r:isGoing]->(a:Event) WHERE id(n)=\"" + _currentUser.get_id() + "\" AND id(a)=\"" + event.getId() + "\" DELETE r RETURN 0");
+            cmds.put(subcmd);
+            cmd.put("statements", cmds);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
+                Log.d("EventDel", "No longer going to event: " + event.getId());
+            }
+
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
+                Log.e("error", "code: " + statusCode + " " + throwable.toString());
+            }
+        });
+    }
+
+    public static void getUserEvents(final SirEventsRetriever retriever) {
+        JSONObject cmd = new JSONObject();
+        JSONArray cmds = new JSONArray();
+        JSONObject subcmd = new JSONObject();
+        try {
+            subcmd.put("statement", "MATCH (n:user)-[r:isGoing]->(a:Event) WHERE id(n)=" + _currentUser.get_id() + " RETURN a,id(a)");
+            cmds.put(subcmd);
+            cmd.put("statements", cmds);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
+                try {
+                    ArrayList<MrEvent> events = new ArrayList<MrEvent>();
+                    JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
+                    int datos = dataf.length();
+                    for (int i = 0; i < datos; i++) {
+                        JSONObject udata = dataf.getJSONObject(i).getJSONArray("row").getJSONObject(0);
+                        MrEvent temp = new MrEvent(dataf.getJSONObject(i).getJSONArray("row").getInt(1),
+                                tryGetString(udata, "name"),
+                                convertDate(tryGetString(udata, "dateStart")),
+                                convertDate(tryGetString(udata, "dateEnd")),
+                                tryGetString(udata, "organizer"),
+                                tryGetString(udata, "descr"),
+                                tryGetString(udata, "address"),
+                                tryGetFloat(udata, "X"),
+                                tryGetFloat(udata, "Y"));
+                        String sportsA = tryGetString(udata, "esports");
+                        if (!sportsA.isEmpty()) {
+                            String[] sports = sportsA.split(",");
+                            for (String sport : sports) {
+                                if (sport.equals("Running") || sport.equals("Ciclismo") || sport.equals("Natación"))
+                                    temp = temp.withDistance(tryGetFloat(udata, "distance"));
+                                if (sport.equals("Triatlón"))
+                                    temp = temp.withCategory(tryGetString(udata, "cat"));
+                            }
+                        }
+                        float price = tryGetFloat(udata, "price");
+                        temp = temp.withPrice((price == 0.0f) ? 0 : price);
+                        events.add(temp);
+                    }
+                    retriever.gotIt(events);
+
+                } catch (JSONException e) {
+                    retriever.failure(e.getLocalizedMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
+                Log.e("error", "code: " + statusCode + " " + throwable.toString());
+            }
+        });
+
+    }
+
     public void getUserFriends(MrUser user, final SirFriendsRetriever retriever) {
 
         JSONObject cmd = new JSONObject();
@@ -663,124 +797,5 @@ public class SirHandler {
                 retriever.failure(throwable.toString());
             }
         });
-    }
-
-    public void registerEvent(MrEvent event, final Context context) {
-        JSONObject cmd = new JSONObject();
-        JSONArray cmds = new JSONArray();
-        JSONObject subcmd = new JSONObject();
-        try {
-            subcmd.put("statement", "MATCH (n:user),(a:Event) WHERE id(a)=" + event.getId() + " AND id(n)=" + _currentUser.get_id() + " CREATE UNIQUE (n)-[r:isGoing]->(a) RETURN id(r),r");
-            cmds.put(subcmd);
-            cmd.put("statements", cmds);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
-                if (statusCode == 201) {
-                    try {
-
-                        JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
-                        AgendaMan.saveEvent(dataf.getJSONObject(0).getJSONArray("row").getInt(0), context);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    Toast.makeText(mcontext, "Failed to register event, please try again later.", Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Toast.makeText(mcontext, "Failed to register event, please try again later.", Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
-    public void deleteEvent(final MrEvent event) {
-        JSONObject cmd = new JSONObject();
-        JSONArray cmds = new JSONArray();
-        JSONObject subcmd = new JSONObject();
-        try {
-            subcmd.put("statement", "MATCH (n:user)-[r:isGoing]->(a:Event) WHERE id(n)=\"" + _currentUser.get_id() + "\" AND id(a)=\"" + event.getId() + "\" DELETE r RETURN 0");
-            cmds.put(subcmd);
-            cmd.put("statements", cmds);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
-
-            @Override
-            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
-                Log.d("EventDel", "No longer going to event: " + event.getId());
-            }
-
-            @Override
-            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
-                Log.e("error", "code: " + statusCode + " " + throwable.toString());
-            }
-        });
-    }
-
-    public void getUserEvents(final SirEventsRetriever retriever) {
-        JSONObject cmd = new JSONObject();
-        JSONArray cmds = new JSONArray();
-        JSONObject subcmd = new JSONObject();
-        try {
-            subcmd.put("statement", "MATCH (n:user)-[r:isGoing]->(a:Event) WHERE id(n)=" + _currentUser.get_id() + " RETURN a,id(a)");
-            cmds.put(subcmd);
-            cmd.put("statements", cmds);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
-
-            @Override
-            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
-                try {
-                    ArrayList<MrEvent> events = new ArrayList<MrEvent>();
-                    JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
-                    int datos = dataf.length();
-                    for (int i = 0; i < datos; i++) {
-                        JSONObject udata = dataf.getJSONObject(i).getJSONArray("row").getJSONObject(0);
-                        MrEvent temp = new MrEvent(dataf.getJSONObject(i).getJSONArray("row").getInt(1),
-                                tryGetString(udata, "name"),
-                                convertDate(tryGetString(udata, "dateStart")),
-                                convertDate(tryGetString(udata, "dateEnd")),
-                                tryGetString(udata, "organizer"),
-                                tryGetString(udata, "descr"),
-                                tryGetString(udata, "address"),
-                                tryGetFloat(udata, "X"),
-                                tryGetFloat(udata, "Y"));
-                        String sportsA = tryGetString(udata, "esports");
-                        if (!sportsA.isEmpty()) {
-                            String[] sports = sportsA.split(",");
-                            for (String sport : sports) {
-                                if (sport.equals("Running") || sport.equals("Ciclismo") || sport.equals("Natación"))
-                                    temp = temp.withDistance(tryGetFloat(udata, "distance"));
-                                if (sport.equals("Triatlón"))
-                                    temp = temp.withCategory(tryGetString(udata, "cat"));
-                            }
-                        }
-                        float price = tryGetFloat(udata, "price");
-                        temp = temp.withPrice((price == 0.0f) ? 0 : price);
-                        events.add(temp);
-                    }
-                    retriever.gotIt(events);
-
-                } catch (JSONException e) {
-                    retriever.failure(e.getLocalizedMessage());
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
-                Log.e("error", "code: " + statusCode + " " + throwable.toString());
-            }
-        });
-
     }
 }

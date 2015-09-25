@@ -26,7 +26,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/hint_recover_email"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:textSize="23sp" />
 
     </android.support.design.widget.TextInputLayout>
 </RelativeLayout>
