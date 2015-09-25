@@ -6,6 +6,7 @@ package toa.toa.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,13 +19,11 @@ import com.squareup.picasso.Picasso;
 
 import jp.wasabeef.picasso.transformations.BlurTransformation;
 import toa.toa.Objects.MrCommunity;
-import toa.toa.Objects.MrUser;
 import toa.toa.R;
 import toa.toa.adapters.CollectionPagerComunityAdapter;
-import toa.toa.utils.SirHandler;
 
 public class ComunityActivity extends AppCompatActivity {
-    TabLayout tabLayout;
+    private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +40,6 @@ public class ComunityActivity extends AppCompatActivity {
         if (!com.getComunityImg().isEmpty())
             Picasso.with(getApplicationContext()).load(com.getComunityImg()).into(sportImage);
         sportName.setText(com.getComunityName());
-        final TextView name_txtv = (TextView) findViewById(R.id.main_ui_name_txtv);
-        final ImageView pimage_imgv = (ImageView) findViewById(R.id.main_ui_pimage_imv);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         final ImageView hback = (ImageView) findViewById(R.id.himgbackcom);
         if (!com.getComunityBack().isEmpty())
@@ -50,7 +47,6 @@ public class ComunityActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        final MrUser currentUser = SirHandler.getCurrentUser(getApplicationContext());
         ViewPager pager = (ViewPager) findViewById(R.id.sportPager);
         pager.setAdapter(new CollectionPagerComunityAdapter(getSupportFragmentManager(), com));
         tabLayout.setupWithViewPager(pager);
@@ -58,7 +54,7 @@ public class ComunityActivity extends AppCompatActivity {
         tabLayout.getTabAt(1).setIcon(R.drawable.comunidades_white);
         tabLayout.getTabAt(2).setIcon(R.drawable.calendario_white);
         tabLayout.getTabAt(3).setIcon(R.drawable.ubication_white);
-        tabLayout.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        tabLayout.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.transparent));
     }
 
     @Override

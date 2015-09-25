@@ -35,7 +35,7 @@ public class MrCommunity implements Parcelable {
         this.comunityImgAlt = comunityImgAlt;
     }
 
-    protected MrCommunity(Parcel in) {
+    private MrCommunity(Parcel in) {
         comunityName = in.readString();
         comunityImg = in.readString();
         comunityBack = in.readString();

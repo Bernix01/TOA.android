@@ -47,7 +47,7 @@ import toa.toa.utils.misc.SirImageSelectorInterface;
 
 public class EditProfileActivity extends AppCompatActivity implements SirImageSelectorInterface {
 
-    public static final String storageConnectionString =
+    private static final String storageConnectionString =
             "DefaultEndpointsProtocol=http;" +
                     "AccountName=archivestoa;" +
                     "AccountKey=ASFIlz+A19O/sBxAaRHWhzBce+HkSEMgA4iZ+9R08c816CWL3J+daLc3ykFW7Z2LY54IMZ7beyjHpBN/x/LeVg==";
@@ -56,12 +56,10 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
     private static final int CHOICE_AVATAR_FROM_CAMERA = 2;
     private static final int MY_PERMISSION_REQUEST_CODE_READ_EXTERNAL = 42;
     private static String imagePath = "";
-    ImageView pimage_imgv;
-    private TextView username;
+    private ImageView pimage_imgv;
     private EditText name, bio, age, email;
     private Spinner sex;
     private MrUser _cuser;
-    private SirHandler handler;
     private String cameraFileName;
 
     /**
@@ -70,7 +68,7 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
      * @param data
      * @return
      */
-    public Bitmap getBitmapFromData(Intent data) {
+    private Bitmap getBitmapFromData(Intent data) {
         Bitmap photo = null;
         Uri photoUri = data.getData();
         if (photoUri != null) {
@@ -97,7 +95,7 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
     }
 
     private String uriToFilename(Uri uri) {
-        String path = null;
+        String path;
 
         if (Build.VERSION.SDK_INT < 19) {
             path = RealPathUtil.getRealPathFromURI_API11to18(getApplicationContext(), uri);
@@ -115,14 +113,14 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
         final Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        username = (TextView) findViewById(R.id.editProf_uname_txtv);
+        TextView username = (TextView) findViewById(R.id.editProf_uname_txtv);
         name = (EditText) findViewById(R.id.editProf_name_etxtv);
         bio = (EditText) findViewById(R.id.editProf_bio_etxt);
         pimage_imgv = (ImageView) findViewById(R.id.editProf_pimage_imv);
         age = (EditText) findViewById(R.id.editProf_age_etxt);
         email = (EditText) findViewById(R.id.editProf_email_etxt);
         sex = (Spinner) findViewById(R.id.editProf_sex_spinner);
-        handler = new SirHandler(getApplicationContext());
+        SirHandler handler = new SirHandler(getApplicationContext());
         _cuser = SirHandler.getCurrentUser(getApplicationContext());
         username.setText(_cuser.get_name());
         name.setText(_cuser.get_uname());
@@ -240,7 +238,7 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
         return super.onOptionsItemSelected(item);
     }
 
-    public void do_the_thing() {
+    private void do_the_thing() {
         Log.e("nage", age.getText().toString());
         Log.e("nsex", sex.getSelectedItemPosition() + " :");
         if (!age.getText().toString().isEmpty())
@@ -298,7 +296,6 @@ public class EditProfileActivity extends AppCompatActivity implements SirImageSe
                     imagePath = uriToFilename(uri);
                 } else {
                     uri = data.getData();
-                    Bitmap dummy = getBitmapFromData(data);
                 }
                 Picasso.with(getApplicationContext()).load(uri).fit().centerCrop().transform(new CropCircleTransformation()).into(pimage_imgv);
                 //pimage_imgv.setImageBitmap(avatar);

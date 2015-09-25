@@ -13,8 +13,8 @@ import java.util.Locale;
  */
 public class MrEvent {
 
-    public String hStartDate;
     public String hEndDate;
+    private String hStartDate;
     private int id;
     private String name;
     private Date dateStart;

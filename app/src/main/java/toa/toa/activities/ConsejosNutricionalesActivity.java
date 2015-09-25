@@ -38,7 +38,6 @@ public class ConsejosNutricionalesActivity extends AppCompatActivity {
             }
             final TextView name_txtv = (TextView) findViewById(R.id.textView8);
             final ImageView pimage_imgv = (ImageView) findViewById(R.id.imageView9);
-            final SirHandler handler = new SirHandler(getApplicationContext());
             final MrUser currentUser = SirHandler.getCurrentUser(getApplicationContext());
             name_txtv.setText(currentUser.get_uname());
             name_txtv.setOnClickListener(new View.OnClickListener() {

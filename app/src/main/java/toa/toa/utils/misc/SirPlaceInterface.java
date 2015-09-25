@@ -11,7 +11,7 @@ import toa.toa.Objects.MrPlace;
 /**
  * Created by Guillermo on 7/22/2015.
  */
-public interface SirPlaceInterface {
+interface SirPlaceInterface {
     void gotIt(ArrayList<MrPlace> places);
 
     void failure(String error);

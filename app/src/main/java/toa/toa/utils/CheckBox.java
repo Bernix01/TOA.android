@@ -35,7 +35,7 @@ public class CheckBox extends View {
     private Paint mCirclePaint;
     private Paint mCorrectPaint;
     private int radius;                    //????
-    private int width, height;             //????
+    private int height;             //????
     private int cx, cy;                    //??xy??
     private float[] points = new float[6]; //???3?????
     private float correctProgress;
@@ -144,6 +144,7 @@ public class CheckBox extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
+        int width;
         height = width = Math.min(w - getPaddingLeft() - getPaddingRight(), h - getPaddingBottom() - getPaddingTop());
         cx = w / 2;
         cy = h / 2;

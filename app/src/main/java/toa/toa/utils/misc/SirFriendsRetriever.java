@@ -21,6 +21,6 @@ public class SirFriendsRetriever implements SirFriendsInterface {
 
     @Override
     public void failure(String error) {
-        Log.e("SirFriendsRetrieverError", error);
+        Log.e("FretErr", error);
     }
 }

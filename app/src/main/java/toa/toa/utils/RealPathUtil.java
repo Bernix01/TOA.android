@@ -43,7 +43,6 @@ public class RealPathUtil {
                 cursor.close();
             } else {
                 try {
-                    int id = Integer.parseInt(wholeID);
 
                     String[] column = {MediaStore.Images.Media.DATA};
 // where id is equal to
@@ -88,6 +87,8 @@ public class RealPathUtil {
         int column_index
                 = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
-        return cursor.getString(column_index);
+        String r = cursor.getString(column_index);
+        cursor.close();
+        return r;
     }
 }

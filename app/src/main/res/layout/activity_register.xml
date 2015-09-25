@@ -4,6 +4,7 @@
     android:id="@+id/conatiner_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/first_slide"
     tools:context="toa.toa.RegisterActivity">
 
     <LinearLayout
@@ -17,13 +18,13 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/logo_content_description"
             android:src="@drawable/logo" />
 
         <RelativeLayout
             android:id="@+id/relativeLayout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/my_awesome_toolbar"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:background="#fefefe"
@@ -117,11 +118,10 @@
             android:id="@+id/go_register"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
-            android:layout_below="@+id/relativeLayout"
-            android:layout_centerHorizontal="true"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
+            android:background="#009688"
             android:textColor="#FFFFFF"
             android:textSize="14sp"
             app:cpb_colorIndicator="?attr/colorPrimary"
@@ -146,9 +146,9 @@
             android:id="@+id/go_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
             android:text="@string/title_activity_login"
             android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@android:color/white"
             android:textSize="15sp" />
 
     </LinearLayout>

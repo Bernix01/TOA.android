@@ -39,8 +39,6 @@ import static toa.toa.utils.UtilidadesExtras.tryGetString;
 public class LoginActivity extends Activity {
     private EditText user;
     private EditText password;
-    private TextView go_reg;
-    private TextView go_forgotten;
     private CircularProgressButton sigIn;
 
     @Override
@@ -48,7 +46,7 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         user = (EditText) findViewById(R.id.user_etxt);
-        go_reg = (TextView) findViewById(R.id.go_register);
+        TextView go_reg = (TextView) findViewById(R.id.go_register);
         go_reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,7 +54,7 @@ public class LoginActivity extends Activity {
                 startActivity(i);
             }
         });
-        go_forgotten = (TextView) findViewById(R.id.go_forgotten);
+        TextView go_forgotten = (TextView) findViewById(R.id.go_forgotten);
         go_forgotten.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,11 +78,11 @@ public class LoginActivity extends Activity {
 
     }
 
-    public Boolean isReady(String u, String p) {
+    private Boolean isReady(String u, String p) {
         return !(u.isEmpty() && p.isEmpty());
     }
 
-    public void dologin() {
+    private void dologin() {
 
         final String _user = Base64.encodeToString((user.getText().toString() + password.getText().toString()).getBytes(), Base64.DEFAULT);
         if (!isReady(user.getText().toString(), password.getText().toString()))
@@ -103,7 +101,6 @@ public class LoginActivity extends Activity {
                     try {
                         Log.i("got it!", statusCode + " " + response + "  " + _user);
                         sigIn.setProgress(100);
-                        SirHandler handler = new SirHandler(getApplicationContext());
                         JSONArray udata = response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row");
                         MrUser _cuser = new MrUser();
                         _cuser.set_id(tryGetInt(udata, 0));

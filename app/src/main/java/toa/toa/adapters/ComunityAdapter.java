@@ -29,7 +29,6 @@ public class ComunityAdapter extends RecyclerView.Adapter<ComunityAdapter.ViewHo
     private static Context contexto;
     private ArrayList<MrCommunity> comunities;
     private int itemLayout;
-    private RelativeLayout layoutContainer;
 
     public ComunityAdapter(ArrayList<MrCommunity> comunities, int layoutID, Context contexto) {
         this.comunities = comunities;
@@ -42,7 +41,7 @@ public class ComunityAdapter extends RecyclerView.Adapter<ComunityAdapter.ViewHo
 
         //par apoder inflar el objeto
         View v = LayoutInflater.from(parent.getContext()).inflate(itemLayout, parent, false);
-        layoutContainer = (RelativeLayout) parent.findViewById(R.id.my_recycler_comunity_view);
+        RelativeLayout layoutContainer = (RelativeLayout) parent.findViewById(R.id.my_recycler_comunity_view);
         return new ViewHolder(v);
     }
 

@@ -42,7 +42,7 @@ import static toa.toa.utils.UtilidadesExtras.tryGetString;
  */
 public class SirHandler {
 
-    protected static String __hash;
+    static String __hash;
     private static MrUser _currentUser;
     private static Context mcontext;
 
@@ -183,7 +183,6 @@ public class SirHandler {
 
                 Log.e("response", response.toString());
                 try {
-                    JSONArray array = response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row");
                     String dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row").getString(0);
                     simpleCallback.gotBool(dataf.equals(user.get_name()));
                 } catch (JSONException e) {
@@ -323,7 +322,7 @@ public class SirHandler {
 
     }
 
-    protected static void fetchUserData(final String hash) {
+    private static void fetchUserData(final String hash) {
         final int _id = SirHandler._currentUser.get_id();
         getUserById(_id, new SirUserRetrieverClass() {
             @Override
@@ -349,7 +348,7 @@ public class SirHandler {
         fetchUserData(__hash);
     }
 
-    protected static void updateRemoteData() {
+    private static void updateRemoteData() {
         JSONObject user = new JSONObject();
         try {
             user.put("email", SirHandler._currentUser.get_email());
@@ -381,7 +380,7 @@ public class SirHandler {
         });
     }
 
-    protected static void getUserById(int id, final SirUserRetrieverClass userRetriever) {
+    static void getUserById(int id, final SirUserRetrieverClass userRetriever) {
         Log.i("getUserById", "start");
         final MrUser user = new MrUser();
         RestApi.get("/node/" + id, new RequestParams(), new JsonHttpResponseHandler() {
@@ -685,7 +684,6 @@ public class SirHandler {
                     try {
 
                         JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
-                        JSONObject udata = dataf.getJSONObject(0).getJSONArray("row").getJSONObject(1);
                         AgendaMan.saveEvent(dataf.getJSONObject(0).getJSONArray("row").getInt(0), context);
                     } catch (JSONException e) {
                         e.printStackTrace();

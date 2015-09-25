@@ -10,7 +10,5 @@
         android:layout_height="match_parent"
         android:padding="3dp"
         android:scrollbars="vertical" />
-    />
-
 
 </RelativeLayout>

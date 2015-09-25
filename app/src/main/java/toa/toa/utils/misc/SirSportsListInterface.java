@@ -11,7 +11,7 @@ import toa.toa.Objects.MrCommunity;
 /**
  * Created by Guillermo on 7/19/2015.
  */
-public interface SirSportsListInterface {
+interface SirSportsListInterface {
 
     /**
      * @param comunities

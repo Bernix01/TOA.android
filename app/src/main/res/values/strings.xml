@@ -5,39 +5,25 @@
 <resources>
     <string name="app_name">TOA</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Configuración</string>
 
     <string name="title_activity_login">Iniciar Sesión</string>
-    <string name="title_activity_comunity_template">comunity_template</string>
     <string name="title_activity_register">Registrarse</string>
-    <string name="title_activity_splash_">Splash_Activity</string>
 
-    <string name="login">Inciar Sesión</string>
-    <string name="continuestr_welcome">Desliza para continuar</string>
     <string name="tittle_lost_password">Olvidaste la contraseña?</string>
     <string name="do_login_btn">INICIAR SESION</string>
     <string name="password_txt">Contraseña</string>
-    <string name="email_txt">E-mail:</string>
-    <string name="register_header_sports">Escoge tus deportes…</string>
     <string name="facebook_app_id">1415601225409930</string>
-    <string name="continuestr">Continuar</string>
     <string name="action_done">Hecho</string>
     <string name="reg_apellidos_etxt">Apellidos</string>
     <string name="reg_email_etxt">E-mail</string>
-    <string name="reg_contrasena_etxt">Contraseña</string>
     <string name="reg_usuario_etxt">Usuario</string>
     <string name="reg_nombre_etxt">Nombre</string>
-    <string name="reg_btn">REGISTRATE</string>
     <string name="title_activity_first_visit">FirstVisit</string>
     <string name="title_activity_first_time">FirstTime</string>
     <string name="title_activity_loading_splash">LoadingSplash</string>
     <string name="my_sports">Mis deportes</string>
     <string name="title_activity_edit_profile">Editar Perfil</string>
-    <string name="comunity_sports">Comunidades Deportivas</string>
-    <string name="nutricion">Nutrición</string>
-    <string name="news">Noticias</string>
-    <string name="store">Tienda</string>
 
     <string name="msg_first_slider">Conoce y forma parte de las comunidades deportivas de tu ciudad.</string>
     <string name="msg_second_slider">Completa tu entrenamiento con los mejores consejos nutricionales y de salud.</string>
@@ -46,17 +32,9 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_main2">Main2Activity</string>
     <string name="title_activity_profile">Perfil</string>
-    <string name="title_activity_atletismo">AtletismoActivity</string>
     <string name="action_logout">Cerrar sesión</string>
 
-    <string name="title_activity_atletismo_sport">CrossFit ♥</string>
-    <string name="title_activity_cycling">Cycling ♥</string>
-    <string name="title_activity_triathlon">Triathlon ♥</string>
-    <string name="title_activity_swimming">Swimming ♥</string>
-    <string name="title_activity_footbal">Footbol ♥</string>
-    <string name="title_activity_running">Running ♥</string>
 
     <string-array name="sex_array">
         <item> </item>
@@ -64,7 +42,6 @@
         <item>Femenino</item>
     </string-array>
     <string name="title_activity_friends">Siguiendo</string>
-    <string name="item_row_friend_delete_btn">Dejar de seguir</string>
     <string name="title_activity_consejos_nutricionales">ConsejosNutricionalesActivity</string>
     <string name="action_addFriend">Agregar amigo</string>
     <string name="TOA_IMAGES_PATH">/sdcard/TOA/</string>
@@ -74,19 +51,10 @@
     <string name="title_activity_addfriend_activty">Encuentra personas</string>
     <string name="edit_coms">editar</string>
 
-    <!--mapas arrays -->
-    <string-array name="nav_drawer_items">
-
-        <item>Lugares</item>
-        <item>Districts</item>
-    </string-array>
 
 
-    <array name="nav_drawer_icons">
-        <item>@drawable/ubication_white</item>
-        <item>@drawable/ubication_white</item>
-    </array>
-    <string name="title_activity_add_friend">Deportistas que seguir</string>
+
+
     <string name="search_hint">Buscar</string>
     <string name="search">Search</string>
     <string name="unFollow">-</string>
@@ -98,4 +66,5 @@
     <string name="hint_pw">Contraseña</string>
     <string name="title_activity_recover_pw">Recuperar contraseña</string>
     <string name="hint_recover_email">Ingresa el correo</string>
+    <string name="logo_content_description">Logo</string>
 </resources>

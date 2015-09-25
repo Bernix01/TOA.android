@@ -27,7 +27,7 @@ import toa.toa.utils.misc.SirFriendsRetriever;
 
 public class AddfriendActivty extends AppCompatActivity {
 
-    SuperRecyclerView recyclerView;
+    private SuperRecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

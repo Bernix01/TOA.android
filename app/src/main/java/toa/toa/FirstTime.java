@@ -33,8 +33,7 @@ public class FirstTime extends AppCompatActivity {
         setContentView(R.layout.activity_first_time2);
         final int id = SirHandler.getCurrentUser(getApplicationContext()).get_id();
         if (id == 0) {
-            Intent c = new Intent(getApplicationContext(), Splash_Activity.class);
-            c.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            Intent c = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(c);
             finish();
         }

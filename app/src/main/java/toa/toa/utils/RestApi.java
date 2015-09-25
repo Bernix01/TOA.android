@@ -75,7 +75,7 @@ public class RestApi {
         client.post(null, getAbsoluteUrl(url), se, "aplication/json", responseHandler);
     }
 
-    protected static void recoverPw(int Key, String email, AsyncHttpResponseHandler handler) {
+    static void recoverPw(int Key, String email, AsyncHttpResponseHandler handler) {
         client.addHeader("Authorization", "Basic " + _recoverAuth);
         RequestParams params = new RequestParams();
         params.put("key", Key);

@@ -26,8 +26,7 @@ import toa.toa.utils.UtilidadesExtras;
  * Created by Junior on 18/06/2015.
  */
 public class ComunityFragment extends android.support.v4.app.Fragment {
-    List mrCommunityArrayList = new List();
-    private int id;
+    private List mrCommunityArrayList = new List();
     private SuperRecyclerView recyclerComunities;
 
     public ComunityFragment() {
@@ -36,7 +35,7 @@ public class ComunityFragment extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Bundle bundle = this.getArguments();
-        id = bundle.getInt("id", -1);
+        int id = bundle.getInt("id", -1);
         View root = inflater.inflate(R.layout.comunity_layout, container, false);
         recyclerComunities = (SuperRecyclerView) root.findViewById(R.id.my_recycler_comunity_view);
         recyclerComunities.setLayoutManager(new LinearLayoutManager(getActivity()));

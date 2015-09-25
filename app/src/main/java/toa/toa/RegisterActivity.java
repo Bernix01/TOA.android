@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
@@ -33,18 +33,21 @@ import static toa.toa.utils.UtilidadesExtras.tryGetInt;
 import static toa.toa.utils.UtilidadesExtras.tryGetString;
 
 
-public class RegisterActivity extends ActionBarActivity {
+public class RegisterActivity extends AppCompatActivity {
 
-    CircularProgressButton btn;
-    EditText name, surname, usr, pw, mail;
-    Boolean isDoingReg = false;
-    private TextView go_log;
+    private CircularProgressButton btn;
+    private EditText name;
+    private EditText surname;
+    private EditText usr;
+    private EditText pw;
+    private EditText mail;
+    private Boolean isDoingReg = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        go_log = (TextView) findViewById(R.id.go_login);
+        TextView go_log = (TextView) findViewById(R.id.go_login);
         go_log.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,12 +100,11 @@ public class RegisterActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
         return super.onOptionsItemSelected(item);
     }
 
-    public boolean isFormReady() {
+    private boolean isFormReady() {
         name = (EditText) findViewById(R.id.reg_name);
         usr = (EditText) findViewById(R.id.reg_usr);
         surname = (EditText) findViewById(R.id.reg_last_name);
@@ -112,7 +114,7 @@ public class RegisterActivity extends ActionBarActivity {
     }
 
     // Register the user to db
-    public void do_the_reg() {
+    private void do_the_reg() {
         if (isDoingReg)
             return;
         btn.setProgress(50);
@@ -165,7 +167,6 @@ public class RegisterActivity extends ActionBarActivity {
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject responseBody) {
                 Log.e("statuscode", "" + statusCode);
                 try {
-                    JSONObject meta = responseBody.getJSONObject("metadata");
                     final MrUser user = new MrUser();
                     JSONObject udata;
                     udata = responseBody.getJSONObject("data");

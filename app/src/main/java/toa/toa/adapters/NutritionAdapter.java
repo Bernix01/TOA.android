@@ -14,7 +14,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import toa.toa.Objects.MrNutrition;
-import toa.toa.R;
 
 /**
  * Created by Junior on 18/07/2015.
@@ -63,9 +62,9 @@ public class NutritionAdapter extends RecyclerView.Adapter<NutritionAdapter.View
 
         public ViewHolder(View itemView) {
             super(itemView);
-            nutritionname = (TextView) itemView.findViewById(R.id.nutritionSportName);
-            nutritionBack = (ImageView) itemView.findViewById(R.id.nutrition_bck_imv);
-            nutritionImg = (ImageView) itemView.findViewById(R.id.nutrition_image);
+            //nutritionname = (TextView) itemView.findViewById(R.id.nutritionSportName);
+            // nutritionBack = (ImageView) itemView.findViewById(R.id.nutrition_bck_imv);
+            // nutritionImg = (ImageView) itemView.findViewById(R.id.nutrition_image);
         }
     }
 }

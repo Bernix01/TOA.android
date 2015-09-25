@@ -19,6 +19,6 @@ public class SirUserRetrieverClass implements SirUserRetrieverInterface {
 
     @Override
     public void failure(String error) {
-        Log.e("SirUserRetrieverClassError", error);
+        Log.e("UsrRetErr", error);
     }
 }

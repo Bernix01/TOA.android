@@ -41,7 +41,6 @@ import toa.toa.utils.misc.SirSportsListRetriever;
 
 public class MainActivity extends AppCompatActivity {
     private static Boolean isVisible = false;
-    private MrUser __user = new MrUser();
     private String SENDER_ID = "324550711569";
     private GoogleCloudMessaging gcm;
     private NotificationHub hub;
@@ -90,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         SirHandler.initialize(getApplicationContext());
         SharedPreferences userDetails = getApplicationContext().getSharedPreferences("appData", MODE_PRIVATE);
         int firstTime = userDetails.getInt("firstTme", 1);
-        __user = SirHandler.getCurrentUser(getApplicationContext());
+        MrUser __user = SirHandler.getCurrentUser(getApplicationContext());
         if (firstTime != 0) {
             SharedPreferences.Editor editor = userDetails.edit();
             editor.putInt("firstTme", 0);
@@ -123,22 +122,6 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(1).setIcon(adapter.iconsTOA[1]);
         tabLayout.getTabAt(2).setIcon(adapter.iconsTOA[2]);
         obtenerConsejoTOA();
-        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                Log.i("postition scrolled", position + " " + positionOffsetPixels);
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                Log.i("page selected", position + " ");
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                Log.i("state", String.valueOf(state));
-            }
-        });
         final TextView name_txtv = (TextView) findViewById(R.id.main_ui_name_txtv);
         final ImageView pimage_imgv = (ImageView) findViewById(R.id.main_ui_pimage_imv);
         if (!__user.get_pimage().isEmpty()) {

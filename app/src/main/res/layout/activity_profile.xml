@@ -146,6 +146,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
+            android:layout_toLeftOf="@+id/profile_edit_coms"
             android:text="@string/my_sports"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="?attr/colorPrimary" />

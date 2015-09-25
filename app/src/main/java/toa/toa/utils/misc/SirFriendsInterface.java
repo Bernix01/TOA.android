@@ -11,7 +11,7 @@ import toa.toa.Objects.MrUser;
 /**
  * Created by programador on 7/20/15.
  */
-public interface SirFriendsInterface {
+interface SirFriendsInterface {
 
     void goIt(ArrayList<MrUser> friends);
 

@@ -70,9 +70,6 @@
                         android:id="@+id/editProf_pimage_imv"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentTop="true"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="5dp" />
 
@@ -102,9 +99,6 @@
                         android:id="@+id/textView2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_below="@+id/editProf_bio_etxt"
                         android:layout_marginRight="10dp"
                         android:text="Edad"
                         android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -132,7 +126,7 @@
 
                     <Spinner
                         android:id="@+id/editProf_sex_spinner"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
                 </LinearLayout>

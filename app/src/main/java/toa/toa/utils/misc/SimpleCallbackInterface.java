@@ -7,7 +7,7 @@ package toa.toa.utils.misc;
 /**
  * Created by programador on 7/20/15.
  */
-public interface SimpleCallbackInterface {
+interface SimpleCallbackInterface {
     void goIt();
 
     void gotBool(Boolean bool);
