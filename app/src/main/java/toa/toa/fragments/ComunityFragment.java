@@ -37,14 +37,14 @@ public class ComunityFragment extends android.support.v4.app.Fragment {
         Bundle bundle = this.getArguments();
         int id = bundle.getInt("id", -1);
         View root = inflater.inflate(R.layout.comunity_layout, container, false);
-        recyclerComunities = (SuperRecyclerView) root.findViewById(R.id.my_recycler_comunity_view);
+        recyclerComunities = (SuperRecyclerView) root.findViewById(R.id.list);
         recyclerComunities.setLayoutManager(new LinearLayoutManager(getActivity()));
         final Context contexto = getActivity().getApplicationContext();
         if (savedInstanceState != null) {
             Log.e("restored", "restored coms");
             mrCommunityArrayList = savedInstanceState.getParcelable("data");
             if (UtilidadesExtras.isOnline(contexto))
-                recyclerComunities.setAdapter(new ComunityAdapter(mrCommunityArrayList, R.layout.comunity_row, contexto));
+                recyclerComunities.setAdapter(new ComunityAdapter(mrCommunityArrayList, contexto));
         } else {
             getData(contexto, id);
         }
@@ -79,9 +79,8 @@ public class ComunityFragment extends android.support.v4.app.Fragment {
                     int datos = data.length();
                     for (int i = 0; i < datos; i++)
                         mrCommunityArrayList.add(new MrCommunity(data.getJSONObject(i).getJSONArray("row").getString(0), data.getJSONObject(i).getJSONArray("row").getString(1), data.getJSONObject(i).getJSONArray("row").getString(2), data.getJSONObject(i).getJSONArray("row").getString(3)));
-
-
-                    recyclerComunities.setAdapter(new ComunityAdapter(mrCommunityArrayList, R.layout.comunity_row, contexto));
+                    ComunityAdapter adapter = new ComunityAdapter(mrCommunityArrayList, contexto);
+                    recyclerComunities.setAdapter(adapter);
                 } catch (JSONException e) {
                     Log.e("exception", e.getMessage());
                 }

@@ -2,10 +2,12 @@ package toa.toa.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.List;
 import toa.toa.Objects.MrConsejo;
 import toa.toa.R;
 import toa.toa.activities.DetailconsejosNutricionalesActivity;
+import toa.toa.utils.UtilidadesExtras;
 
 interface ItemClickListener {
     void onItemClick(View view, int position);
@@ -49,7 +52,7 @@ public class MetaAdapter extends RecyclerView.Adapter<MetaAdapter.MetaViewHolder
     @Override
     public MetaViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.item_list, viewGroup, false);
+                .inflate(R.layout.item_row_consejo_nutricion, viewGroup, false);
         return new MetaViewHolder(v, this);
     }
 
@@ -59,6 +62,17 @@ public class MetaAdapter extends RecyclerView.Adapter<MetaAdapter.MetaViewHolder
         viewHolder.prioridad.setText(items.get(i).getAutor());
         viewHolder.fechaLim.setText(items.get(i).getFechaLim());
         viewHolder.categoria.setText(items.get(i).getCategoria());
+        viewHolder.tags.removeAllViews();
+        for (String tag : items.get(i).getTags())
+            viewHolder.tags.addView(addTAG(tag));
+    }
+
+    private View addTAG(String tag) {
+        TextView tagtxtv = new TextView(context);
+        tagtxtv.setText(tag);
+        tagtxtv.setBackgroundColor(ContextCompat.getColor(context, R.color.third_slide));
+        tagtxtv.setPadding((int) UtilidadesExtras.dipToPixels(context, 5), (int) UtilidadesExtras.dipToPixels(context, 5), (int) UtilidadesExtras.dipToPixels(context, 5), (int) UtilidadesExtras.dipToPixels(context, 5));
+        return tagtxtv;
     }
 
     /**
@@ -82,6 +96,7 @@ public class MetaAdapter extends RecyclerView.Adapter<MetaAdapter.MetaViewHolder
         public TextView fechaLim;
         public TextView categoria;
         public ItemClickListener listener;
+        public GridLayout tags;
 
         public MetaViewHolder(View v, ItemClickListener listener) {
             super(v);
@@ -90,6 +105,7 @@ public class MetaAdapter extends RecyclerView.Adapter<MetaAdapter.MetaViewHolder
             fechaLim = (TextView) v.findViewById(R.id.fecha);
             categoria = (TextView) v.findViewById(R.id.categoria);
             this.listener = listener;
+            tags = (GridLayout) v.findViewById(R.id.tags_recyclerview);
             v.setOnClickListener(this);
         }
 

@@ -20,6 +20,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
+import toa.toa.NewEventNotification;
 import toa.toa.Objects.MrCommunity;
 import toa.toa.Objects.MrEvent;
 import toa.toa.Objects.MrPlace;
@@ -75,7 +76,8 @@ public class SirHandler {
         getUserEvents(new SirEventsRetriever() {
             @Override
             public void gotIt(ArrayList<MrEvent> events) {
-
+                for (MrEvent event : events)
+                    NewEventNotification.notify(mcontext, event);
             }
 
             @Override
@@ -440,7 +442,7 @@ public class SirHandler {
         });
     }
 
-    public static void registerEvent(MrEvent event, final Context context) {
+    public static void registerEvent(final MrEvent event, final Context context, final SimpleCallbackClass simpleCallbackClass) {
         JSONObject cmd = new JSONObject();
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
@@ -460,6 +462,9 @@ public class SirHandler {
 
                         JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
                         AgendaMan.saveEvent(dataf.getJSONObject(0).getJSONArray("row").getInt(0), context);
+
+                        NewEventNotification.notify(context, event);
+                        simpleCallbackClass.goIt();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -470,12 +475,14 @@ public class SirHandler {
 
             @Override
             public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.e("regerr", errorResponse.toString());
                 Toast.makeText(mcontext, "Failed to register event, please try again later.", Toast.LENGTH_LONG).show();
+                simpleCallbackClass.goIt();
             }
         });
     }
 
-    public static void deleteEvent(final MrEvent event) {
+    public static void deleteEvent(final Context context, final MrEvent event, final SimpleCallbackClass simpleCallbackClass) {
         JSONObject cmd = new JSONObject();
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
@@ -490,13 +497,17 @@ public class SirHandler {
 
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
+                NewEventNotification.cancel(context, event.getId());
+                simpleCallbackClass.goIt();
                 Log.d("EventDel", "No longer going to event: " + event.getId());
             }
 
             @Override
             public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
                 Log.e("error", "code: " + statusCode + " " + throwable.toString());
+                simpleCallbackClass.goIt();
             }
+
         });
     }
 
@@ -529,7 +540,8 @@ public class SirHandler {
                                 tryGetString(udata, "descr"),
                                 tryGetString(udata, "address"),
                                 tryGetFloat(udata, "X"),
-                                tryGetFloat(udata, "Y"));
+                                tryGetFloat(udata, "Y"),
+                                tryGetString(udata, "imgurl"));
                         String sportsA = tryGetString(udata, "esports");
                         if (!sportsA.isEmpty()) {
                             String[] sports = sportsA.split(",");
@@ -557,6 +569,40 @@ public class SirHandler {
             }
         });
 
+    }
+
+    public static void isGoingToEvent(Context mcontext, MrEvent event, final SimpleCallbackClass retriever) {
+        SirHandler.mcontext = mcontext;
+        JSONObject cmd = new JSONObject();
+        JSONArray cmds = new JSONArray();
+        JSONObject subcmd = new JSONObject();
+        try {
+            subcmd.put("statement", "MATCH (a:user)-[r:isGoing]->(n:Event) WHERE id(a)=" + _currentUser.get_id() + " AND id(n)=" + event.getId() + "return COUNT(*)");
+            cmds.put(subcmd);
+            cmd.put("statements", cmds);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
+
+                    @Override
+                    public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
+                        try {
+                            int a = response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row").getInt(0);
+                            retriever.gotBool(a != 0);
+                        } catch (JSONException e) {
+                            retriever.gotBool(false);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
+                        Log.e("goingEventErr", "code: " + statusCode + " " + throwable.toString());
+                        retriever.gotBool(false);
+                    }
+                }
+        );
     }
 
     public void getUserFriends(MrUser user, final SirFriendsRetriever retriever) {
@@ -773,11 +819,12 @@ public class SirHandler {
                                 tryGetString(udata, "organizer"),
                                 tryGetString(udata, "descr"),
                                 tryGetString(udata, "address"),
-                                tryGetFloat(udata, "x"),
-                                tryGetFloat(udata, "y"));
-                        if (com.equals("Running") || com.equals("Ciclismo") || com.equals("Natación"))
+                                tryGetFloat(udata, "X"),
+                                tryGetFloat(udata, "Y"),
+                                tryGetString(udata, "imgurl"));
+                        if ((com.equals("Running") || com.equals("Ciclismo") || com.equals("Natación")) && tryGetFloat(udata, "distance") != 0)
                             temp = temp.withDistance(tryGetFloat(udata, "distance"));
-                        if (com.equals("Triatlón"))
+                        if (com.equals("Triatlón") && !tryGetString(udata, "cat").isEmpty())
                             temp = temp.withCategory(tryGetString(udata, "cat"));
                         float price = tryGetFloat(udata, "price");
                         temp = temp.withPrice((price == 0.0f) ? 0 : price);

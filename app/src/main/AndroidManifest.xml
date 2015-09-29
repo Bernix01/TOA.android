@@ -22,6 +22,7 @@
         android:protectionLevel="signature" />
 
     <uses-permission android:name="toa.toa.permission.C2D_MESSAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -174,11 +175,19 @@
         <activity
             android:name=".DetailEventActivity"
             android:label="@string/title_activity_detail_event"
-            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".ConsejosActivity"
+            android:label="@string/title_activity_consejos"
+            android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".DetailConsejoActivity"
+            android:label="@string/title_activity_detail_consejo"
+            android:parentActivityName=".ConsejosActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="toa.toa.MainActivity" />
+                android:value="toa.toa.ConsejosActivity" />
         </activity>
     </application>
 

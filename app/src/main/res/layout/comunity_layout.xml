@@ -5,15 +5,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.malinskiy.superrecyclerview.SuperRecyclerView
-        android:id="@+id/my_recycler_comunity_view"
+    <com.malinskiy.superrecyclerview.SuperRecyclerView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"
         app:layout_empty="@layout/emptyview"
+        app:layout_moreProgress="@layout/view_more_progress"
         app:mainLayoutId="@layout/layout_recyclerview_verticalscroll"
         app:recyclerClipToPadding="false"
-        app:recyclerPadding="16dp"
-        app:scrollbarStyle="insideInset" />
-
+        app:recyclerPadding="0dp"
+        app:scrollbarStyle="outsideOverlay" />
 </LinearLayout>

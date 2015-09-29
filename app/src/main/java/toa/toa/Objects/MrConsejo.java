@@ -1,5 +1,7 @@
 package toa.toa.Objects;
 
+import java.util.ArrayList;
+
 /**
  * Reflejo de la tabla 'consejo' en la base de datos
  */
@@ -15,6 +17,7 @@ public class MrConsejo {
     private String autor;
     private String fechaLim;
     private String categoria;
+    private ArrayList<String> tags;
 
     public MrConsejo(String idConsejo,
                      String titulo,
@@ -28,6 +31,22 @@ public class MrConsejo {
         this.autor = autor;
         this.fechaLim = fechaLim;
         this.categoria = categoria;
+    }
+
+    public ArrayList<String> getTags() {
+        if (tags == null) {
+            tags = new ArrayList<>();
+            tags.add("Desayuno");
+            tags.add("TAG");
+        } else if (tags.isEmpty()) {
+            tags.add("Desayuno");
+            tags.add("TAG");
+        }
+        return tags;
+    }
+
+    public void setTags(ArrayList<String> tags) {
+        this.tags = tags;
     }
 
     public String getIdConsejo() {

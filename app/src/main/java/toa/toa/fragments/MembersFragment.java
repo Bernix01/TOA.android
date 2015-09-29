@@ -38,7 +38,7 @@ public class MembersFragment extends android.support.v4.app.Fragment {
         Bundle bundle = this.getArguments();
         MrCommunity com = bundle.getParcelable("sport");
         View root = inflater.inflate(R.layout.comunity_layout, container, false);
-        recyclerComunities = (SuperRecyclerView) root.findViewById(R.id.my_recycler_comunity_view);
+        recyclerComunities = (SuperRecyclerView) root.findViewById(R.id.list);
         recyclerComunities.setLayoutManager(new LinearLayoutManager(getActivity()));
         final Context contexto = getActivity().getApplicationContext();
         SirHandler handler = new SirHandler(contexto);

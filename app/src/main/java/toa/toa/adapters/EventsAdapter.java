@@ -16,9 +16,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import toa.toa.DetailEventActivity;
 import toa.toa.Objects.MrEvent;
 import toa.toa.R;
-import toa.toa.map.MapActivity;
 
 public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder> {
 
@@ -47,6 +47,15 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
         holder.daytxtv.setText(String.valueOf(cal.get(Calendar.DAY_OF_MONTH)));
         holder.nametxtv.setText(event.getName());
         holder.organizertxtv.setText(contexto.getResources().getString(R.string.organiza_txt) + " " + event.getOrganizador());
+        holder.daytxtv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent devent = new Intent(contexto.getApplicationContext(), DetailEventActivity.class);
+                devent.putExtra("event", event);
+                devent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                contexto.startActivity(devent);
+            }
+        });
     }
 
     @Override
@@ -67,15 +76,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
             daytxtv = (TextView) itemView.findViewById(R.id.event_day_txtv);
             datetxtv = (TextView) itemView.findViewById(R.id.event_date_txtv);
             organizertxtv = (TextView) itemView.findViewById(R.id.event_organizer_txtv);
-            daytxtv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent mapInt = new Intent(contexto.getApplicationContext(), MapActivity.class);
-                    mapInt.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    mapInt.putExtra("events", getOldPosition());
-                    contexto.startActivity(mapInt);
-                }
-            });
+
 
         }
 

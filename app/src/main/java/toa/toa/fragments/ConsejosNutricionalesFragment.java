@@ -20,6 +20,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
+import toa.toa.Objects.MrConsejo;
 import toa.toa.R;
 import toa.toa.adapters.MetaAdapter;
 
@@ -103,9 +106,19 @@ public class ConsejosNutricionalesFragment extends android.support.v4.app.Fragme
                     // Obtener array "metas" Json
                     JSONArray mensaje = response.getJSONArray("consejo");
                     // Parsear con Gson
-                    // MrConsejo[] metas = gson.fromJson(mensaje.toString(), MrConsejo[].class);
+                    ArrayList<MrConsejo> consejos = new ArrayList<>();
+                    for (int i = 0; i < mensaje.length(); i++) {
+                        JSONObject consejo = mensaje.getJSONObject(i);
+                        consejos.add(new MrConsejo(consejo.getString("id"),
+                                consejo.getString("titulo"),
+                                consejo.getString("descripcion"),
+                                consejo.getString("fechaLim"),
+                                consejo.getString("categoria"),
+                                consejo.getString("autor")));
+                    }
+                    //MrConsejo[] metas = gson.fromJson(mensaje.toString(), MrConsejo[].class);
                     // Inicializar adaptador
-                    // adapter = new MetaAdapter(Arrays.asList(metas), getActivity());
+                    adapter = new MetaAdapter(consejos, getActivity());
                     // Setear adaptador a la lista
                     lista.setAdapter(adapter);
                     break;

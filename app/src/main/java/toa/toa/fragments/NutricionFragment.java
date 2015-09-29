@@ -9,8 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import toa.toa.ConsejosActivity;
 import toa.toa.R;
-import toa.toa.activities.ConsejosNutricionalesActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,7 +33,7 @@ public class NutricionFragment extends android.support.v4.app.Fragment {
         nutritionActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent callNutritionActivity = new Intent(getActivity().getApplicationContext(), ConsejosNutricionalesActivity.class);
+                Intent callNutritionActivity = new Intent(getActivity().getApplicationContext(), ConsejosActivity.class);
                 getActivity().startActivity(callNutritionActivity);
             }
         });

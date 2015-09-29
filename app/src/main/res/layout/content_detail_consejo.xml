@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="toa.toa.DetailConsejoActivity">
+
+    <ImageView
+        android:id="@+id/back_conseo_imgv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:cropToPadding="false" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="40dp"
+        android:background="@android:color/white"
+        android:paddingBottom="15dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="20dp">
+
+        <TextView
+            android:id="@+id/dconsejo_consejo_txtv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nutre tu cuerpo con alimentos de verdad, que vengan de la naturaleza y no de una caja. Come muchos vegetales, carnes, pescados y huevos. Come algunas frutas y tubérculos. Muy pocos cereales. Elimina el azúcar, los edulcorantes artificiales y los productos procesados. Infórmate de dónde vienen tus alimentos, y lee las etiquetas. Puedes mejorar el mundo mejorando tu cuerpo. No te obsesiones con la báscula, y rompe las reglas de vez en cuando."
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/dconsejo_autor_txtv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/dconsejo_consejo_txtv"
+            android:layout_alignRight="@+id/dconsejo_consejo_txtv"
+            android:layout_below="@+id/dconsejo_consejo_txtv"
+            android:layout_marginTop="5dp"
+            android:text="Marcos"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="13sp" />
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"></GridLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

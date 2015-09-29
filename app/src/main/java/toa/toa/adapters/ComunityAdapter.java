@@ -28,11 +28,9 @@ import toa.toa.activities.ComunityActivity;
 public class ComunityAdapter extends RecyclerView.Adapter<ComunityAdapter.ViewHolder> {
     private static Context contexto;
     private ArrayList<MrCommunity> comunities;
-    private int itemLayout;
 
-    public ComunityAdapter(ArrayList<MrCommunity> comunities, int layoutID, Context contexto) {
+    public ComunityAdapter(ArrayList<MrCommunity> comunities, Context contexto) {
         this.comunities = comunities;
-        this.itemLayout = layoutID;
         ComunityAdapter.contexto = contexto;
     }
 
@@ -40,8 +38,7 @@ public class ComunityAdapter extends RecyclerView.Adapter<ComunityAdapter.ViewHo
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         //par apoder inflar el objeto
-        View v = LayoutInflater.from(parent.getContext()).inflate(itemLayout, parent, false);
-        RelativeLayout layoutContainer = (RelativeLayout) parent.findViewById(R.id.my_recycler_comunity_view);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.comunity_row, parent, false);
         return new ViewHolder(v);
     }
 

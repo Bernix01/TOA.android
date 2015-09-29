@@ -43,7 +43,7 @@
         android:background="@color/third_slide"
         android:elevation="1dp"
         android:padding="5dp"
-        android:text="GRATIS"
+        android:text="@string/devent_text_price_free"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#fff"
         android:textSize="18dp" />

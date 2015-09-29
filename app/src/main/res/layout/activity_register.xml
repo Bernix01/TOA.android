@@ -4,7 +4,6 @@
     android:id="@+id/conatiner_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/first_slide"
     tools:context="toa.toa.RegisterActivity">
 
     <LinearLayout
@@ -148,7 +147,6 @@
             android:layout_height="wrap_content"
             android:text="@string/title_activity_login"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/white"
             android:textSize="15sp" />
 
     </LinearLayout>

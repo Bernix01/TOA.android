@@ -9,7 +9,9 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Base64;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -75,7 +77,7 @@ public class UtilidadesExtras {
     }
 
     public static float tryGetFloat(JSONObject j, String name) {
-        float r = -1;
+        float r = 0;
         try {
             r = (float) (Double.parseDouble(j.getString(name)) * 1.0f);
         } catch (JSONException e) {
@@ -113,6 +115,10 @@ public class UtilidadesExtras {
         return r;
     }
 
+    public static float dipToPixels(Context context, float dipValue) {
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, metrics);
+    }
     public static String tryGetString(JSONArray j, int pos) {
         String r = "";
         try {

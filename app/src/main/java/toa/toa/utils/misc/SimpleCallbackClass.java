@@ -17,4 +17,5 @@ public class SimpleCallbackClass implements SimpleCallbackInterface {
     public void gotBool(Boolean bool) {
 
     }
+
 }
