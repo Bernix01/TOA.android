@@ -39,6 +39,7 @@ public class MrEvent implements Parcelable {
     private String descr;
     private float x, y, price = 0, distance = 0;
     private String cat;
+    private String eventsportimg;
 
     protected MrEvent(Parcel in) {
         hEndDate = in.readString();
@@ -111,6 +112,11 @@ public class MrEvent implements Parcelable {
         return this;
     }
 
+    public MrEvent withEventSportImg(String eventimg) {
+        this.eventsportimg = eventimg;
+        return this;
+    }
+
     public MrEvent withDistance(float distance) {
         this.distance = distance;
         return this;
@@ -173,4 +179,7 @@ public class MrEvent implements Parcelable {
         return y;
     }
 
+    public String getEventsportimg() {
+        return eventsportimg;
+    }
 }

@@ -17,6 +17,10 @@ import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Date;
 
 import toa.toa.Objects.MrEvent;
@@ -67,7 +71,7 @@ public class NewEventNotification {
         ID = event.getId();
         // This image is used as the notification's large icon (thumbnail).
         // TODO: Remove this if your notification has no relevant thumbnail.
-        final Bitmap picture = BitmapFactory.decodeResource(res, R.drawable.example_picture);
+        final Bitmap picture = getBitmapFromURL(event.getEventsportimg());
 
         final SpannableStringBuilder exampleItem = new SpannableStringBuilder();
         exampleItem.append("Dummy");
@@ -147,6 +151,21 @@ public class NewEventNotification {
                             PendingIntent.FLAG_UPDATE_CURRENT));
         }
         notify(context, builder.build());
+    }
+
+    public static Bitmap getBitmapFromURL(String strURL) {
+        try {
+            URL url = new URL(strURL);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.ECLAIR)

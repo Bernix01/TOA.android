@@ -55,9 +55,9 @@ public class DetailEventActivity extends AppCompatActivity {
         date = (TextView) findViewById(R.id.devent_date);
         descr = (TextView) findViewById(R.id.devent_descr);
         collapsingToolbarLayout.setTitle(event.getName());
-        String organizerstr = getResources().getString(R.string.organiza_txt) + "\n" + event.getOrganizador();
+        String organizerstr = event.getOrganizador();
         organizer.setText(organizerstr);
-        price.setText((event.getPrice() == 0) ? getResources().getString(R.string.devent_text_price_free) : String.valueOf(event.getPrice()));
+        price.setText((event.getPrice() == 0) ? getResources().getString(R.string.devent_text_price_free) : String.valueOf(event.getPrice()) + "Km");
         descr.setText(event.getDescr());
         date.setText(event.gethStartDate());
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -86,7 +86,7 @@ public class DetailEventActivity extends AppCompatActivity {
             public void gotBool(Boolean bool) {
                 if (bool) {
                     fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.third_slide)));
-                    fab.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_alarm_on_white_24dp));
+                    fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_schedule_white_24dp));
                     fab.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -102,7 +102,7 @@ public class DetailEventActivity extends AppCompatActivity {
                     showFAB(fab);
                 } else {
                     fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), android.R.color.white)));
-                    fab.setBackgroundDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_schedule_black_24dp));
+                    fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_schedule_black_24dp));
                     fab.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {

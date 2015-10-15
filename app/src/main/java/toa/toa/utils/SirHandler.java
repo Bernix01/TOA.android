@@ -25,7 +25,6 @@ import toa.toa.Objects.MrCommunity;
 import toa.toa.Objects.MrEvent;
 import toa.toa.Objects.MrPlace;
 import toa.toa.Objects.MrUser;
-import toa.toa.agenda.AgendaMan;
 import toa.toa.utils.misc.SimpleCallbackClass;
 import toa.toa.utils.misc.SirEventsRetriever;
 import toa.toa.utils.misc.SirFriendsRetriever;
@@ -457,11 +456,11 @@ public class SirHandler {
         RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
-                if (statusCode == 201) {
+                if (statusCode == 200) {
                     try {
 
                         JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
-                        AgendaMan.saveEvent(dataf.getJSONObject(0).getJSONArray("row").getInt(0), context);
+                        //AgendaMan.saveEvent(dataf.getJSONObject(0).getJSONArray("row").getInt(0), context);
 
                         NewEventNotification.notify(context, event);
                         simpleCallbackClass.goIt();
@@ -487,7 +486,7 @@ public class SirHandler {
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
         try {
-            subcmd.put("statement", "MATCH (n:user)-[r:isGoing]->(a:Event) WHERE id(n)=\"" + _currentUser.get_id() + "\" AND id(a)=\"" + event.getId() + "\" DELETE r RETURN 0");
+            subcmd.put("statement", "MATCH (n:user)-[r:isGoing]->(a:Event) WHERE id(n)=" + _currentUser.get_id() + " AND id(a)=" + event.getId() + " DELETE r RETURN 0");
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {
@@ -516,7 +515,7 @@ public class SirHandler {
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
         try {
-            subcmd.put("statement", "MATCH (n:user)-[r:isGoing]->(a:Event) WHERE id(n)=" + _currentUser.get_id() + " RETURN a,id(a)");
+            subcmd.put("statement", "MATCH (n:user)-[r:isGoing]->(a:Event)-[e:ABOUT]->(t:Sport) WHERE id(n)=" + _currentUser.get_id() + " RETURN a,id(a),t");
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {
@@ -527,12 +526,13 @@ public class SirHandler {
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                 try {
-                    ArrayList<MrEvent> events = new ArrayList<MrEvent>();
+                    ArrayList<MrEvent> events = new ArrayList<>();
                     JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
                     int datos = dataf.length();
                     for (int i = 0; i < datos; i++) {
-                        JSONObject udata = dataf.getJSONObject(i).getJSONArray("row").getJSONObject(0);
-                        MrEvent temp = new MrEvent(dataf.getJSONObject(i).getJSONArray("row").getInt(1),
+                        JSONArray data = dataf.getJSONObject(i).getJSONArray("row");
+                        JSONObject udata = data.getJSONObject(0);
+                        MrEvent temp = new MrEvent(data.getInt(1),
                                 tryGetString(udata, "name"),
                                 convertDate(tryGetString(udata, "dateStart")),
                                 convertDate(tryGetString(udata, "dateEnd")),
@@ -542,18 +542,16 @@ public class SirHandler {
                                 tryGetFloat(udata, "X"),
                                 tryGetFloat(udata, "Y"),
                                 tryGetString(udata, "imgurl"));
-                        String sportsA = tryGetString(udata, "esports");
+                        String sportsA = tryGetString(data.getJSONObject(2), "name");
                         if (!sportsA.isEmpty()) {
-                            String[] sports = sportsA.split(",");
-                            for (String sport : sports) {
-                                if (sport.equals("Running") || sport.equals("Ciclismo") || sport.equals("Natación"))
+                            if (sportsA.equals("Running") || sportsA.equals("Ciclismo") || sportsA.equals("Natación"))
                                     temp = temp.withDistance(tryGetFloat(udata, "distance"));
-                                if (sport.equals("Triatlón"))
+                            if (sportsA.equals("Triatlón"))
                                     temp = temp.withCategory(tryGetString(udata, "cat"));
-                            }
                         }
                         float price = tryGetFloat(udata, "price");
                         temp = temp.withPrice((price == 0.0f) ? 0 : price);
+                        temp = temp.withEventSportImg(tryGetString(data.getJSONObject(2), "icnurl_alt"));
                         events.add(temp);
                     }
                     retriever.gotIt(events);
@@ -577,7 +575,7 @@ public class SirHandler {
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
         try {
-            subcmd.put("statement", "MATCH (a:user)-[r:isGoing]->(n:Event) WHERE id(a)=" + _currentUser.get_id() + " AND id(n)=" + event.getId() + "return COUNT(*)");
+            subcmd.put("statement", "MATCH (a:user)-[r:isGoing]->(n:Event) WHERE id(a)=" + _currentUser.get_id() + " AND id(n)=" + event.getId() + " return COUNT(*)");
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {
@@ -794,7 +792,7 @@ public class SirHandler {
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
         try {
-            subcmd.put("statement", "MATCH (n:Event)-[r:ABOUT]->(a:Sport) WHERE a.name=\"" + com + "\" RETURN n,id(n)");
+            subcmd.put("statement", "MATCH (n:Event)-[r:ABOUT]->(a:Sport) WHERE a.name=\"" + com + "\" RETURN n,id(n) ORDER BY n.dateStart ");
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {

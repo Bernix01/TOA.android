@@ -132,7 +132,7 @@ public class UtilidadesExtras {
 
     static Date convertDate(String date) {
         try {
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd hh:mm", Locale.getDefault());
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
             return format.parse(date);
         } catch (Exception e) {
             e.printStackTrace();
