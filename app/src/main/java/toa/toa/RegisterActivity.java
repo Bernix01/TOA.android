@@ -185,7 +185,7 @@ public class RegisterActivity extends AppCompatActivity {
                             Log.e("responsebody", responseBody.toString() + "  ");
                             if (statusCode == 204) {
                                 SirHandler.registerCurrentUser(user, Base64.encodeToString((usr.getText().toString() + pw.getText().toString()).getBytes(), Base64.DEFAULT));
-                                Intent i = new Intent(getApplicationContext(), FirstTime.class);
+                                Intent i = new Intent(getApplicationContext(), SelectSportsActivity.class);
                                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(i);
                                 finish();

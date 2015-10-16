@@ -9,12 +9,9 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
-import android.text.SpannableStringBuilder;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 
 import java.io.IOException;
@@ -42,11 +39,6 @@ public class NewEventNotification {
     /**
      * Shows the notification, or updates a previously shown notification of
      * this type, with the given parameters.
-     * <p/>
-     * TODO: Customize this method's arguments to present relevant content in
-     * the notification.
-     * <p/>
-     * TODO: Customize the contents of this method to tweak the behavior and
      * presentation of new event notifications. Make
      * sure to follow the
      * <a href="https://developer.android.com/design/patterns/notifications.html">
@@ -73,14 +65,17 @@ public class NewEventNotification {
         // TODO: Remove this if your notification has no relevant thumbnail.
         final Bitmap picture = getBitmapFromURL(event.getEventsportimg());
 
-        final SpannableStringBuilder exampleItem = new SpannableStringBuilder();
-        exampleItem.append("Dummy");
-        exampleItem.setSpan(new ForegroundColorSpan(Color.WHITE), 0, exampleItem.length(), 0);
-        exampleItem.append("   Example content");
 
         final String ticker = event.getName();
         final String title = event.getName();
-        final int id = event.getId();
+
+
+        NotificationCompat.BigTextStyle style = new NotificationCompat.BigTextStyle();
+        style
+
+                .bigText(event.getDescr())
+                .setBigContentTitle(title)
+                .setSummaryText("Organiza: " + event.getOrganizador());
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
 
                 // Set appropriate defaults for the notification light, sound,
@@ -122,10 +117,7 @@ public class NewEventNotification {
 
                         // Show an expanded list of items on devices running Android 4.1
                         // or later.
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText(event.getDescr())
-                        .setBigContentTitle(title)
-                        .setSummaryText("Organiza: " + event.getOrganizador()))
+                .setStyle(style)
 
                         // Example additional actions for this notification. These will
                         // only show on devices running Android 4.1 or later, so you
@@ -136,7 +128,7 @@ public class NewEventNotification {
 
                         // Automatically dismiss the notification when it is touched.
                 .setAutoCancel(true);
-        if (event.getY() != 0 && event.getY() != 0) {
+        if (event.getY() != 0 && event.getX() != 0) {
             Log.i("x,y", event.getX() + "," + event.getY());
             Uri uri = Uri.parse("google.navigation:q=" + event.getX() + "," + event.getY());
             Intent navIntent = new Intent(Intent.ACTION_VIEW, uri);
@@ -152,6 +144,7 @@ public class NewEventNotification {
         }
         notify(context, builder.build());
     }
+
 
     public static Bitmap getBitmapFromURL(String strURL) {
         try {

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -85,8 +86,8 @@ public class DetailEventActivity extends AppCompatActivity {
             @Override
             public void gotBool(Boolean bool) {
                 if (bool) {
-                    fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.third_slide)));
-                    fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_schedule_white_24dp));
+                    fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.profesionalColor)));
+                    fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_event_busy_white_24dp));
                     fab.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -94,6 +95,8 @@ public class DetailEventActivity extends AppCompatActivity {
                             SirHandler.deleteEvent(getApplicationContext(), event, new SimpleCallbackClass() {
                                 @Override
                                 public void goIt() {
+                                    Snackbar.make(findViewById(android.R.id.content), R.string.eventDeleted_txt, Snackbar.LENGTH_SHORT)
+                                            .show();
                                     toggleFAB(fab);
                                 }
                             });
@@ -101,8 +104,8 @@ public class DetailEventActivity extends AppCompatActivity {
                     });
                     showFAB(fab);
                 } else {
-                    fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), android.R.color.white)));
-                    fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_schedule_black_24dp));
+                    fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.third_slide)));
+                    fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_add_alert_white_48dp));
                     fab.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -110,6 +113,8 @@ public class DetailEventActivity extends AppCompatActivity {
                             SirHandler.registerEvent(event, getApplicationContext(), new SimpleCallbackClass() {
                                 @Override
                                 public void goIt() {
+                                    Snackbar.make(findViewById(android.R.id.content), R.string.eventAdded_txt, Snackbar.LENGTH_SHORT)
+                                            .show();
                                     toggleFAB(fab);
                                 }
                             });

@@ -38,8 +38,9 @@
                     android:id="@+id/consejo_txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="safdsdfsd"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textSize="14sp"
+                    android:textStyle="italic" />
 
                 <TextView
                     android:id="@+id/consejo_autor"
@@ -47,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:gravity="right"
-                    android:text="safdsdfsd" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <android.support.v7.widget.Toolbar

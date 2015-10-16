@@ -6,7 +6,6 @@ package toa.toa.adapters;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -14,8 +13,8 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,7 +57,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         if (!com.get_pimage().isEmpty()) {
             Picasso.with(contexto).load(com.get_pimage()).transform(new CropCircleTransformation()).into(holder.pimage);
         } else {
-            Picasso.with(contexto).load(R.drawable.defaultpimage).transform(new CropCircleTransformation()).into(holder.pimage);
+            Picasso.with(contexto).load(R.drawable.ic_account_circle_white_48dp).transform(new CropCircleTransformation()).into(holder.pimage);
         }
         holder.glSports.removeAllViews();
         for (MrCommunity sport : com.get_sports())
@@ -70,13 +69,17 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
             }
         });
         holder.tagline.setText(com.get_bio());
-        if (com.get_id() != SirHandler.getCurrentUser(contexto).get_id())
+
+        if (com.get_id() == SirHandler.getCurrentUser(contexto).get_id()) {
+            holder.friendShip.setVisibility(View.INVISIBLE);
+            return;
+        }
             SirHandler.isFollowing(com, new SimpleCallbackClass() {
                 @Override
                 public void gotBool(final Boolean bool) {
                     if (bool) {
                         holder.friendShip.setText(R.string.unFollow);
-                        holder.friendShip.setBackgroundColor(Color.RED);
+                        holder.friendShip.setBackgroundColor(ContextCompat.getColor(contexto, R.color.profesionalColor));
                     } else {
                         holder.friendShip.setText(R.string.follow);
                         holder.friendShip.setBackgroundColor(ContextCompat.getColor(contexto, R.color.my_awesome_color));
@@ -119,7 +122,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
 
         public TextView nametxtv;
         public ImageView pimage;
-        public GridLayout glSports;
+        public LinearLayout glSports;
         public TextView friendShip;
         public TextView tagline;
 
@@ -127,7 +130,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
             super(itemView);
             nametxtv = (TextView) itemView.findViewById(R.id.friend_name_txtv);
             pimage = (ImageView) itemView.findViewById(R.id.friend_pimage_imv);
-            glSports = (GridLayout) itemView.findViewById(R.id.friend_sports_gl);
+            glSports = (LinearLayout) itemView.findViewById(R.id.friend_sports_gl);
             friendShip = (TextView) itemView.findViewById(R.id.item_row_friend_toggleFriendship);
             tagline = (TextView) itemView.findViewById(R.id.item_row_friend_tagline);
         }

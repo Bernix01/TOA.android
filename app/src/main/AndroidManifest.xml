@@ -63,7 +63,7 @@
             android:value="toa.toa.RegisterActivity" />
 
         <activity
-            android:name=".FirstTime"
+            android:name=".SelectSportsActivity"
             android:label="@string/title_activity_first_time" />
         <activity
             android:name=".LoadingSplash"
@@ -175,11 +175,11 @@
         <activity
             android:name=".DetailEventActivity"
             android:label="@string/title_activity_detail_event"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ConsejosActivity"
             android:label="@string/title_activity_consejos"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".DetailConsejoActivity"
             android:label="@string/title_activity_detail_consejo"

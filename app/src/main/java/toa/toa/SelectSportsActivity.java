@@ -24,7 +24,7 @@ import toa.toa.utils.CheckBox;
 import toa.toa.utils.SirHandler;
 import toa.toa.utils.misc.SirSportsListRetriever;
 
-public class FirstTime extends AppCompatActivity {
+public class SelectSportsActivity extends AppCompatActivity {
     private adapter adapt;
 
     @Override

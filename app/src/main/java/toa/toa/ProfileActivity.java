@@ -60,7 +60,7 @@ public class ProfileActivity extends AppCompatActivity {
         editSports.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), FirstTime.class));
+                startActivity(new Intent(getApplicationContext(), SelectSportsActivity.class));
             }
         });
         friendsIcn.setOnClickListener(new View.OnClickListener() {

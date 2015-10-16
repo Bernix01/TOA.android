@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#f7f7f7"
     android:fitsSystemWindows="false"
-    tools:context="toa.toa.FirstTime">
+    tools:context=".SelectSportsActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_firstTime"

@@ -74,9 +74,17 @@ public class SirHandler {
     private static void checkForEvents() {
         getUserEvents(new SirEventsRetriever() {
             @Override
-            public void gotIt(ArrayList<MrEvent> events) {
-                for (MrEvent event : events)
-                    NewEventNotification.notify(mcontext, event);
+            public void gotIt(final ArrayList<MrEvent> events) {
+
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        for (MrEvent event : events)
+                            NewEventNotification.notify(mcontext, event);
+                    }
+                });
+                thread.start();
+
             }
 
             @Override
@@ -123,7 +131,7 @@ public class SirHandler {
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
         try {
-            subcmd.put("statement", "MATCH (n:user),(h:user {name: \'" + _currentUser.get_name() + "\'}) WHERE n.name=~ \".*" + query + ".*\"  OR n.u_name=~ \".*" + query + ".*\" RETURN n, id(n)");
+            subcmd.put("statement", "MATCH (n:user),(h:user {name: \'" + _currentUser.get_name() + "\'}) WHERE n.name=~ \".*" + query + ".*\"  OR n.u_name=~ \".*" + query + ".*\" RETURN n, id(n) ");
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {
@@ -446,7 +454,7 @@ public class SirHandler {
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
         try {
-            subcmd.put("statement", "MATCH (n:user),(a:Event) WHERE id(a)=" + event.getId() + " AND id(n)=" + _currentUser.get_id() + " CREATE UNIQUE (n)-[r:isGoing]->(a) RETURN id(r),r");
+            subcmd.put("statement", "MATCH (n:user),(a:Event)-[t:ABOUT]->(v:Sport) WHERE id(a)=" + event.getId() + " AND id(n)=" + _currentUser.get_id() + " CREATE UNIQUE (n)-[r:isGoing]->(a) RETURN id(r),r,v");
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {
@@ -460,7 +468,7 @@ public class SirHandler {
                     try {
 
                         JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
-                        //AgendaMan.saveEvent(dataf.getJSONObject(0).getJSONArray("row").getInt(0), context);
+                        event.withEventSportImg(tryGetString(dataf.getJSONObject(0).getJSONArray("row").getJSONObject(2), "icnurl_alt"));
 
                         NewEventNotification.notify(context, event);
                         simpleCallbackClass.goIt();
@@ -515,7 +523,7 @@ public class SirHandler {
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
         try {
-            subcmd.put("statement", "MATCH (n:user)-[r:isGoing]->(a:Event)-[e:ABOUT]->(t:Sport) WHERE id(n)=" + _currentUser.get_id() + " RETURN a,id(a),t");
+            subcmd.put("statement", "MATCH (n:user)-[r:isGoing]->(a:Event)-[e:ABOUT]->(t:Sport) WHERE id(n)=" + _currentUser.get_id() + " RETURN a,id(a),t ORDER BY n.dateStart");
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {
@@ -624,7 +632,6 @@ public class SirHandler {
                 try {
                     final ArrayList<MrUser> friends = new ArrayList<MrUser>();
                     JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
-                    Log.e("respuesta", response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row").toString());
                     final int datos = dataf.length();
                     for (int i = 0; i < datos; i++) {
                         JSONObject udata = dataf.getJSONObject(i).getJSONArray("row").getJSONObject(0);
@@ -786,13 +793,13 @@ public class SirHandler {
         });
     }
 
-    public void getSportEvents(final String com, final SirEventsRetriever retriever) {
+    public void getSportEvents(final MrCommunity sport, final SirEventsRetriever retriever) {
 
         JSONObject cmd = new JSONObject();
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
         try {
-            subcmd.put("statement", "MATCH (n:Event)-[r:ABOUT]->(a:Sport) WHERE a.name=\"" + com + "\" RETURN n,id(n) ORDER BY n.dateStart ");
+            subcmd.put("statement", "MATCH (n:Event)-[r:ABOUT]->(a:Sport) WHERE a.name=\"" + sport.getComunityName() + "\" RETURN n,id(n) ORDER BY n.dateStart ");
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {
@@ -805,11 +812,12 @@ public class SirHandler {
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                 Log.i("resonse", response.toString());
                 try {
-                    ArrayList<MrEvent> events = new ArrayList<MrEvent>();
+                    ArrayList<MrEvent> events = new ArrayList<>();
                     JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
                     int datos = dataf.length();
                     for (int i = 0; i < datos; i++) {
-                        JSONObject udata = dataf.getJSONObject(i).getJSONArray("row").getJSONObject(0);
+                        JSONArray data = dataf.getJSONObject(i).getJSONArray("row");
+                        JSONObject udata = data.getJSONObject(0);
                         MrEvent temp = new MrEvent(dataf.getJSONObject(i).getJSONArray("row").getInt(1),
                                 tryGetString(udata, "name"),
                                 convertDate(tryGetString(udata, "dateStart")),
@@ -820,12 +828,14 @@ public class SirHandler {
                                 tryGetFloat(udata, "X"),
                                 tryGetFloat(udata, "Y"),
                                 tryGetString(udata, "imgurl"));
+                        String com = sport.getComunityName();
                         if ((com.equals("Running") || com.equals("Ciclismo") || com.equals("Natación")) && tryGetFloat(udata, "distance") != 0)
                             temp = temp.withDistance(tryGetFloat(udata, "distance"));
                         if (com.equals("Triatlón") && !tryGetString(udata, "cat").isEmpty())
                             temp = temp.withCategory(tryGetString(udata, "cat"));
                         float price = tryGetFloat(udata, "price");
                         temp = temp.withPrice((price == 0.0f) ? 0 : price);
+                        temp = temp.withEventSportImg(sport.getComunityImgAlt());
                         events.add(temp);
                     }
                     Log.e("friends", events.size() + "");

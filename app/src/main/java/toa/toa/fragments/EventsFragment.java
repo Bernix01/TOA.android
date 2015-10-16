@@ -45,7 +45,7 @@ public class EventsFragment extends android.support.v4.app.Fragment {
         final SuperRecyclerView recyclerView = (SuperRecyclerView) holder.findViewById(R.id.events_srecyclerv);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         SirHandler handler = new SirHandler(getActivity().getApplicationContext());
-        handler.getSportEvents(com.getComunityName(), new SirEventsRetriever() {
+        handler.getSportEvents(com, new SirEventsRetriever() {
             @Override
             public void gotIt(ArrayList<MrEvent> events) {
                 recyclerView.setAdapter(new EventsAdapter(events, getActivity().getApplicationContext()));

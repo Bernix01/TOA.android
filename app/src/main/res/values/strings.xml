@@ -57,8 +57,8 @@
 
     <string name="search_hint">Buscar</string>
     <string name="search">Search</string>
-    <string name="unFollow">-</string>
-    <string name="follow">+</string>
+    <string name="unFollow">Dejar de seguir</string>
+    <string name="follow">Seguir</string>
     <string name="item_row_friend_frindshipdefaulttxt">Tú</string>
     <string name="hint_email">E-mail</string>
     <string name="hint_bio">Bio</string>
@@ -87,4 +87,6 @@
     <string name="devent_text_price_free">GRATIS</string>
     <string name="title_activity_consejos">Consejos</string>
     <string name="title_activity_detail_consejo">Consejo</string>
+    <string name="eventAdded_txt">Evento agregado a la agenda.</string>
+    <string name="eventDeleted_txt">Evento removido de la agenda.</string>
 </resources>

@@ -125,9 +125,9 @@ public class MainActivity extends AppCompatActivity {
         final TextView name_txtv = (TextView) findViewById(R.id.main_ui_name_txtv);
         final ImageView pimage_imgv = (ImageView) findViewById(R.id.main_ui_pimage_imv);
         if (!__user.get_pimage().isEmpty()) {
-            Picasso.with(getApplicationContext()).load(__user.get_pimage()).transform(new CropCircleTransformation()).into(pimage_imgv);
+            Picasso.with(getApplicationContext()).load(__user.get_pimage()).placeholder(R.drawable.ic_account_circle_white_48dp).error(R.drawable.ic_account_circle_white_48dp).transform(new CropCircleTransformation()).into(pimage_imgv);
         } else {
-            Picasso.with(getApplicationContext()).load(R.drawable.defaultpimage).transform(new CropCircleTransformation()).into(pimage_imgv);
+            Picasso.with(getApplicationContext()).load(R.drawable.ic_person_white_24dp).transform(new CropCircleTransformation()).into(pimage_imgv);
         }
         name_txtv.setText(__user.get_uname().split(" ")[0]);
         name_txtv.setOnClickListener(new View.OnClickListener() {
@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject data = response.getJSONObject("data");
                     TextView txt = (TextView) findViewById(R.id.consejo_txt);
                     TextView aut = (TextView) findViewById(R.id.consejo_autor);
-                    txt.setText(data.getString("cnst"));
+                    txt.setText("\"" + data.getString("cnst") + "\"");
                     aut.setText(data.getString("cnstxt"));
                 } catch (JSONException e) {
                     e.printStackTrace();
