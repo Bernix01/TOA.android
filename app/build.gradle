@@ -9,7 +9,7 @@ android {
         release {
             keyAlias 'TOA.Android'
             keyPassword 'Zrbf3V84uL8hfJSy'
-            storeFile file('D:/DATA/Projects/Toa/TOA.android/TOA.jks')
+            storeFile file('/TOA.jks')
             storePassword 'Zrbf3V84uL8hfJSy'
         }
     }
