@@ -111,7 +111,7 @@ public class NewEventNotification {
                 .setContentIntent(
                         PendingIntent.getActivity(
                                 context,
-                                0,
+                                event.getId(),
                                 (new Intent(context, DetailEventActivity.class).putExtra("event", event)),
                                 PendingIntent.FLAG_UPDATE_CURRENT))
 

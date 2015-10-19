@@ -1,5 +1,6 @@
 package toa.toa;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -15,6 +16,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
 import toa.toa.Objects.MrEvent;
@@ -58,16 +67,43 @@ public class DetailEventActivity extends AppCompatActivity {
         collapsingToolbarLayout.setTitle(event.getName());
         String organizerstr = event.getOrganizador();
         organizer.setText(organizerstr);
-        price.setText((event.getPrice() == 0) ? getResources().getString(R.string.devent_text_price_free) : String.valueOf(event.getPrice()) + "Km");
+        String pricestr = getResources().getString(R.string.price_title) + ((event.getPrice() == 0) ? getResources().getString(R.string.devent_text_price_free) : ((event.getPrice() % 1 == 0) ? " $" + String.valueOf((int) event.getPrice()) : " $" + String.valueOf(event.getPrice())));
+        price.setText(pricestr);
         descr.setText(event.getDescr());
-        date.setText(event.gethStartDate());
+        String startDatetxt = getResources().getString(R.string.starts_in) + " " + event.gethStartDate();
+        date.setText(startDatetxt);
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        final ImageView hback = (ImageView) findViewById(R.id.himgbackcom);
+        final ImageView hback = (ImageView) findViewById(R.id.devent_img);
         fab.hide();
         toggleFAB(fab);
         if (event.getImgurl() != null)
-            if (!event.getImgurl().isEmpty())
-                Picasso.with(getApplicationContext()).load(event.getImgurl()).fit().centerCrop().into(hback);
+            if (!event.getImgurl().isEmpty()) {
+                Picasso.with(getApplicationContext()).load(event.getImgurl()).into(hback);
+                collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(getApplicationContext(), android.R.color.transparent));
+            }
+
+
+        final LatLng eventCoords = new LatLng(event.getY(), event.getX());
+        GoogleMapOptions options = new GoogleMapOptions().liteMode(true);
+        options.mapToolbarEnabled(false);
+        MapFragment mMapFragment = MapFragment.newInstance(options);
+        FragmentTransaction fragmentTransaction =
+                getFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.map, mMapFragment);
+        fragmentTransaction.commit();
+        mMapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                googleMap.addMarker(new MarkerOptions()
+                        .position(eventCoords));
+                CameraPosition cameraPosition = new CameraPosition.Builder()
+                        .target(eventCoords)
+                        .zoom(16)
+                        .tilt(30)
+                        .build();
+                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            }
+        });
 
     }
 
@@ -95,7 +131,7 @@ public class DetailEventActivity extends AppCompatActivity {
                             SirHandler.deleteEvent(getApplicationContext(), event, new SimpleCallbackClass() {
                                 @Override
                                 public void goIt() {
-                                    Snackbar.make(findViewById(android.R.id.content), R.string.eventDeleted_txt, Snackbar.LENGTH_SHORT)
+                                    Snackbar.make(findViewById(R.id.fab), R.string.eventDeleted_txt, Snackbar.LENGTH_SHORT)
                                             .show();
                                     toggleFAB(fab);
                                 }
@@ -113,7 +149,7 @@ public class DetailEventActivity extends AppCompatActivity {
                             SirHandler.registerEvent(event, getApplicationContext(), new SimpleCallbackClass() {
                                 @Override
                                 public void goIt() {
-                                    Snackbar.make(findViewById(android.R.id.content), R.string.eventAdded_txt, Snackbar.LENGTH_SHORT)
+                                    Snackbar.make(findViewById(R.id.fab), R.string.eventAdded_txt, Snackbar.LENGTH_SHORT)
                                             .show();
                                     toggleFAB(fab);
                                 }

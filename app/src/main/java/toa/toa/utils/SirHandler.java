@@ -262,6 +262,7 @@ public class SirHandler {
 
     private static void setCurrent() {
         SharedPreferences userDetails = mcontext.getSharedPreferences("u_data", Context.MODE_PRIVATE);
+        SirHandler._currentUser = new MrUser();
         SirHandler._currentUser.set_id(userDetails.getInt("n_id", -1));
         SirHandler._currentUser.set_bio(userDetails.getString("bio", ""));
         SirHandler._currentUser.set_email(userDetails.getString("email", ""));
@@ -549,11 +550,13 @@ public class SirHandler {
                                 tryGetString(udata, "address"),
                                 tryGetFloat(udata, "X"),
                                 tryGetFloat(udata, "Y"),
-                                tryGetString(udata, "imgurl"));
+                                tryGetString(udata, "imgurl"),
+                                tryGetInt(udata, "minAge"),
+                                tryGetString(udata, "prize"));
                         String sportsA = tryGetString(data.getJSONObject(2), "name");
                         if (!sportsA.isEmpty()) {
                             if (sportsA.equals("Running") || sportsA.equals("Ciclismo") || sportsA.equals("Natación"))
-                                    temp = temp.withDistance(tryGetFloat(udata, "distance"));
+                                temp = temp.withDistance(tryGetFloat(udata, "distance"), tryGetString(udata, "routImgUrl"));
                             if (sportsA.equals("Triatlón"))
                                     temp = temp.withCategory(tryGetString(udata, "cat"));
                         }
@@ -582,6 +585,8 @@ public class SirHandler {
         JSONObject cmd = new JSONObject();
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
+        if (_currentUser == null)
+            setCurrent();
         try {
             subcmd.put("statement", "MATCH (a:user)-[r:isGoing]->(n:Event) WHERE id(a)=" + _currentUser.get_id() + " AND id(n)=" + event.getId() + " return COUNT(*)");
             cmds.put(subcmd);
@@ -827,10 +832,12 @@ public class SirHandler {
                                 tryGetString(udata, "address"),
                                 tryGetFloat(udata, "X"),
                                 tryGetFloat(udata, "Y"),
-                                tryGetString(udata, "imgurl"));
+                                tryGetString(udata, "imgurl"),
+                                tryGetInt(udata, "minAge"),
+                                tryGetString(udata, "prize"));
                         String com = sport.getComunityName();
                         if ((com.equals("Running") || com.equals("Ciclismo") || com.equals("Natación")) && tryGetFloat(udata, "distance") != 0)
-                            temp = temp.withDistance(tryGetFloat(udata, "distance"));
+                            temp = temp.withDistance(tryGetFloat(udata, "distance"), tryGetString(udata, "routImgUrl"));
                         if (com.equals("Triatlón") && !tryGetString(udata, "cat").isEmpty())
                             temp = temp.withCategory(tryGetString(udata, "cat"));
                         float price = tryGetFloat(udata, "price");

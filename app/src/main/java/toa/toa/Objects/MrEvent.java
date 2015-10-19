@@ -7,7 +7,11 @@ package toa.toa.Objects;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.text.SimpleDateFormat;
+import org.joda.time.Instant;
+import org.joda.time.Period;
+import org.joda.time.PeriodType;
+import org.joda.time.format.PeriodFormat;
+
 import java.util.Date;
 import java.util.Locale;
 
@@ -37,6 +41,10 @@ public class MrEvent implements Parcelable {
     private String organizador;
     private String address;
     private String descr;
+    private String routeImgUrl;
+    private int minAge;
+    private String prize;
+
     private float x, y, price = 0, distance = 0;
     private String cat;
     private String eventsportimg;
@@ -57,22 +65,41 @@ public class MrEvent implements Parcelable {
         dateStart = (Date) in.readSerializable();
         dateEnd = (Date) in.readSerializable();
         imgurl = in.readString();
+        routeImgUrl = in.readString();
+        minAge = in.readInt();
+        prize = in.readString();
     }
 
-    public MrEvent(int id, String name, Date dateStart, Date dateEnd, String organizador, String descr, String address, float x, float y, String imgurl) {
+    public MrEvent(int id, String name, Date dateStart, Date dateEnd, String organizador, String descr, String address, float x, float y, String imgurl, int minAge, String prize) {
         this.id = id;
         this.name = name;
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
         this.organizador = organizador;
         this.descr = descr;
-
+        this.imgurl = imgurl;
         this.address = address;
         this.x = x;
         this.y = y;
-        SimpleDateFormat format2 = new SimpleDateFormat("dd MMM/yy HH:mm ", Locale.getDefault());
-        hStartDate = format2.format(this.dateStart);
-        hEndDate = format2.format(this.dateEnd);
+        this.prize = prize;
+        this.minAge = minAge;
+        Instant start = new Instant(new Date());
+        Instant end = new Instant(dateEnd);
+        Period period = new Period(start, end, PeriodType.yearMonthDay());
+        this.hStartDate = PeriodFormat.getDefault().withLocale(Locale.getDefault()).print(period);
+
+    }
+
+    public String getRouteImgUrl() {
+        return routeImgUrl;
+    }
+
+    public int getMinAge() {
+        return minAge;
+    }
+
+    public String getPrize() {
+        return prize;
     }
 
     @Override
@@ -97,6 +124,9 @@ public class MrEvent implements Parcelable {
         parcel.writeSerializable(dateStart);
         parcel.writeSerializable(dateEnd);
         parcel.writeString(imgurl);
+        parcel.writeString(routeImgUrl);
+        parcel.writeInt(minAge);
+        parcel.writeString(prize);
     }
 
     public String getImgurl() {
@@ -117,10 +147,12 @@ public class MrEvent implements Parcelable {
         return this;
     }
 
-    public MrEvent withDistance(float distance) {
+    public MrEvent withDistance(float distance, String routeImgUrl) {
         this.distance = distance;
+        this.routeImgUrl = routeImgUrl;
         return this;
     }
+
 
     public MrEvent withCategory(String cat) {
         this.cat = cat;
