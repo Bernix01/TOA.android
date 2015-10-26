@@ -10,7 +10,8 @@ import android.os.Parcelable;
 import org.joda.time.Instant;
 import org.joda.time.Period;
 import org.joda.time.PeriodType;
-import org.joda.time.format.PeriodFormat;
+import org.joda.time.format.PeriodFormatter;
+import org.joda.time.format.PeriodFormatterBuilder;
 
 import java.util.Date;
 import java.util.Locale;
@@ -85,8 +86,19 @@ public class MrEvent implements Parcelable {
         this.minAge = minAge;
         Instant start = new Instant(new Date());
         Instant end = new Instant(dateEnd);
-        Period period = new Period(start, end, PeriodType.yearMonthDay());
-        this.hStartDate = PeriodFormat.getDefault().withLocale(Locale.getDefault()).print(period);
+        Period period = new Period(start, end, PeriodType.yearMonthDayTime());
+        PeriodFormatter format = new PeriodFormatterBuilder()
+                .printZeroNever().appendYears().appendSuffix(" año", " años")
+                .appendSeparator(", ")
+                .printZeroNever().appendMonths().appendSuffix(" mes", " meses")
+                .appendSeparator(", ")
+                .printZeroNever().appendDays().appendSuffix(" día", " días")
+                .appendSeparator(", ")
+                .printZeroNever().appendHours().appendSuffix(" hr", " hrs")
+                .appendSeparator(", ")
+                .printZeroRarelyLast().appendMinutes().appendSuffix(" min", " mins")
+                .toFormatter();
+        this.hStartDate = format.withLocale(Locale.getDefault()).print(period);
 
     }
 

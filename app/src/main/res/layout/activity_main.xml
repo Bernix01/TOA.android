@@ -28,7 +28,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_margin="10dp"
-                android:background="@android:color/white"
                 android:orientation="vertical"
                 android:padding="10dp"
                 android:theme="@style/ThemeOverlay.AppCompat.Light"
@@ -38,9 +37,13 @@
                     android:id="@+id/consejo_txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:shadowColor="@android:color/darker_gray"
+                    android:textAlignment="center"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="14sp"
-                    android:textStyle="italic" />
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold|italic" />
 
                 <TextView
                     android:id="@+id/consejo_autor"
@@ -48,6 +51,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:gravity="right"
+                    android:textColor="#efefef"
                     android:textSize="12sp" />
             </LinearLayout>
 

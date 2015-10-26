@@ -167,8 +167,10 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject data = response.getJSONObject("data");
                     TextView txt = (TextView) findViewById(R.id.consejo_txt);
                     TextView aut = (TextView) findViewById(R.id.consejo_autor);
-                    txt.setText("\"" + data.getString("cnst") + "\"");
-                    aut.setText(data.getString("cnstxt"));
+                    String consejostr = "\"" + data.getString("cnst") + "\"";
+                    txt.setText(consejostr);
+                    String autorstr = "-" + data.getString("cnstxt");
+                    aut.setText(autorstr);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

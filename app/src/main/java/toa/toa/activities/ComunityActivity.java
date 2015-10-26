@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import jp.wasabeef.picasso.transformations.BlurTransformation;
-import toa.toa.Objects.MrCommunity;
+import toa.toa.Objects.MrSport;
 import toa.toa.R;
 import toa.toa.adapters.CollectionPagerComunityAdapter;
 
@@ -34,7 +34,7 @@ public class ComunityActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
 
 
-        final MrCommunity com = getIntent().getParcelableExtra("sport");
+        final MrSport com = getIntent().getParcelableExtra("sport");
         final TextView sportName = (TextView) findViewById(R.id.sport_name_txtv);
         final ImageView sportImage = (ImageView) findViewById(R.id.sport_imgv);
         if (!com.getComunityImg().isEmpty())

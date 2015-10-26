@@ -24,8 +24,10 @@ import toa.toa.NewEventNotification;
 import toa.toa.Objects.MrCommunity;
 import toa.toa.Objects.MrEvent;
 import toa.toa.Objects.MrPlace;
+import toa.toa.Objects.MrSport;
 import toa.toa.Objects.MrUser;
 import toa.toa.utils.misc.SimpleCallbackClass;
+import toa.toa.utils.misc.SirCommunitiesRetriever;
 import toa.toa.utils.misc.SirEventsRetriever;
 import toa.toa.utils.misc.SirFriendsRetriever;
 import toa.toa.utils.misc.SirPlacesRetriever;
@@ -161,7 +163,7 @@ public class SirHandler {
                                 tryGetString(udata, "pimageurl"));
                         getUserSports(temp, new SirSportsListRetriever() {
                             @Override
-                            public void goIt(ArrayList<MrCommunity> sports) {
+                            public void goIt(ArrayList<MrSport> sports) {
                                 MrUser finalU = temp.withSports(sports);
                                 friends.add(finalU);
                                 if (friends.size() == datos)
@@ -239,12 +241,12 @@ public class SirHandler {
 
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
-                ArrayList<MrCommunity> sports = new ArrayList<MrCommunity>();
+                ArrayList<MrSport> sports = new ArrayList<MrSport>();
                 try {
                     JSONArray data = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
                     int datos = data.length();
                     for (int i = 0; i < datos; i++)
-                        sports.add(new MrCommunity(data.getJSONObject(i).getJSONArray("row").getString(0), data.getJSONObject(i).getJSONArray("row").getString(1), data.getJSONObject(i).getJSONArray("row").getString(2), data.getJSONObject(i).getJSONArray("row").getString(3)));
+                        sports.add(new MrSport(data.getJSONObject(i).getJSONArray("row").getString(0), data.getJSONObject(i).getJSONArray("row").getString(1), data.getJSONObject(i).getJSONArray("row").getString(2), data.getJSONObject(i).getJSONArray("row").getString(3)));
                     retriever.goIt(sports);
                 } catch (JSONException e) {
                     Log.e("exception", e.getMessage());
@@ -320,14 +322,14 @@ public class SirHandler {
 
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
-                ArrayList<MrCommunity> sports = new ArrayList<MrCommunity>();
+                ArrayList<MrSport> sports = new ArrayList<MrSport>();
                 try {
                     JSONArray data = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
                     int datos = data.length();
                     ArrayList<String> sportsl = new ArrayList<String>();
                     for (int a = 0; a < datos; a++) {
                         JSONObject i = data.getJSONObject(a);
-                        sports.add(new MrCommunity(i.getJSONArray("row").getString(0), i.getJSONArray("row").getString(1), i.getJSONArray("row").getString(2), i.getJSONArray("row").getString(3)));
+                        sports.add(new MrSport(i.getJSONArray("row").getString(0), i.getJSONArray("row").getString(1), i.getJSONArray("row").getString(2), i.getJSONArray("row").getString(3)));
                         sportsl.add(i.getJSONArray("row").getString(0));
                     }
                     sportsListRetriever.goIt(sports);
@@ -650,7 +652,7 @@ public class SirHandler {
                                 tryGetString(udata, "pimageurl"));
                         getUserSports(temp, new SirSportsListRetriever() {
                             @Override
-                            public void goIt(ArrayList<MrCommunity> sports) {
+                            public void goIt(ArrayList<MrSport> sports) {
                                 MrUser finalU = temp.withSports(sports);
                                 friends.add(finalU);
                                 if (friends.size() == datos)
@@ -677,7 +679,7 @@ public class SirHandler {
         });
     }
 
-    public void getSportMembers(MrCommunity comunity, final SirFriendsRetriever retriever) {
+    public void getSportMembers(MrSport comunity, final SirFriendsRetriever retriever) {
 
         JSONObject cmd = new JSONObject();
         JSONArray cmds = new JSONArray();
@@ -710,7 +712,7 @@ public class SirHandler {
                                 tryGetString(udata, "pimageurl"));
                         getUserSports(temp, new SirSportsListRetriever() {
                             @Override
-                            public void goIt(ArrayList<MrCommunity> sports) {
+                            public void goIt(ArrayList<MrSport> sports) {
                                 MrUser finalU = temp.withSports(sports);
                                 friends.add(finalU);
                                 if (friends.size() == datos)
@@ -737,7 +739,7 @@ public class SirHandler {
         });
     }
 
-    public void getPlaces(MrCommunity com, final SirPlacesRetriever retriever) {
+    public void getPlaces(MrSport com, final SirPlacesRetriever retriever) {
 
         JSONObject cmd = new JSONObject();
         JSONArray cmds = new JSONArray();
@@ -798,7 +800,7 @@ public class SirHandler {
         });
     }
 
-    public void getSportEvents(final MrCommunity sport, final SirEventsRetriever retriever) {
+    public void getSportEvents(final MrSport sport, final SirEventsRetriever retriever) {
 
         JSONObject cmd = new JSONObject();
         JSONArray cmds = new JSONArray();
@@ -856,6 +858,51 @@ public class SirHandler {
             @Override
             public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
                 Log.e("error", "code: " + statusCode + " " + throwable.toString());
+                retriever.failure(throwable.toString());
+            }
+        });
+    }
+
+    public void getSportCommunities(final MrSport sport, final SirCommunitiesRetriever retriever) {
+        JSONObject cmd = new JSONObject();
+        JSONArray cmds = new JSONArray();
+        JSONObject subcmd = new JSONObject();
+        try {
+            subcmd.put("statement", "MATCH (n:Community)-[r:practices]->(a:Sport) WHERE a.name=\"" + sport.getComunityName() + "\" RETURN n,id(n) ORDER BY n.name ");
+            cmds.put(subcmd);
+            cmd.put("statements", cmds);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RestApi.post("/transaction/commit", cmd, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
+                Log.i("resonse", response.toString());
+                try {
+                    ArrayList<MrCommunity> events = new ArrayList<>();
+                    JSONArray dataf = response.getJSONArray("results").getJSONObject(0).getJSONArray("data");
+                    int datos = dataf.length();
+                    for (int i = 0; i < datos; i++) {
+                        JSONArray data = dataf.getJSONObject(i).getJSONArray("row");
+                        JSONObject udata = data.getJSONObject(0);
+                        MrCommunity temp = new MrCommunity(dataf.getJSONObject(i).getJSONArray("row").getInt(1),
+                                tryGetString(udata, "name"),
+                                (tryGetString(udata, "zone")),
+                                (tryGetString(udata, "moto")));
+                        events.add(temp);
+                    }
+                    retriever.gotIt(events);
+
+                } catch (JSONException e) {
+                    retriever.failure(e.getLocalizedMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
+                Log.e("errorgettingcoms", "code: " + statusCode + " " + throwable.toString());
                 retriever.failure(throwable.toString());
             }
         });

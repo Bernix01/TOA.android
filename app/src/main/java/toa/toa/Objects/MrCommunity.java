@@ -1,84 +1,33 @@
 package toa.toa.Objects;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 /**
- * Creado por : lawliet
- * Cecha: 17/06/2015.
- * Proyecto: Toa.
- * Hora: 18:33.
+ * Created by gbern on 10/23/2015.
  */
-public class MrCommunity implements Parcelable {
+public class MrCommunity {
+    private String name;
+    private String zone;
+    private String motto;
+    private int ID;
 
-    public static final Creator<MrCommunity> CREATOR = new Creator<MrCommunity>() {
-        @Override
-        public MrCommunity createFromParcel(Parcel in) {
-            return new MrCommunity(in);
-        }
-
-        @Override
-        public MrCommunity[] newArray(int size) {
-            return new MrCommunity[size];
-        }
-    };
-    private String comunityName;
-    private String comunityImg;
-    private String comunityBack;
-    private String comunityImgAlt;
-    private Boolean isChecked = false;
-
-    public MrCommunity(String comunityName, String comunityImg, String comunityBack, String comunityImgAlt) {
-        this.comunityName = comunityName;
-        this.comunityImg = comunityImg;
-        this.comunityBack = comunityBack;
-        this.comunityImgAlt = comunityImgAlt;
+    public MrCommunity(int ID, String name, String zone, String motto) {
+        this.name = name;
+        this.zone = zone;
+        this.motto = motto;
+        this.ID = ID;
     }
 
-    private MrCommunity(Parcel in) {
-        comunityName = in.readString();
-        comunityImg = in.readString();
-        comunityBack = in.readString();
-        this.isChecked = (in.readInt() != 0);
+    public MrCommunity() {
     }
 
-    public String getComunityName() {
-        return comunityName;
+    public String getName() {
+        return name;
     }
 
-
-    public String getComunityImg() {
-        return comunityImg;
+    public String getZone() {
+        return zone;
     }
 
-
-    public String getComunityBack() {
-        return comunityBack;
-    }
-
-    public String getComunityImgAlt() {
-        return comunityImgAlt;
-    }
-
-    public Boolean getIsChecked() {
-        return isChecked;
-    }
-
-    public MrCommunity setIsChecked(Boolean isChecked) {
-        this.isChecked = isChecked;
-        return this;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(comunityName);
-        dest.writeString(comunityImg);
-        dest.writeString(comunityBack);
-        dest.writeInt(getIsChecked() ? 1 : 0);
+    public String getMotto() {
+        return motto;
     }
 }

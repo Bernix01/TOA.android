@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import jp.wasabeef.picasso.transformations.BlurTransformation;
-import toa.toa.Objects.MrCommunity;
+import toa.toa.Objects.MrSport;
 import toa.toa.R;
 import toa.toa.activities.ComunityActivity;
 
@@ -25,13 +25,13 @@ import toa.toa.activities.ComunityActivity;
  * Proyecto: Toa.
  * Hora: 19:31.
  */
-public class ComunityAdapter extends RecyclerView.Adapter<ComunityAdapter.ViewHolder> {
+public class SportsAdapter extends RecyclerView.Adapter<SportsAdapter.ViewHolder> {
     private static Context contexto;
-    private ArrayList<MrCommunity> comunities;
+    private ArrayList<MrSport> comunities;
 
-    public ComunityAdapter(ArrayList<MrCommunity> comunities, Context contexto) {
+    public SportsAdapter(ArrayList<MrSport> comunities, Context contexto) {
         this.comunities = comunities;
-        ComunityAdapter.contexto = contexto;
+        SportsAdapter.contexto = contexto;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class ComunityAdapter extends RecyclerView.Adapter<ComunityAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final MrCommunity com = comunities.get(position);
+        final MrSport com = comunities.get(position);
         holder.comunityname.setText(com.getComunityName());
         Picasso.with(contexto).load(com.getComunityImg()).into(holder.comunityImg);
         if (!com.getComunityBack().isEmpty())

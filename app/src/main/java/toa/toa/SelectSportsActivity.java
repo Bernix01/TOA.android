@@ -19,7 +19,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
-import toa.toa.Objects.MrCommunity;
+import toa.toa.Objects.MrSport;
 import toa.toa.utils.CheckBox;
 import toa.toa.utils.SirHandler;
 import toa.toa.utils.misc.SirSportsListRetriever;
@@ -40,7 +40,7 @@ public class SelectSportsActivity extends AppCompatActivity {
         final RecyclerView rclr = (RecyclerView) findViewById(R.id.recycler_firstTime);
         SirHandler.getAllComs(new SirSportsListRetriever() {
             @Override
-            public void goIt(ArrayList<MrCommunity> sports) {
+            public void goIt(ArrayList<MrSport> sports) {
                 adapt = new adapter(sports);
 
 
@@ -67,9 +67,9 @@ public class SelectSportsActivity extends AppCompatActivity {
     }
 
     public class adapter extends RecyclerView.Adapter<adapter.ViewHolder> {
-        ArrayList<MrCommunity> list;
+        ArrayList<MrSport> list;
 
-        public adapter(ArrayList<MrCommunity> list) {
+        public adapter(ArrayList<MrSport> list) {
             this.list = list;
         }
 
@@ -81,7 +81,7 @@ public class SelectSportsActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final adapter.ViewHolder holder, int position) {
-            final MrCommunity sport = list.get(position);
+            final MrSport sport = list.get(position);
             holder.opt.setCircleColor(ContextCompat.getColor(getApplicationContext(), R.color.primary));
             holder.opt.setUnCheckColor(ContextCompat.getColor(getApplicationContext(), R.color.primary_dark));
             Picasso.with(getApplicationContext()).load(sport.getComunityImgAlt()).fit().centerCrop().transform(new CropCircleTransformation()).into(holder.img);
@@ -95,7 +95,7 @@ public class SelectSportsActivity extends AppCompatActivity {
             });
         }
 
-        public ArrayList<MrCommunity> getList() {
+        public ArrayList<MrSport> getList() {
             return list;
         }
 

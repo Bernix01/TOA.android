@@ -89,6 +89,6 @@
     <string name="title_activity_detail_consejo">Consejo</string>
     <string name="eventAdded_txt">Evento agregado a la agenda.</string>
     <string name="eventDeleted_txt">Evento removido de la agenda.</string>
-    <string name="price_title">Inscripción:</string>
+    <string name="price_title">inscripción:</string>
     <string name="starts_in">En</string>
 </resources>

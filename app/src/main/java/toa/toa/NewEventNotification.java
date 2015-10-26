@@ -107,7 +107,7 @@ public class NewEventNotification {
 
 
                         // Set when the notification will be displayed in milis.
-                        //  .setWhen(event.getDateStart().getTime()-1800000)
+                .setWhen(event.getDateStart().getTime() - 1800000)
                 .setContentIntent(
                         PendingIntent.getActivity(
                                 context,

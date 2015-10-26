@@ -8,10 +8,10 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import toa.toa.Objects.MrCommunity;
+import toa.toa.Objects.MrSport;
+import toa.toa.fragments.CommunitiesFragment;
 import toa.toa.fragments.EventsFragment;
 import toa.toa.fragments.MembersFragment;
-import toa.toa.fragments.NoticiasFragment;
 import toa.toa.fragments.PlacesFragment;
 
 /**
@@ -20,9 +20,9 @@ import toa.toa.fragments.PlacesFragment;
 public class CollectionPagerComunityAdapter extends FragmentStatePagerAdapter {
 
     private String[] titles = {"Comunidades", "bllablabla", "balblalbalba", ":V"};
-    private MrCommunity com;
+    private MrSport com;
 
-    public CollectionPagerComunityAdapter(FragmentManager fm, MrCommunity com) {
+    public CollectionPagerComunityAdapter(FragmentManager fm, MrSport com) {
         super(fm);
         this.com = com;
     }
@@ -37,7 +37,11 @@ public class CollectionPagerComunityAdapter extends FragmentStatePagerAdapter {
                 fr.setArguments(bundle);
                 return fr;
             case 1:
-                return new NoticiasFragment();
+                CommunitiesFragment coms = new CommunitiesFragment();
+                Bundle bundleC = new Bundle();
+                bundleC.putParcelable("sport", com);
+                coms.setArguments(bundleC);
+                return coms;
             case 2:
                 EventsFragment events = new EventsFragment();
                 Bundle bundleE = new Bundle();

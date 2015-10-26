@@ -31,7 +31,7 @@ public class MrUser implements Parcelable {
     private int _gender;
     private int _age;
     private String _pimage;
-    private ArrayList<MrCommunity> _sports;
+    private ArrayList<MrSport> _sports;
 
     public MrUser(int id, String name, String uname, String email, String bio, int gender, int age, String pimage) {
         this._id = id;
@@ -61,12 +61,12 @@ public class MrUser implements Parcelable {
 
     }
 
-    public MrUser withSports(ArrayList<MrCommunity> sports) {
+    public MrUser withSports(ArrayList<MrSport> sports) {
         this._sports = sports;
         return this;
     }
 
-    public ArrayList<MrCommunity> get_sports() {
+    public ArrayList<MrSport> get_sports() {
         return this._sports;
     }
 

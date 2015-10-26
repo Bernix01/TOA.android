@@ -16,9 +16,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import toa.toa.Objects.List;
-import toa.toa.Objects.MrCommunity;
+import toa.toa.Objects.MrSport;
 import toa.toa.R;
-import toa.toa.adapters.ComunityAdapter;
+import toa.toa.adapters.SportsAdapter;
 import toa.toa.utils.RestApi;
 import toa.toa.utils.UtilidadesExtras;
 
@@ -44,7 +44,7 @@ public class ComunityFragment extends android.support.v4.app.Fragment {
             Log.e("restored", "restored coms");
             mrCommunityArrayList = savedInstanceState.getParcelable("data");
             if (UtilidadesExtras.isOnline(contexto))
-                recyclerComunities.setAdapter(new ComunityAdapter(mrCommunityArrayList, contexto));
+                recyclerComunities.setAdapter(new SportsAdapter(mrCommunityArrayList, contexto));
         } else {
             getData(contexto, id);
         }
@@ -78,8 +78,8 @@ public class ComunityFragment extends android.support.v4.app.Fragment {
                     Log.e("respuesta", response.getJSONArray("results").getJSONObject(0).getJSONArray("data").getJSONObject(0).getJSONArray("row").toString());
                     int datos = data.length();
                     for (int i = 0; i < datos; i++)
-                        mrCommunityArrayList.add(new MrCommunity(data.getJSONObject(i).getJSONArray("row").getString(0), data.getJSONObject(i).getJSONArray("row").getString(1), data.getJSONObject(i).getJSONArray("row").getString(2), data.getJSONObject(i).getJSONArray("row").getString(3)));
-                    ComunityAdapter adapter = new ComunityAdapter(mrCommunityArrayList, contexto);
+                        mrCommunityArrayList.add(new MrSport(data.getJSONObject(i).getJSONArray("row").getString(0), data.getJSONObject(i).getJSONArray("row").getString(1), data.getJSONObject(i).getJSONArray("row").getString(2), data.getJSONObject(i).getJSONArray("row").getString(3)));
+                    SportsAdapter adapter = new SportsAdapter(mrCommunityArrayList, contexto);
                     recyclerComunities.setAdapter(adapter);
                 } catch (JSONException e) {
                     Log.e("exception", e.getMessage());

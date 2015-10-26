@@ -35,6 +35,8 @@ public class DetailEventActivity extends AppCompatActivity {
     private TextView price;
     private TextView date;
     private TextView descr;
+    private TextView minage;
+    private TextView prize;
     private MrEvent event;
     private CollapsingToolbarLayout collapsingToolbarLayout;
 
@@ -64,6 +66,8 @@ public class DetailEventActivity extends AppCompatActivity {
         price = (TextView) findViewById(R.id.devent_price);
         date = (TextView) findViewById(R.id.devent_date);
         descr = (TextView) findViewById(R.id.devent_descr);
+        prize = (TextView) findViewById(R.id.devent_prize);
+        minage = (TextView) findViewById(R.id.devent_minage);
         collapsingToolbarLayout.setTitle(event.getName());
         String organizerstr = event.getOrganizador();
         organizer.setText(organizerstr);
@@ -72,6 +76,18 @@ public class DetailEventActivity extends AppCompatActivity {
         descr.setText(event.getDescr());
         String startDatetxt = getResources().getString(R.string.starts_in) + " " + event.gethStartDate();
         date.setText(startDatetxt);
+        if (event.getPrize().isEmpty()) {
+            prize.setVisibility(View.GONE);
+        } else {
+            prize.setText(event.getPrize());
+        }
+        if (event.getMinAge() != -1) {
+
+            String minagestr = event.getMinAge() + "+";
+            minage.setText(minagestr);
+        } else {
+            minage.setVisibility(View.GONE);
+        }
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         final ImageView hback = (ImageView) findViewById(R.id.devent_img);
         fab.hide();

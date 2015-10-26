@@ -21,7 +21,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import toa.toa.Objects.MrCommunity;
+import toa.toa.Objects.MrSport;
 import toa.toa.utils.RestApi;
 import toa.toa.utils.SirHandler;
 
@@ -34,7 +34,7 @@ public class LoadingSplash extends AppCompatActivity {
         Intent i = getIntent();
         Bundle bnd = i.getExtras();
         int id = SirHandler.getCurrentUser(getApplicationContext()).get_id();
-        ArrayList<MrCommunity> lst = bnd.getParcelableArrayList("SPorts");
+        ArrayList<MrSport> lst = bnd.getParcelableArrayList("SPorts");
         do_finish_reg(lst, id);
     }
 
@@ -56,11 +56,11 @@ public class LoadingSplash extends AppCompatActivity {
         return 0;
     }
 
-    private void do_finish_reg(ArrayList<MrCommunity> list, final int id) {
+    private void do_finish_reg(ArrayList<MrSport> list, final int id) {
         JSONObject item_to_send = new JSONObject();
         JSONArray statements = new JSONArray();
         for (int i = 0; i < list.size(); i++) {
-            MrCommunity bar = list.get(i);
+            MrSport bar = list.get(i);
             JSONObject foo = new JSONObject();
             try {
                 if (bar.getIsChecked()) {

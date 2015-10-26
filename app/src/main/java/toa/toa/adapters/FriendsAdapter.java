@@ -23,7 +23,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
-import toa.toa.Objects.MrCommunity;
+import toa.toa.Objects.MrSport;
 import toa.toa.Objects.MrUser;
 import toa.toa.R;
 import toa.toa.utils.SirHandler;
@@ -60,7 +60,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
             Picasso.with(contexto).load(R.drawable.ic_account_circle_white_48dp).transform(new CropCircleTransformation()).into(holder.pimage);
         }
         holder.glSports.removeAllViews();
-        for (MrCommunity sport : com.get_sports())
+        for (MrSport sport : com.get_sports())
             holder.glSports.addView(addImgv(sport));
         holder.pimage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,7 +101,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
             });
     }
 
-    private ImageView addImgv(MrCommunity comunity) {
+    private ImageView addImgv(MrSport comunity) {
         ImageView imv = new ImageView(contexto);
         Resources r = contexto.getResources();
         int wh = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, r.getDisplayMetrics()));

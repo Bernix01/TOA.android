@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 import jp.wasabeef.picasso.transformations.BlurTransformation;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
-import toa.toa.Objects.MrCommunity;
+import toa.toa.Objects.MrSport;
 import toa.toa.Objects.MrUser;
 import toa.toa.adapters.ProfileSportsAdapter;
 import toa.toa.utils.SirHandler;
@@ -78,7 +78,7 @@ public class ProfileActivity extends AppCompatActivity {
         Picasso.with(getApplicationContext()).load("http://www.resortvillarosa.it/img/top/sport1.jpg").fit().centerCrop().transform(new BlurTransformation(getApplicationContext(), 15)).into(bg);
         SirHandler.getUserSports(_user, new SirSportsListRetriever() {
             @Override
-            public void goIt(ArrayList<MrCommunity> sports) {
+            public void goIt(ArrayList<MrSport> sports) {
                 ProfileSportsAdapter adapter = new ProfileSportsAdapter(sports, getApplicationContext());
                 sportsrecycler.setAdapter(adapter);
             }

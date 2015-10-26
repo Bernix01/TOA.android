@@ -16,20 +16,20 @@ import com.malinskiy.superrecyclerview.SuperRecyclerView;
 
 import java.util.ArrayList;
 
+import toa.toa.Objects.MrCommunity;
 import toa.toa.Objects.MrSport;
-import toa.toa.Objects.MrUser;
 import toa.toa.R;
-import toa.toa.adapters.FriendsAdapter;
+import toa.toa.adapters.CommunityAdapter;
 import toa.toa.utils.SirHandler;
-import toa.toa.utils.misc.SirFriendsRetriever;
+import toa.toa.utils.misc.SirCommunitiesRetriever;
 
 /**
- * Created by Junior on 18/06/2015.
+ * Created by Guillermo Bernal on 23/10/2015.
  */
-public class MembersFragment extends android.support.v4.app.Fragment {
+public class CommunitiesFragment extends android.support.v4.app.Fragment {
     private SuperRecyclerView recyclerComunities;
 
-    public MembersFragment() {
+    public CommunitiesFragment() {
 
     }
 
@@ -42,15 +42,15 @@ public class MembersFragment extends android.support.v4.app.Fragment {
         recyclerComunities.setLayoutManager(new LinearLayoutManager(getActivity()));
         final Context contexto = getActivity().getApplicationContext();
         SirHandler handler = new SirHandler(contexto);
-        handler.getSportMembers(com, new SirFriendsRetriever() {
+        handler.getSportCommunities(com, new SirCommunitiesRetriever() {
             @Override
-            public void goIt(ArrayList<MrUser> friends) {
-                recyclerComunities.setAdapter(new FriendsAdapter(friends, contexto));
+            public void gotIt(ArrayList<MrCommunity> coms) {
+                recyclerComunities.setAdapter(new CommunityAdapter(coms, contexto));
             }
 
             @Override
             public void failure(String error) {
-                Log.e("SportMembersError", error);
+                Log.e("ComsError", error);
             }
         });
         return root;
