@@ -17,7 +17,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import cz.msebera.android.httpclient.Header;
 import toa.toa.NewEventNotification;
@@ -806,7 +811,10 @@ public class SirHandler {
         JSONArray cmds = new JSONArray();
         JSONObject subcmd = new JSONObject();
         try {
-            subcmd.put("statement", "MATCH (n:Event)-[r:ABOUT]->(a:Sport) WHERE a.name=\"" + sport.getComunityName() + "\" RETURN n,id(n) ORDER BY n.dateStart ");
+            Date now = Calendar.getInstance().getTime();
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+            String nowStr = df.format(now);
+            subcmd.put("statement", "MATCH (n:Event)-[r:ABOUT]->(a:Sport) WHERE a.name=\"" + sport.getComunityName() + "\" AND n.dateEnd > \"" + nowStr + "\" RETURN n,id(n) ORDER BY n.dateStart ");
             cmds.put(subcmd);
             cmd.put("statements", cmds);
         } catch (JSONException e) {
